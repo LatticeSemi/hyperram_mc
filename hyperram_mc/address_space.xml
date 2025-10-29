@@ -1,0 +1,18 @@
+
+<lsccip:addressSpaces xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip">
+    <lsccip:addressSpace>
+        <lsccip:name>INT_M0_Address_Space</lsccip:name>
+        <lsccip:range>0x100000000</lsccip:range>
+        <lsccip:width>32</lsccip:width>
+    </lsccip:addressSpace>
+    <lsccip:addressSpace>
+        <lsccip:name>HYPERBUS_M0_Address_Space</lsccip:name>
+        <lsccip:range>0x100000000</lsccip:range>
+        <lsccip:width>32</lsccip:width>
+    </lsccip:addressSpace>
+    <lsccip:addressSpace>
+        <lsccip:name>HYPERBUS_M1_Address_Space</lsccip:name>
+        <lsccip:range>0x100000000</lsccip:range>
+        <lsccip:width>32</lsccip:width>
+    </lsccip:addressSpace>
+</lsccip:addressSpaces>

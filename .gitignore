@@ -1,0 +1,73 @@
+# Simulation outputs
+*.vcd
+*.out
+*.log
+*.wlf
+
+# Waveform database files
+*.dump
+*.fst
+*.vcd
+*.ghw
+
+# Simulation working directories
+**/sim/work/
+**/sim/*.vcd
+**/sim/*.log
+work/
+
+# Synthesis and implementation outputs
+**/syn/output/
+**/syn/reports/
+*.rpt
+*.dcp
+
+# Vendor tool files (Xilinx, Intel/Altera, Lattice)
+.Xil/
+.cache/
+vivado*.jou
+vivado*.log
+*.xpr
+*.qpf
+*.qsf
+*.rdf
+*.ldf
+*.sty
+
+# Verilator artifacts
+verilated*
+*.d
+obj_dir/
+
+# Editor and IDE files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+build/
+output/
+
+# Python cache (for scripts)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Compressed files (usually generated)
+*.tar
+*.tar.gz
+*.zip
+

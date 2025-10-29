@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lsccip:ip xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip" xmlns:xi="http://www.w3.org/2001/XInclude" version="1.0" platform="Propel" platform_version="2024.1">
+    <lsccip:general>
+        <lsccip:vendor>latticesemi.com</lsccip:vendor>
+        <lsccip:library>ip</lsccip:library>
+        <lsccip:name>hyperram_mc</lsccip:name>
+        <lsccip:display_name>Hyperram Memory Controller</lsccip:display_name>
+        <lsccip:version>1.0.0</lsccip:version>
+        <lsccip:category>Processors_Controllers_and_Peripherals</lsccip:category>
+        <lsccip:keywords>BusType_AXI-Lite, BusType_AXI</lsccip:keywords>
+        <lsccip:type>cacheable</lsccip:type>
+        <lsccip:min_radiant_version>3.1</lsccip:min_radiant_version>
+        <lsccip:min_esi_version>2022.1</lsccip:min_esi_version>
+        <lsccip:supported_products>
+            <lsccip:supported_family name="LFMXO5">
+                <lsccip:supported_device name="LFMXO5-25" />
+                <lsccip:supported_device name="LFMXO5-65T" />
+            </lsccip:supported_family>
+        </lsccip:supported_products>
+        <lsccip:supported_platforms>
+            <lsccip:supported_platform name="esi" />
+        </lsccip:supported_platforms>
+    </lsccip:general>
+    <lsccip:settings>
+        <lsccip:setting id="HYPERRAM_NUM"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="Number of Hyperram"
+                        default="2"
+                        options="[1, 2]"
+                        editable="False"
+                        group1="General"
+         />
+        <lsccip:setting id="ONE_RANK_EN"
+                        type="param"
+                        value_type="bool"
+                        conn_mod="hyperram_mc"
+                        title="Use multiple Hyperram chips as 1 rank"
+                        default="True"
+                        group1="General"
+         />
+        <lsccip:setting id="ID_W"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="ID Width"
+                        default="1"
+                        options="range(1,33)"
+                        group1="General"
+         />
+        <!-- <lsccip:setting id="CACHE_EN"
+                        type="param"
+                        value_type="bool"
+                        conn_mod="hyperram_mc"
+                        title="Enable Cache"
+                        default="True"
+                        editable="False"
+                        group1="Cache Settings"
+         />
+        <lsccip:setting id="CACHE_WIDTH"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="Cache Width"
+                        default="32"
+                        options="[32, 64, 128]"
+                        editable="False"
+                        group1="Cache Settings"
+         />
+        <lsccip:setting id="CACHE_DEPTH"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="Cache Depth"
+                        default="1024"
+                        options="[64, 128, 256, 512, 1024]"
+                        editable="CACHE_EN == True"
+                        group1="Cache Settings"
+         /> -->
+        <lsccip:setting id="SYSBUS_CLOCK_MHZ"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="System Clock Frequency (MHZ)"
+                        default="100"
+                        value_range="(20, 200)"
+                        group1="General"
+                        group2="Timing Parameters"
+         />
+        <lsccip:setting id="TVCS_10US"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="power-up reset time (10us based)"
+                        default="15"
+                        group1="General"
+                        group2="Timing Parameters"
+         />
+        <lsccip:setting id="INITIAL_LATENCY"
+                        type="param"
+                        value_type="int"
+                        conn_mod="hyperram_mc"
+                        title="INITIAL LATENCY"
+                        default="0"
+                        value_range="(0, 2)"
+                        group1="General"
+                        group2="Timing Parameters"
+         />
+        <lsccip:setting id="DELAY_HALF_CYCLE"
+                        type="param"
+                        value_type="bool"
+                        conn_mod="hyperram_mc"
+                        title="DELAY HALF CYCLE"
+                        default="False"
+                        group1="General"
+                        group2="Timing Parameters"
+         />
+    </lsccip:settings>
+    <lsccip:ports>
+        <lsccip:port name="clk_i"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     conn_port="clk_i"
+                     port_type="clock"
+         />
+        <lsccip:port name="rst_n"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     conn_port="rst_n"
+                     port_type="reset"
+         />
+        <lsccip:port name="hyperbus_clk_i"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     conn_port="hyperbus_clk_i"
+                     port_type="clock"
+         />
+        <lsccip:port name="hyperbus_clk_m0_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_clk_o"
+                     conn_range="(0,0)"
+         />
+        <lsccip:port name="hyperbus_csn_m0_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_csn_o"
+                     conn_range="(0,0)"
+         />
+        <lsccip:port name="hyperbus_resetn_m0_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_resetn_o"
+                     conn_range="(0,0)"
+         />
+        <lsccip:port name="hyperbus_rwds_m0_io"
+                     dir="inout"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_rwds_io"
+                     conn_range="(0,0)"
+         />
+        <lsccip:port name="hyperbus_dq_m0_io"
+                     dir="inout"
+                     conn_mod="hyperram_mc"
+                     range="(7,0)"
+                     conn_port="hyperbus_dq_io"
+                     conn_range="(7,0)"
+         />
+        <lsccip:port name="hyperbus_clk_m1_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_clk_o"
+                     conn_range="(1,1)"
+                     dangling="HYPERRAM_NUM == 1"
+         />
+        <lsccip:port name="hyperbus_csn_m1_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_csn_o"
+                     conn_range="(1,1)"
+                     dangling="HYPERRAM_NUM == 1"
+         />
+        <lsccip:port name="hyperbus_resetn_m1_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_resetn_o"
+                     conn_range="(1,1)"
+                     dangling="HYPERRAM_NUM == 1"
+         />
+        <lsccip:port name="hyperbus_rwds_m1_io"
+                     dir="inout"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_rwds_io"
+                     conn_range="(1,1)"
+                     dangling="HYPERRAM_NUM == 1"
+         />
+        <lsccip:port name="hyperbus_dq_m1_io"
+                     dir="inout"
+                     conn_mod="hyperram_mc"
+                     range="(7,0)"
+                     conn_port="hyperbus_dq_io"
+                     conn_range="(15,8)"
+                     dangling="HYPERRAM_NUM == 1"
+         />
+        <lsccip:port name="intr_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     conn_port="intr_o"
+                     bus_interface="INT_M0"
+         />
+        <lsccip:port name="s_axil_awvalid"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_awready"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_awaddr"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_awprot"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(2,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_wvalid"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_wready"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_wdata"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_wstrb"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(3,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_bvalid"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_bready"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_bresp"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(1,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_arvalid"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_arready"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_araddr"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_arprot"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(2,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_rvalid"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_rready"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_rdata"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axil_rresp"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(1,0)"
+                     bus_interface="AXIL_CONTROL_S00"
+         />
+        <lsccip:port name="s_axi_awid"
+                     dir="in"
+                     range="(ID_W-1,0)"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awaddr"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awlen"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(7,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awsize"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(2,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awburst"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(1,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awlock"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awcache"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(3,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awprot"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(2,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awqos"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(3,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awvalid"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awready"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_wdata"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_wstrb"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(3,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_wlast"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_wvalid"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_wready"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_bid"
+                     dir="out"
+                     range="(ID_W-1,0)"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_bresp"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(1,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_bvalid"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_bready"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arid"
+                     dir="in"
+                     range="(ID_W-1,0)"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_araddr"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arlen"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(7,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arsize"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(2,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arburst"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(1,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arlock"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arcache"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(3,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arprot"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(2,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arqos"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     range="(3,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arvalid"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_arready"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_rid"
+                     dir="out"
+                     range="(ID_W-1,0)"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_rdata"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(31,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_rresp"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(1,0)"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_rlast"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_rvalid"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_rready"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_awuser"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_wuser"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_buser"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_aruser"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="s_axi_ruser"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     bus_interface="AXI_DATA_S00"
+         />
+        <lsccip:port name="hyperbus_clkn_m0_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_clkn_o"
+                     conn_range="(0,0)"
+                    />
+        <lsccip:port name="hyperbus_clkn_m1_o"
+                     dir="out"
+                     conn_mod="hyperram_mc"
+                     range="(0,0)"
+                     conn_port="hyperbus_clkn_o"
+                     conn_range="(1,1)"
+                     dangling="HYPERRAM_NUM == 1"
+                    />
+        <lsccip:port name="hyperbus_clk270_i"
+                     dir="in"
+                     conn_mod="hyperram_mc"
+                     conn_port="hyperbus_clk270_i"
+                     port_type="clock"
+                    />
+    </lsccip:ports>
+    <xi:include parse="xml" href="bus_interface.xml" />
+    <xi:include parse="xml" href="address_space.xml" />
+    <xi:include parse="xml" href="memory_map.xml" />
+</lsccip:ip>
