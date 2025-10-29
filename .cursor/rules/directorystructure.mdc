@@ -1,0 +1,357 @@
+---
+alwaysApply: true
+---
+
+# FPGA IP Directory Structure
+
+## Standard IP Directory Layout
+
+Follow this directory structure for reusable FPGA IP blocks:
+
+```
+ip_name/
+├── rtl/                    # RTL source files
+│   ├── ip_name.sv         # Main IP module
+│   ├── ip_name_regs.sv    # Register interface (if applicable)
+│   └── submodules/        # Internal submodules
+│
+├── tb/                     # Testbenches and verification
+│   ├── ip_name_tb.sv      # Main testbench
+│   ├── test_*.sv          # Individual test cases
+│   └── models/            # Behavioral models (e.g., memory models)
+│
+├── sim/                    # Simulation scripts
+│   ├── run.tcl            # Main simulation script
+│   ├── wave.do            # Waveform configuration
+│   └── Makefile           # Makefile for simulation
+│
+├── syn/                    # Synthesis files
+│   ├── filelist.tcl       # File list for synthesis
+│   └── constraints.sdc    # Timing constraints
+│
+├── docs/                   # Documentation
+│   ├── datasheet.md       # IP datasheet
+│   ├── integration.md     # Integration guide
+│   ├── register_map.md    # Register definitions
+│   └── timing.md          # Timing specifications
+│
+├── examples/               # Example designs
+│   ├── simple/            # Simple usage example
+│   └── advanced/          # Advanced integration example
+│
+├── scripts/                # Utility scripts
+│   ├── generate_regs.py   # Register generation script
+│   └── lint.sh            # Linting script
+│
+└── README.md              # IP overview and quick start
+```
+
+## Alternative: Multi-IP Repository Structure
+
+For repositories containing multiple IP blocks:
+
+```
+ip_library/
+├── common/                 # Shared components
+│   ├── interfaces/        # Common interfaces (AXI, APB, etc.)
+│   ├── packages/          # Shared packages
+│   └── utils/             # Utility modules (FIFOs, sync, etc.)
+│
+├── uart_ip/               # UART IP
+│   ├── rtl/
+│   ├── tb/
+│   ├── docs/
+│   └── README.md
+│
+├── spi_ip/                # SPI IP
+│   ├── rtl/
+│   ├── tb/
+│   ├── docs/
+│   └── README.md
+│
+├── gpio_ip/               # GPIO IP
+│   ├── rtl/
+│   ├── tb/
+│   ├── docs/
+│   └── README.md
+│
+├── integration_examples/   # Multi-IP integration examples
+│   └── soc_demo/
+│       ├── rtl/
+│       ├── tb/
+│       └── README.md
+│
+└── scripts/               # Repository-level scripts
+    ├── run_all_tests.sh
+    └── generate_docs.py
+```
+
+## File Naming Conventions
+
+### IP Module Files
+- **Main module**: Match IP name exactly
+  - Example: `uart_ip.sv`, `spi_master.sv`, `axi_gpio.sv`
+- **Sub-modules**: Prefix with IP name
+  - Example: `uart_ip_tx.sv`, `uart_ip_rx.sv`, `uart_ip_regs.sv`
+- **Packages**: Suffix with `_pkg.sv`
+  - Example: `uart_ip_pkg.sv`, `axi_pkg.sv`
+- **Include files**: Suffix with `.svh`
+  - Example: `uart_ip_defines.svh`, `config.svh`
+
+### Testbench Files
+- **Main testbench**: `<ip_name>_tb.sv`
+  - Example: `uart_ip_tb.sv`
+- **Test cases**: Prefix with `test_`
+  - Example: `test_basic.sv`, `test_performance.sv`
+- **Models**: Descriptive names with `_model` suffix
+  - Example: `memory_model.sv`, `bus_monitor.sv`
+
+### Documentation Files
+- **Datasheet**: `datasheet.md` or `<ip_name>_datasheet.md`
+- **Register map**: `register_map.md` or use standard formats (SystemRDL, IP-XACT)
+- **Integration guide**: `integration.md`
+- **Timing specs**: `timing.md`
+
+## IP Organization Best Practices
+
+### 1. Self-Contained IP
+- Each IP should be independently compilable
+- Minimize external dependencies
+- Clearly document any required dependencies
+- Include all necessary files in the IP directory
+
+### 2. Parameterization
+- Use parameters/generics for configurability
+- Document all parameters in the datasheet
+- Provide sensible defaults
+- Example:
+  ```systemverilog
+  module uart_ip #(
+      parameter ADDR_WIDTH = 16,
+      parameter DATA_WIDTH = 32,
+      parameter CLK_FREQ   = 100_000_000,
+      parameter BAUD_RATE  = 115200
+  ) (...);
+  ```
+
+### 3. Interface Standards
+- Use industry-standard interfaces (AXI, APB, Avalon, Wishbone)
+- Document interface protocol clearly
+- Provide interface compatibility information
+- Include timing diagrams
+
+### 4. Register Interface
+- Follow consistent register addressing scheme
+- Provide register definitions in multiple formats:
+  - Markdown tables
+  - C header files (.h)
+  - SystemVerilog packages
+  - SystemRDL (optional)
+
+## IP Versioning
+
+### Version Numbering
+Use semantic versioning: `MAJOR.MINOR.PATCH`
+
+- **MAJOR**: Incompatible API/interface changes
+- **MINOR**: Backwards-compatible functionality additions
+- **PATCH**: Backwards-compatible bug fixes
+
+### Version Documentation
+- Maintain `CHANGELOG.md` in IP root
+- Tag releases in version control
+- Document interface changes clearly
+- Provide migration guides for major version changes
+
+## Build Artifacts & Version Control
+
+### Git-Ignored Files
+Add to `.gitignore`:
+```
+# Simulation artifacts
+sim/work/
+sim/*.wlf
+sim/*.log
+*.vcd
+*.fst
+
+# Synthesis artifacts  
+syn/output/
+syn/reports/
+*.rpt
+
+
+# OS files
+.DS_Store
+Thumbs.db
+```
+
+### Files to Commit
+**Always commit:**
+- All RTL source files (`rtl/`)
+- Testbenches (`tb/`)
+- Documentation (`docs/`)
+- Simulation scripts (`sim/*.tcl`, `sim/Makefile`)
+- Synthesis constraints (`syn/*.sdc`)
+- README and licensing info
+- CHANGELOG.md
+
+**Never commit:**
+- Compiled simulation executables
+- Waveform files
+- Log files
+- Tool-generated reports
+- Vendor project files (unless small team sharing exact setup)
+
+## IP Documentation Requirements
+
+### 1. README.md (Required)
+Must include:
+- IP name and version
+- Brief description (1-2 sentences)
+- Key features list
+- Quick start guide
+- Simulation instructions
+- Known limitations
+- License information
+
+### 2. Datasheet (docs/datasheet.md)
+Should include:
+- Detailed functional description
+- Block diagram
+- Parameter descriptions
+- Interface specifications
+- Register map (or link to register_map.md)
+- Timing requirements and performance
+- Resource utilization (example: LUTs, FFs, BRAMs)
+- Example configurations
+
+### 3. Register Map (docs/register_map.md)
+For memory-mapped IPs:
+- Complete register listing with offsets
+- Field descriptions with bit positions
+- Reset values
+- Access types (R/W/RO/WO)
+- Example usage
+
+### 4. Integration Guide (docs/integration.md)
+- Port descriptions
+- Clocking requirements
+- Reset behavior
+- Interface connection examples
+- Common pitfalls and solutions
+
+## IP Creation Checklist
+
+When creating a new IP:
+
+- [ ] Create directory structure
+- [ ] Implement RTL with proper parameterization
+- [ ] Add comprehensive header comments
+- [ ] Create testbench with multiple test scenarios
+- [ ] Write simulation scripts (Makefile/TCL)
+- [ ] Document all registers (if applicable)
+- [ ] Create datasheet with specifications
+- [ ] Write README with quick start
+- [ ] Add licensing information
+- [ ] Run lint checks
+- [ ] Verify simulation passes
+- [ ] Tag initial version (v1.0.0)
+
+## Linting & Code Quality
+
+### Linting Tools
+Place configurations in `scripts/`:
+- **Verilator**: `.verilator_config` or `lint.sh`
+- **Verible**: `.verible.lint`
+- **Synopsys Spyglass**: `spyglass.prj`
+
+### Coding Standards for IP
+- Use consistent indentation (2 or 4 spaces)
+- One module per file (main IP module)
+- Meaningful signal/port names
+- Comprehensive comments for complex logic
+- Parameters for all configurable values
+- Avoid hardcoded magic numbers
+- Clock domain crossing (CDC) annotations
+- Assert statements for critical assumptions
+
+Example header comment:
+```systemverilog
+//-----------------------------------------------------------------------------
+// Module: uart_ip
+// Description: Universal Asynchronous Receiver/Transmitter IP
+// Version: 1.0.0
+// Author: Your Name
+// License: MIT
+//
+// Parameters:
+//   CLK_FREQ  - System clock frequency in Hz
+//   BAUD_RATE - UART baud rate
+//
+// Ports:
+//   clk    - System clock
+//   rst_n  - Active-low reset
+//   ...
+//-----------------------------------------------------------------------------
+```
+
+
+
+## Testing Strategy for IP
+
+### Simulation Levels
+1. **Unit Tests**: Test individual IP in isolation
+2. **Interface Tests**: Verify bus interface compliance
+3. **Performance Tests**: Measure throughput/latency
+4. **Corner Cases**: Test edge cases and error conditions
+5. **Regression**: Automated test suite for all changes
+
+### Example Test Structure
+```
+tb/
+├── uart_ip_tb.sv          # Top-level testbench
+├── test_basic.sv          # Basic TX/RX test
+├── test_baud_rates.sv     # Test multiple baud rates
+├── test_errors.sv         # Test error conditions
+└── test_stress.sv         # Stress/performance test
+```
+
+## Release Process
+
+### Creating a Release
+1. Update version number in RTL and docs
+2. Update CHANGELOG.md
+3. Run full regression test suite
+4. Run lint checks
+5. Update documentation
+6. Create git tag: `git tag -a v1.2.0 -m "Release v1.2.0"`
+7. Generate release notes
+8. Archive release artifacts
+
+### CHANGELOG.md Format
+```markdown
+# Changelog
+
+## [1.2.0] - 2024-01-15
+### Added
+- New feature X
+### Changed
+- Improved performance of Y
+### Fixed
+- Bug fix for issue #123
+
+## [1.1.0] - 2023-12-01
+...
+```
+
+## License Considerations
+
+Common licenses for FPGA IP:
+- **MIT**: Permissive, allows commercial use
+- **Apache 2.0**: Permissive with patent protection
+- **BSD 3-Clause**: Permissive
+- **GPL/LGPL**: Copyleft (requires derivatives to be open)
+- **Proprietary**: For commercial IP
+
+Include `LICENSE` file in IP root directory.
