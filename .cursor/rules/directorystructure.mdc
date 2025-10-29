@@ -6,45 +6,35 @@ alwaysApply: true
 
 ## Standard IP Directory Layout
 
-Follow this directory structure for reusable FPGA IP blocks:
+Follow this directory structure for Radiant/Propel-compatible FPGA IP blocks:
 
 ```
 ip_name/
-├── rtl/                    # RTL source files
-│   ├── ip_name.sv         # Main IP module
-│   ├── ip_name_regs.sv    # Register interface (if applicable)
-│   └── submodules/        # Internal submodules
+├── rtl/                    # RTL source files (Required)
+│   ├── ip_name.v          # Main IP module (Verilog)
+│   └── submodules/        # Internal submodules (if applicable)
 │
-├── tb/                     # Testbenches and verification
-│   ├── ip_name_tb.sv      # Main testbench
-│   ├── test_*.sv          # Individual test cases
-│   └── models/            # Behavioral models (e.g., memory models)
+├── testbench/              # Testbenches (Optional)
+│   └── tb_top.sv          # Main testbench
 │
-├── sim/                    # Simulation scripts
-│   ├── run.tcl            # Main simulation script
-│   ├── wave.do            # Waveform configuration
-│   └── Makefile           # Makefile for simulation
+├── doc/                    # Documentation (Required)
+│   └── introduction.html  # IP documentation in HTML format
 │
-├── syn/                    # Synthesis files
-│   ├── filelist.tcl       # File list for synthesis
-│   └── constraints.sdc    # Timing constraints
+├── plugin/                 # Plugin scripts (Optional)
+│   └── plugin.py          # Python script for metadata support functions
 │
-├── docs/                   # Documentation
-│   ├── datasheet.md       # IP datasheet
-│   ├── integration.md     # Integration guide
-│   ├── register_map.md    # Register definitions
-│   └── timing.md          # Timing specifications
-│
-├── examples/               # Example designs
-│   ├── simple/            # Simple usage example
-│   └── advanced/          # Advanced integration example
-│
-├── scripts/                # Utility scripts
-│   ├── generate_regs.py   # Register generation script
-│   └── lint.sh            # Linting script
-│
-└── README.md              # IP overview and quick start
+├── metadata.xml            # IP metadata definition (Required)
+├── bus_interface.xml       # Bus interface definitions (Required)
+├── memory_map.xml          # Memory map definitions (Required)
+├── address_space.xml       # Address space definitions (Required)
+└── settings.xml            # Parameter definitions (Optional)
 ```
+
+**Key Points:**
+- This structure is designed for Lattice Radiant and Propel integration
+- XML files define IP properties for tool integration
+- All XML files use Lattice-specific XML schema
+- `settings.xml` can be included in `metadata.xml` or kept separate for cleaner organization
 
 ## Alternative: Multi-IP Repository Structure
 
@@ -107,10 +97,109 @@ ip_library/
   - Example: `memory_model.sv`, `bus_monitor.sv`
 
 ### Documentation Files
-- **Datasheet**: `datasheet.md` or `<ip_name>_datasheet.md`
-- **Register map**: `register_map.md` or use standard formats (SystemRDL, IP-XACT)
-- **Integration guide**: `integration.md`
-- **Timing specs**: `timing.md`
+- **HTML Documentation**: `doc/introduction.html` (Required for Radiant/Propel)
+  - Contains IP overview, supported devices, and references
+  - Uses standard HTML format
+
+### XML Configuration Files
+
+#### metadata.xml (Required)
+The main IP descriptor file that defines the IP's identity and integration properties.
+
+**Key Sections:**
+- **`<lsccip:general>`**: IP identification
+  - `vendor`: IP vendor (e.g., "latticesemi.com")
+  - `name`: IP module name
+  - `display_name`: Human-readable name
+  - `version`: Semantic version (e.g., "1.0.0")
+  - `category`: IP category for tool organization
+  - `keywords`: Searchable keywords (e.g., "BusType_AXI")
+  - `supported_products`: Target FPGA families and devices
+
+- **`<lsccip:settings>`**: Parameter definitions
+  - Can be defined inline or via `<xi:include href="settings.xml"/>`
+  - Each setting defines: id, type, value_type, default, options, etc.
+
+- **`<lsccip:ports>`**: Port definitions
+  - Maps physical ports to bus interfaces
+  - Defines port direction, width, and type (clock, reset, etc.)
+
+- **XML Includes**: References to external XML files
+  ```xml
+  <xi:include parse="xml" href="bus_interface.xml" />
+  <xi:include parse="xml" href="address_space.xml" />
+  <xi:include parse="xml" href="memory_map.xml" />
+  ```
+
+#### bus_interface.xml (Required)
+Defines all bus interfaces exposed by the IP.
+
+**Structure:**
+- **`<lsccip:busInterface>`**: One for each interface
+  - `name`: Interface instance name (e.g., "AXI_DATA_S00")
+  - `displayName`: Display name for tools
+  - `description`: Human-readable description
+  - `busType`: Standard bus protocol (e.g., AXI4, AXI4-Lite, custom)
+  - `portMaps`: Maps logical protocol signals to physical port names
+  - `slave` or `master`: Interface direction with memory map reference
+
+**Common Bus Types:**
+- **AXI4**: Full AXI4 protocol for data transfers
+- **AXI4-Lite**: Simplified AXI for register access
+- **Interrupt**: Interrupt signal interface
+- **Custom**: Vendor-specific protocols (e.g., HyperBus)
+
+#### memory_map.xml (Required)
+Defines memory-mapped address spaces for slave interfaces.
+
+**Structure:**
+- **`<lsccip:memoryMap>`**: One for each addressable interface
+  - `name`: Memory map identifier
+  - `description`: Purpose description
+  - `addressBlock`: Address block definition
+    - `baseAddress`: Starting address (typically 0 for relative addressing)
+    - `range`: Size in bytes
+    - `width`: Data width in bits
+
+**Example Use Cases:**
+- Control register space (typically 4KB for AXI-Lite)
+- Data memory space (e.g., 16MB for memory controller access)
+
+#### address_space.xml (Required)
+Defines address spaces for master interfaces.
+
+**Structure:**
+- **`<lsccip:addressSpace>`**: One for each master interface
+  - `name`: Address space identifier
+  - `range`: Total addressable range (in hexadecimal)
+  - `width`: Address bus width in bits
+
+**Common Ranges:**
+- `0x100000000`: 4GB address space (32-bit addressing)
+- Custom ranges for specific memory controllers
+
+#### settings.xml (Optional)
+Separates parameter definitions from metadata.xml for cleaner organization.
+
+**Structure:**
+- **`<lsccip:settings>`**: Contains all `<lsccip:setting>` elements
+
+**Setting Attributes:**
+- `id`: Parameter name (matches HDL parameter)
+- `type`: "param" for module parameters
+- `value_type`: "int", "bool", "string", etc.
+- `conn_mod`: Target module name
+- `title`: Display name in GUI
+- `default`: Default value
+- `options`: List of valid values (e.g., "[1, 2]") or range (e.g., "range(1,33)")
+- `value_range`: Min/max bounds (e.g., "(0, 2)")
+- `editable`: Boolean or conditional expression
+- `group1`, `group2`: GUI organization grouping
+
+**When to Use:**
+- Use inline in metadata.xml for small IPs (<10 parameters)
+- Use separate settings.xml for complex IPs with many parameters
+- Improves readability and maintainability
 
 ## IP Organization Best Practices
 
@@ -175,7 +264,7 @@ sim/*.log
 *.vcd
 *.fst
 
-# Synthesis artifacts  
+# Synthesis artifacts
 syn/output/
 syn/reports/
 *.rpt
@@ -203,155 +292,277 @@ Thumbs.db
 - Tool-generated reports
 - Vendor project files (unless small team sharing exact setup)
 
+### Plugin Directory (Optional)
+
+The `plugin/` directory contains Python scripts that provide supporting functions for the IP integration.
+
+**Structure:**
+```
+plugin/
+├── plugin.py          # Main plugin script
+└── data/              # Plugin data files (if needed)
+    └── pkgExtData.xml
+```
+
+**Purpose of plugin.py:**
+- Provides callback functions for Propel/Radiant integration
+- Performs dynamic parameter validation
+- Calculates derived values based on user settings
+- Generates or modifies metadata dynamically
+- Implements custom GUI behavior
+
+**Common Use Cases:**
+- Validating parameter combinations
+- Calculating timing constraints based on clock frequencies
+- Generating file lists for synthesis
+- Creating custom configuration outputs
+
 ## IP Documentation Requirements
 
-### 1. README.md (Required)
-Must include:
-- IP name and version
-- Brief description (1-2 sentences)
-- Key features list
-- Quick start guide
-- Simulation instructions
-- Known limitations
-- License information
+### 1. doc/introduction.html (Required)
+HTML-formatted documentation for Radiant/Propel display.
 
-### 2. Datasheet (docs/datasheet.md)
-Should include:
-- Detailed functional description
-- Block diagram
-- Parameter descriptions
-- Interface specifications
-- Register map (or link to register_map.md)
-- Timing requirements and performance
-- Resource utilization (example: LUTs, FFs, BRAMs)
-- Example configurations
+**Must include:**
+- IP name and description
+- Supported devices (FPGA families)
+- Key features
+- References (links to user guides, datasheets)
+- Revision history
 
-### 3. Register Map (docs/register_map.md)
-For memory-mapped IPs:
-- Complete register listing with offsets
-- Field descriptions with bit positions
-- Reset values
-- Access types (R/W/RO/WO)
-- Example usage
+**Example Structure:**
+```html
+<HEAD>
+  <TITLE>IP Name</TITLE>
+</HEAD>
+<BODY>
+  <H1>IP Name</H1>
+  <H2>Description</H2>
+  <P>IP description...</P>
 
-### 4. Integration Guide (docs/integration.md)
-- Port descriptions
-- Clocking requirements
-- Reset behavior
-- Interface connection examples
-- Common pitfalls and solutions
+  <H2>Devices Supported</H2>
+  <P>Device list...</P>
+
+  <H2>References</H2>
+  <UL>
+    <LI><A HREF="url">User Guide</A></LI>
+  </UL>
+
+  <H2>Revision History</H2>
+  <TABLE>
+    <TR><TD><B>Version</B></TD><TD><B>Changes</B></TD></TR>
+    <TR><TD>1.0.0</TD><TD>Initial release</TD></TR>
+  </TABLE>
+</BODY>
+```
+
+### 2. XML Documentation
+All documentation is embedded within XML files:
+- **metadata.xml**: IP identity, version, supported devices
+- **bus_interface.xml**: Interface descriptions
+- **memory_map.xml**: Address space descriptions
+- **Port descriptions**: Within metadata.xml port definitions
+
+### 3. External Documentation (Optional)
+For detailed documentation, maintain separate files:
+- User guide (PDF)
+- Application notes
+- Example designs
+- Reference these in `doc/introduction.html`
 
 ## IP Creation Checklist
 
-When creating a new IP:
+When creating a new Radiant/Propel-compatible IP:
 
-- [ ] Create directory structure
+- [ ] Create directory structure (rtl/, doc/, optionally testbench/, plugin/)
 - [ ] Implement RTL with proper parameterization
-- [ ] Add comprehensive header comments
-- [ ] Create testbench with multiple test scenarios
-- [ ] Write simulation scripts (Makefile/TCL)
-- [ ] Document all registers (if applicable)
-- [ ] Create datasheet with specifications
-- [ ] Write README with quick start
-- [ ] Add licensing information
-- [ ] Run lint checks
-- [ ] Verify simulation passes
+- [ ] Add comprehensive header comments to RTL files
+- [ ] Create testbench (tb_top.sv) if needed
+- [ ] Create metadata.xml with IP identification and port definitions
+- [ ] Create bus_interface.xml with all interface definitions
+- [ ] Create memory_map.xml for slave interfaces
+- [ ] Create address_space.xml for master interfaces
+- [ ] Create settings.xml or embed settings in metadata.xml
+- [ ] Create doc/introduction.html with IP documentation
+- [ ] Create plugin/plugin.py if custom logic needed (optional)
+- [ ] Validate all XML files against Lattice schema
+- [ ] Test IP integration in Propel
+- [ ] Run lint checks on RTL
+- [ ] Verify testbench passes (if applicable)
 - [ ] Tag initial version (v1.0.0)
 
 ## Linting & Code Quality
 
 ### Linting Tools
-Place configurations in `scripts/`:
-- **Verilator**: `.verilator_config` or `lint.sh`
+Place configurations in the IP root directory:
+- **Verilator**: `.verilator_config`
 - **Verible**: `.verible.lint`
 - **Synopsys Spyglass**: `spyglass.prj`
 
-### Coding Standards for IP
+### Coding Standards for Lattice IP
 - Use consistent indentation (2 or 4 spaces)
-- One module per file (main IP module)
+- One module per file for main IP module
+- Use Verilog (.v) or SystemVerilog (.sv) as appropriate
 - Meaningful signal/port names
 - Comprehensive comments for complex logic
-- Parameters for all configurable values
+- Parameters for all configurable values (match metadata.xml settings)
 - Avoid hardcoded magic numbers
 - Clock domain crossing (CDC) annotations
+- Active-low resets named with `_n` suffix
 - Assert statements for critical assumptions
 
 Example header comment:
-```systemverilog
+```verilog
 //-----------------------------------------------------------------------------
-// Module: uart_ip
-// Description: Universal Asynchronous Receiver/Transmitter IP
+// Module: hyperram_mc
+// Description: HyperRAM Memory Controller with AXI4 interface
 // Version: 1.0.0
-// Author: Your Name
-// License: MIT
+// Company: Lattice Semiconductor
 //
 // Parameters:
-//   CLK_FREQ  - System clock frequency in Hz
-//   BAUD_RATE - UART baud rate
+//   HYPERRAM_NUM - Number of HyperRAM devices
+//   ID_W         - AXI ID width
+//   SYSBUS_CLOCK_MHZ - System clock frequency in MHz
 //
 // Ports:
-//   clk    - System clock
-//   rst_n  - Active-low reset
-//   ...
+//   clk_i              - System clock
+//   rst_n              - Active-low reset
+//   hyperbus_clk_i     - HyperBus clock
+//   s_axi_*            - AXI4 data interface
+//   s_axil_*           - AXI4-Lite control interface
 //-----------------------------------------------------------------------------
+```
+
+### Parameter Naming Convention
+Parameters in RTL **must match** settings defined in metadata.xml or settings.xml:
+
+```verilog
+// RTL
+module ip_name #(
+    parameter HYPERRAM_NUM = 2,
+    parameter ID_W = 1,
+    parameter SYSBUS_CLOCK_MHZ = 100
+) (...);
+```
+
+```xml
+<!-- metadata.xml or settings.xml -->
+<lsccip:setting id="HYPERRAM_NUM" type="param" ... />
+<lsccip:setting id="ID_W" type="param" ... />
+<lsccip:setting id="SYSBUS_CLOCK_MHZ" type="param" ... />
 ```
 
 
 
 ## Testing Strategy for IP
 
-### Simulation Levels
-1. **Unit Tests**: Test individual IP in isolation
-2. **Interface Tests**: Verify bus interface compliance
-3. **Performance Tests**: Measure throughput/latency
-4. **Corner Cases**: Test edge cases and error conditions
-5. **Regression**: Automated test suite for all changes
+### Testbench Structure
+For Radiant/Propel IPs, testbenches are optional but recommended for verification.
 
-### Example Test Structure
-```
-tb/
-├── uart_ip_tb.sv          # Top-level testbench
-├── test_basic.sv          # Basic TX/RX test
-├── test_baud_rates.sv     # Test multiple baud rates
-├── test_errors.sv         # Test error conditions
-└── test_stress.sv         # Stress/performance test
+**Location:** `testbench/tb_top.sv`
+
+**Testbench Requirements:**
+- Self-contained verification environment
+- Tests all major functional paths
+- Verifies bus interface compliance (AXI, AXI-Lite, etc.)
+- Includes test scenarios for:
+  - Basic functionality
+  - Edge cases and corner cases
+  - Error conditions
+  - Performance/timing verification
+
+### Simulation Approach
+1. **Unit Tests**: Test IP in isolation using tb_top.sv
+2. **Interface Tests**: Verify bus protocol compliance
+3. **Integration Tests**: Test within Propel-generated SoC
+4. **Hardware Validation**: Test on target FPGA board
+
+### Example Testbench Structure
+```systemverilog
+// testbench/tb_top.sv
+module tb_top;
+    // Clock and reset generation
+    reg clk_i, rst_n;
+
+    // Bus functional models
+    // - AXI4 master model
+    // - AXI4-Lite master model
+
+    // DUT instantiation
+    ip_name #(...) dut (...);
+
+    // Test scenarios
+    initial begin
+        // Test 1: Basic functionality
+        // Test 2: Bus protocol compliance
+        // Test 3: Error conditions
+        // Test 4: Performance verification
+        $finish;
+    end
+endmodule
 ```
 
 ## Release Process
 
 ### Creating a Release
-1. Update version number in RTL and docs
-2. Update CHANGELOG.md
-3. Run full regression test suite
-4. Run lint checks
-5. Update documentation
-6. Create git tag: `git tag -a v1.2.0 -m "Release v1.2.0"`
-7. Generate release notes
-8. Archive release artifacts
+1. Update version number in `metadata.xml`:
+   ```xml
+   <lsccip:version>1.2.0</lsccip:version>
+   ```
+2. Update revision history in `doc/introduction.html`
+3. Update RTL header comments with new version
+4. Run lint checks on all RTL
+5. Verify testbench passes (if applicable)
+6. Test IP integration in Propel
+7. Validate all XML files
+8. Create git tag: `git tag -a v1.2.0 -m "Release v1.2.0"`
+9. Push tag: `git push origin v1.2.0`
+10. Archive IP package for distribution
 
-### CHANGELOG.md Format
-```markdown
-# Changelog
+### Version Numbering in XML
+All version information centralized in metadata.xml:
+```xml
+<lsccip:general>
+    <lsccip:version>1.2.0</lsccip:version>
+    <lsccip:min_radiant_version>3.1</lsccip:min_radiant_version>
+</lsccip:general>
+```
 
-## [1.2.0] - 2024-01-15
-### Added
-- New feature X
-### Changed
-- Improved performance of Y
-### Fixed
-- Bug fix for issue #123
-
-## [1.1.0] - 2023-12-01
-...
+### Revision History in HTML
+Update `doc/introduction.html`:
+```html
+<H2>Revision History</H2>
+<TABLE cellpadding="10">
+  <TR>
+    <TD><B>1.2.0</B></TD>
+    <TD>Added new feature X. Fixed bug Y.</TD>
+  </TR>
+  <TR>
+    <TD><B>1.1.0</B></TD>
+    <TD>Improved performance.</TD>
+  </TR>
+  <TR>
+    <TD><B>1.0.0</B></TD>
+    <TD>Initial release.</TD>
+  </TR>
+</TABLE>
 ```
 
 ## License Considerations
 
-Common licenses for FPGA IP:
-- **MIT**: Permissive, allows commercial use
-- **Apache 2.0**: Permissive with patent protection
-- **BSD 3-Clause**: Permissive
-- **GPL/LGPL**: Copyleft (requires derivatives to be open)
-- **Proprietary**: For commercial IP
+For Lattice IPs, licensing is typically:
+- **Lattice Reference Design License**: For Lattice-provided IPs
+- **Proprietary/Commercial**: For commercial third-party IPs
+- **Open Source**: If distributing publicly (MIT, Apache, BSD, etc.)
 
-Include `LICENSE` file in IP root directory.
+**License Information:**
+- Add copyright headers to all source files
+- Include license text in `doc/introduction.html`
+- Specify licensing in metadata.xml if applicable
+
+**Example RTL Header:**
+```verilog
+//=============================================================================
+// Copyright (c) 2024 [Your Company/Lattice Semiconductor]
+// Licensed under [License Name]
+//=============================================================================
+```
