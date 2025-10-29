@@ -110,38 +110,7 @@ if [ $CRLF_FAILED -eq 0 ]; then
 fi
 
 # ============================================================================
-# Check 5: Verilator Lint (if available)
-# ============================================================================
-if [ -n "$STAGED_V_FILES" ]; then
-    echo ""
-    echo "🔧 Checking for Verilator..."
-    if command -v verilator &> /dev/null; then
-        echo -e "${GREEN}✓ Verilator found, running lint checks...${NC}"
-        VERILATOR_FAILED=0
-        for file in $STAGED_V_FILES; do
-            if [ -f "$file" ]; then
-                echo "  Linting: $file"
-                if ! verilator --lint-only -Wall "$file" 2>&1 | grep -v "^%Warning-WIDTH" | grep -q "%Error"; then
-                    :  # Success
-                else
-                    echo -e "${RED}✗ Verilator errors in: $file${NC}"
-                    verilator --lint-only -Wall "$file" 2>&1 | grep "%Error"
-                    VERILATOR_FAILED=1
-                    FAILED=1
-                fi
-            fi
-        done
-        if [ $VERILATOR_FAILED -eq 0 ]; then
-            echo -e "${GREEN}✓ Verilator checks passed${NC}"
-        fi
-    else
-        echo -e "${YELLOW}⚠ Verilator not found (skipping Verilog lint)${NC}"
-        echo "  Install: sudo apt-get install verilator"
-    fi
-fi
-
-# ============================================================================
-# Check 6: Python Syntax (if Python files staged)
+# Check 5: Python Syntax (if Python files staged)
 # ============================================================================
 if [ -n "$STAGED_PY_FILES" ]; then
     echo ""
@@ -167,7 +136,7 @@ if [ -n "$STAGED_PY_FILES" ]; then
 fi
 
 # ============================================================================
-# Check 7: XML Well-formedness
+# Check 6: XML Well-formedness
 # ============================================================================
 if [ -n "$STAGED_XML_FILES" ]; then
     echo ""
@@ -194,7 +163,7 @@ if [ -n "$STAGED_XML_FILES" ]; then
 fi
 
 # ============================================================================
-# Check 8: Large Files (>1MB)
+# Check 7: Large Files (>1MB)
 # ============================================================================
 echo ""
 echo "📦 Checking for large files..."

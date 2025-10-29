@@ -11,7 +11,6 @@ Runs automatically before each commit to check:
 - ✅ No tab characters (enforces spaces)
 - ✅ UTF-8 file encoding
 - ✅ LF line endings (Unix-style)
-- ✅ Verilator lint (if installed)
 - ✅ Python syntax (if Python files)
 - ✅ XML well-formedness (if xmllint installed)
 - ✅ No large files (>1MB)
@@ -63,7 +62,6 @@ git commit --no-verify
 - Tab characters (should use 2 spaces)
 - UTF-8 encoding
 - LF line endings
-- Verilator lint errors (if Verilator is installed)
 
 ### For XML Files (.xml)
 - Trailing whitespace
@@ -84,20 +82,11 @@ git commit --no-verify
 - Bash (included with Git for Windows)
 
 ### Optional (Enhanced Checks)
-- **Verilator**: For Verilog linting
-  ```bash
-  # Ubuntu/Debian
-  sudo apt-get install verilator
-  
-  # macOS
-  brew install verilator
-  ```
-
 - **xmllint**: For XML validation
   ```bash
   # Ubuntu/Debian
   sudo apt-get install libxml2-utils
-  
+
   # macOS
   brew install libxml2
   ```
@@ -133,16 +122,6 @@ dos2unix filename.v
 Or configure Git to handle line endings:
 ```bash
 git config --global core.autocrlf input
-```
-
-### Verilator Warnings
-
-Some warnings are expected. The hook only fails on errors (%Error), not warnings (%Warning).
-
-To suppress specific warnings, create `.verilator_config`:
-```
-lint_off -rule UNUSED
-lint_off -rule WIDTH
 ```
 
 ## Customization

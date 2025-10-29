@@ -5,8 +5,8 @@ This directory contains AI rules that automatically apply to this project when o
 ## Current Rules
 
 ### `directorystructure.mdc`
-**Purpose:** Enforces FPGA IP directory structure standards  
-**Status:** Always Applied  
+**Purpose:** Enforces FPGA IP directory structure standards
+**Status:** Always Applied
 **Scope:** All file operations and AI suggestions
 
 **What it does:**
