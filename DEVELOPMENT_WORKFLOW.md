@@ -59,7 +59,7 @@ git add rtl/hyperram_mc.v
 git commit -m "Add dual-rank HyperRAM support"
 ```
 
-**Important:** 
+**Important:**
 - ❌ **NEVER** `git merge` to main locally
 - ❌ **NEVER** `git push` directly to main
 - ✅ **ALWAYS** commit to feature branch only
@@ -88,14 +88,14 @@ git push -u origin feature/your-feature-name
    ```markdown
    ## Description
    Brief description of changes
-   
+
    ## Changes Made
    - List of changes
-   
+
    ## Testing Done
    - Simulation results
    - Lint checks
-   
+
    ## Related Issues
    Fixes #123
    ```
@@ -335,7 +335,7 @@ git checkout main
 - ✅ **Require pull request before merging**
   - Require approvals: **1**
   - Dismiss stale reviews when new commits are pushed
-  
+
 - ✅ **Require status checks to pass**
   - Require branches to be up to date
   - Status checks required:

@@ -17,7 +17,7 @@ CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
 while read local_ref local_sha remote_ref remote_sha; do
     # Extract branch name from remote ref (refs/heads/main -> main)
     remote_branch=$(echo "$remote_ref" | sed 's|refs/heads/||')
-    
+
     # Check if trying to push to main
     if [ "$remote_branch" = "main" ]; then
         echo ""

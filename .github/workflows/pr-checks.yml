@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Check for trailing whitespace
         run: |
           echo "Checking for trailing whitespace..."
@@ -29,7 +29,7 @@ jobs:
             echo "❌ Trailing whitespace detected"
             exit 1
           fi
-      
+
       - name: Check for tabs (should use spaces)
         run: |
           echo "Checking for tab characters..."
@@ -39,7 +39,7 @@ jobs:
           else
             echo "✅ No tab characters found"
           fi
-      
+
       - name: Check line endings (should be LF)
         run: |
           echo "Checking line endings..."
@@ -57,12 +57,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Install Verilator
         run: |
           sudo apt-get update
           sudo apt-get install -y verilator
-      
+
       - name: Lint Verilog files
         run: |
           echo "Running Verilator lint..."
@@ -79,10 +79,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Install xmllint
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils
-      
+
       - name: Validate XML files
         run: |
           echo "Validating XML files..."
@@ -98,12 +98,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Verify metadata.xml version format
         run: |
           VERSION=$(grep '<lsccip:version>' metadata.xml | sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | tr -d '[:space:]')
           echo "Current version: $VERSION"
-          
+
           # Validate format (X.Y.Z or X.Y.Z.##)
           if [[ $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]{2})?$ ]]; then
             echo "✅ Valid version format: $VERSION"
@@ -121,7 +121,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Simulation Check (Configure with actual tools)
         run: |
           echo "🔧 Simulation placeholder - configure for your environment"
