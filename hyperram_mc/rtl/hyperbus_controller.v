@@ -627,7 +627,7 @@ module hyperbus_controller #(
           tx_fifo_wr_en <= 1'b1;
         end else begin
           tx_fifo_wr_en <= 1'b0;
-        end  
+        end
       rwds_o_c2phy         <= rwds_in;
       end
     end
@@ -707,7 +707,7 @@ module hyperbus_controller #(
   defparam tx_fifo.pmi_almost_full_flag  = 511;
   defparam tx_fifo.pmi_almost_empty_flag = 1;
   defparam tx_fifo.pmi_regmode           = "reg";
-  defparam tx_fifo.pmi_resetmode         = "sync";
+  defparam tx_fifo.pmi_resetmode         = "async";
   defparam tx_fifo.pmi_family            = "LIFCL";
   defparam tx_fifo.pmi_implementation    = "EBR";
   pmi_fifo_dc tx_fifo (
@@ -805,7 +805,7 @@ module hyperbus_controller #(
   defparam rx_fifo.pmi_almost_full_flag  = 255;
   defparam rx_fifo.pmi_almost_empty_flag = 1;
   defparam rx_fifo.pmi_regmode           = "reg";
-  defparam rx_fifo.pmi_resetmode         = "sync";
+  defparam rx_fifo.pmi_resetmode         = "async";
   defparam rx_fifo.pmi_family            = "LIFCL";
   defparam rx_fifo.pmi_implementation    = "EBR";
   pmi_fifo_dc rx_fifo (
