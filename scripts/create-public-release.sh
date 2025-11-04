@@ -83,17 +83,17 @@ update_revision_history() {
     local version=$1
     local description=$2
     local html_file="doc/introduction.html"
-    
+
     if [ ! -f "$html_file" ]; then
         warning "doc/introduction.html not found, skipping revision history update"
         return 0
     fi
-    
+
     info "Updating revision history in $html_file..."
-    
+
     # Create new table row
     local new_row="    <TR>\n      <TD><B>${version}</B></TD> <TD>${description}</TD>\n    </TR>"
-    
+
     # Use sed to insert the new row after the first <TR> (which is after the table opening)
     # The revision history table structure is:
     #   <TABLE cellpadding="10">
@@ -103,10 +103,10 @@ update_revision_history() {
     #   </TABLE>
     #
     # We want to insert the new row as the FIRST row in the table
-    
+
     # Using awk to find the table and insert after the <TABLE> line
     awk -v new_row="$new_row" '
-        /<H2>Revision History<\/H2>/ { 
+        /<H2>Revision History<\/H2>/ {
             in_section=1
         }
         in_section && /<TABLE/ {
@@ -117,7 +117,7 @@ update_revision_history() {
         }
         { print }
     ' "$html_file" > "${html_file}.tmp"
-    
+
     mv "${html_file}.tmp" "$html_file"
     success "Revision history updated with version $version"
 }
