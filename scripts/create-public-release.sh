@@ -17,12 +17,14 @@
 #   ## = Internal release counter (2 digits)
 #
 # Usage:
-#   ./create-public-release.sh <type> "<message>"
+#   ./create-public-release.sh <type> "<message>" ["<revision_description>"]
 #
-# Examples:
-#   ./create-public-release.sh major "Complete redesign of controller FSM"
-#   ./create-public-release.sh minor "Added dual-rank support"
-#   ./create-public-release.sh bugfix "Fixed timing issue in read path"
+# Examples (External Releases - require revision description):
+#   ./create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance"
+#   ./create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
+#   ./create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation"
+#
+# Examples (Internal Releases - revision description optional):
 #   ./create-public-release.sh internal "Internal testing build"
 #
 # =============================================================================
@@ -75,11 +77,57 @@ warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
 info()    { echo -e "${BLUE}ℹ $1${NC}"; }
 
 # -----------------------------------------------------------------------------
+# Update revision history in doc/introduction.html
+# -----------------------------------------------------------------------------
+update_revision_history() {
+    local version=$1
+    local description=$2
+    local html_file="doc/introduction.html"
+    
+    if [ ! -f "$html_file" ]; then
+        warning "doc/introduction.html not found, skipping revision history update"
+        return 0
+    fi
+    
+    info "Updating revision history in $html_file..."
+    
+    # Create new table row
+    local new_row="    <TR>\n      <TD><B>${version}</B></TD> <TD>${description}</TD>\n    </TR>"
+    
+    # Use sed to insert the new row after the first <TR> (which is after the table opening)
+    # The revision history table structure is:
+    #   <TABLE cellpadding="10">
+    #     <TR>
+    #       <TD><B>version</B></TD> <TD>description</TD>
+    #     </TR>
+    #   </TABLE>
+    #
+    # We want to insert the new row as the FIRST row in the table
+    
+    # Using awk to find the table and insert after the <TABLE> line
+    awk -v new_row="$new_row" '
+        /<H2>Revision History<\/H2>/ { 
+            in_section=1
+        }
+        in_section && /<TABLE/ {
+            print
+            print new_row
+            in_section=0
+            next
+        }
+        { print }
+    ' "$html_file" > "${html_file}.tmp"
+    
+    mv "${html_file}.tmp" "$html_file"
+    success "Revision history updated with version $version"
+}
+
+# -----------------------------------------------------------------------------
 # Usage
 # -----------------------------------------------------------------------------
 usage() {
     cat << EOF
-Usage: $0 <type> "<message>"
+Usage: $0 <type> "<message>" ["<revision_description>"]
 
 Release Types:
     major     - Increment X (X.Y.Z.##) - Breaking changes
@@ -88,13 +136,16 @@ Release Types:
     internal  - Increment ## (X.Y.Z.##) - Internal release (not public)
 
 Arguments:
-    type      - Release type (major|minor|bugfix|internal)
-    message   - Release message describing changes (quoted string)
+    type                 - Release type (major|minor|bugfix|internal)
+    message              - Release message describing changes (quoted string)
+    revision_description - Revision history description (REQUIRED for major/minor/bugfix, optional for internal)
 
-Examples:
-    $0 major "Complete redesign of controller FSM"
-    $0 minor "Added dual-rank support"
-    $0 bugfix "Fixed timing issue in read path"
+Examples (External Releases):
+    $0 major "Complete redesign of controller FSM" "Major redesign for improved performance"
+    $0 minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
+    $0 bugfix "Fixed timing issue in read path" "Fixed read timing violation"
+
+Examples (Internal Releases):
     $0 internal "Internal testing build"
 
 Version Format: X.Y.Z.##
@@ -120,6 +171,7 @@ fi
 
 RELEASE_TYPE=$1
 RELEASE_MESSAGE=$2
+REVISION_DESCRIPTION=$3
 
 # Validate release type
 case "$RELEASE_TYPE" in
@@ -133,6 +185,13 @@ esac
 
 if [ -z "$RELEASE_MESSAGE" ]; then
     error "Release message cannot be empty"
+    usage
+fi
+
+# For external releases (major/minor/bugfix), require revision description
+if [ "$RELEASE_TYPE" != "internal" ] && [ -z "$REVISION_DESCRIPTION" ]; then
+    error "Revision description is REQUIRED for external releases (major/minor/bugfix)"
+    error "This will be added to the revision history in doc/introduction.html"
     usage
 fi
 
@@ -258,6 +317,9 @@ echo "Target Remote:  $TARGET_REMOTE"
 echo "Branch Prefix:  $BRANCH_PREFIX"
 echo "Public Release: $IS_PUBLIC_RELEASE"
 echo "Message:        $RELEASE_MESSAGE"
+if [ -n "$REVISION_DESCRIPTION" ]; then
+    echo "Revision Desc:  $REVISION_DESCRIPTION"
+fi
 echo "========================================="
 echo ""
 
@@ -337,6 +399,13 @@ if [ -f "$METADATA_FILE" ]; then
 
     rm -f "${METADATA_FILE}.bak"
     success "metadata.xml updated with version ${MAJOR}.${MINOR}.${BUGFIX}"
+fi
+
+# -----------------------------------------------------------------------------
+# Update revision history in doc/introduction.html (for external releases only)
+# -----------------------------------------------------------------------------
+if [ "$IS_PUBLIC_RELEASE" = true ] && [ -n "$REVISION_DESCRIPTION" ]; then
+    update_revision_history "${MAJOR}.${MINOR}.${BUGFIX}" "$REVISION_DESCRIPTION"
 fi
 
 # -----------------------------------------------------------------------------

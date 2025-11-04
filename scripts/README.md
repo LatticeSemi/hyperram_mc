@@ -59,13 +59,20 @@ Automated script for creating public releases with version management.
   - ## = Internal counter (2 digits)
 - ✅ **Orphan branches** - no shared history with private repo
 - ✅ **Automatic metadata.xml version updates**
+- ✅ **Automatic doc/introduction.html revision history updates** for external releases
 - ✅ **Safety checks** - prevents accidental releases with uncommitted changes
 - ✅ **Interactive confirmation** before committing
 
 ### Usage
 
+**For External Releases (major/minor/bugfix):**
 ```bash
-./scripts/create-public-release.sh <type> "<message>"
+./scripts/create-public-release.sh <type> "<message>" "<revision_description>"
+```
+
+**For Internal Releases:**
+```bash
+./scripts/create-public-release.sh internal "<message>"
 ```
 
 **Release Types:**
@@ -81,24 +88,27 @@ Automated script for creating public releases with version management.
 
 **Major Release:**
 ```bash
-./scripts/create-public-release.sh major "Complete redesign of controller FSM"
+./scripts/create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance and reduced latency"
 ```
 - Current: 1.2.3.05 → New: 2.0.0.00
 - Tag: v2.0.0
+- Revision history updated with: "Major redesign for improved performance and reduced latency"
 
 **Minor Release:**
 ```bash
-./scripts/create-public-release.sh minor "Added dual-rank support"
+./scripts/create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
 ```
 - Current: 1.2.3.05 → New: 1.3.0.00
 - Tag: v1.3.0
+- Revision history updated with: "Added support for dual-rank HyperRAM devices"
 
 **Bugfix Release:**
 ```bash
-./scripts/create-public-release.sh bugfix "Fixed timing issue in read path"
+./scripts/create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation in high-speed mode"
 ```
 - Current: 1.2.3.05 → New: 1.2.4.00
 - Tag: v1.2.4
+- Revision history updated with: "Fixed read timing violation in high-speed mode"
 
 **Internal Release:**
 ```bash
@@ -106,6 +116,7 @@ Automated script for creating public releases with version management.
 ```
 - Current: 1.2.3.05 → New: 1.2.3.06
 - Tag: v1.2.3.06
+- No revision history update (internal only)
 - Branch: staging/v1.2.3.06
 - Target: staging remote (private only, NOT pushed to public)
 
@@ -138,6 +149,48 @@ release/vX.Y.Z.## branch contains:
 - Any `INTERNAL_*` files
 - Backup files (`*.bak`, `*~`)
 
+### Automatic Revision History Updates
+
+For **external releases only** (major/minor/bugfix), the script automatically updates the revision history in `doc/introduction.html`:
+
+**What happens:**
+1. You provide a revision description when running the script (3rd parameter)
+2. Script automatically adds a new row to the revision history table
+3. New row contains: version number + your description
+4. Inserted at the TOP of the table (most recent first)
+
+**Example:**
+
+Running this command:
+```bash
+./scripts/create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
+```
+
+Updates `doc/introduction.html` from:
+```html
+<H2>Revision History</H2>
+<TABLE cellpadding="10">
+  <TR>
+    <TD><B>1.0.0</B></TD> <TD>Initial release.</TD>
+  </TR>
+</TABLE>
+```
+
+To:
+```html
+<H2>Revision History</H2>
+<TABLE cellpadding="10">
+  <TR>
+    <TD><B>1.1.0</B></TD> <TD>Added support for dual-rank HyperRAM devices</TD>
+  </TR>
+  <TR>
+    <TD><B>1.0.0</B></TD> <TD>Initial release.</TD>
+  </TR>
+</TABLE>
+```
+
+**Note:** Internal releases do NOT update the revision history (they're not published).
+
 ### Workflow
 
 1. **Prepare:**
@@ -149,19 +202,25 @@ release/vX.Y.Z.## branch contains:
 
 2. **Run Script:**
    ```bash
-   ./scripts/create-public-release.sh minor "Added new feature X"
+   # For external release (major/minor/bugfix) - include revision description
+   ./scripts/create-public-release.sh minor "Added new feature X" "Added feature X for improved functionality"
+
+   # For internal release - no revision description needed
+   ./scripts/create-public-release.sh internal "Internal test build"
    ```
 
 3. **Review:**
    - Script shows summary and asks for confirmation
    - Review files to be released
    - Confirm version increment
+   - Check revision description (for external releases)
 
 4. **Script Automatically:**
    - Updates VERSION file on main
    - Creates orphan release branch
    - Copies only public files
    - Updates metadata.xml version
+   - Updates doc/introduction.html revision history (external releases only)
    - Creates commit and tag
 
 5. **Push (Manual):**
