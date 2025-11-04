@@ -144,8 +144,6 @@ release/vX.Y.Z.## branch contains:
 - `.editorconfig`
 - `.cursor/`
 - `hooks/`
-- `hyperram_test/`
-- `my_soc_build/`
 - Any `INTERNAL_*` files
 - Backup files (`*.bak`, `*~`)
 
