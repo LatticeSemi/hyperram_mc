@@ -12,6 +12,47 @@ NC='\033[0m' # No Color
 
 echo "🔍 Running pre-commit checks..."
 
+# ============================================================================
+# Check if committing directly to main branch (BLOCKED!)
+# ============================================================================
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+
+if [ "$CURRENT_BRANCH" = "main" ] && [ -z "$ALLOW_MAIN_COMMIT" ]; then
+    echo ""
+    echo "========================================"
+    echo -e "${RED}❌ COMMIT TO MAIN BLOCKED!${NC}"
+    echo "========================================"
+    echo ""
+    echo "You cannot commit directly to the main branch."
+    echo ""
+    echo "📋 Correct workflow:"
+    echo "  1. Create a feature branch:"
+    echo "     git checkout -b feature/your-feature"
+    echo ""
+    echo "  2. Make your changes and commit to the feature branch"
+    echo ""
+    echo "  3. Push feature branch:"
+    echo "     git push origin feature/your-feature"
+    echo ""
+    echo "  4. Create a Pull Request on GitHub"
+    echo ""
+    echo "  5. After PR approval and merge, pull the changes:"
+    echo "     git checkout main"
+    echo "     git pull origin main"
+    echo ""
+    echo "🚫 Direct commits to main are not allowed."
+    echo "   This enforces code review and CI checks."
+    echo ""
+    echo "ℹ️  For releases, use the release script:"
+    echo "   ./scripts/create-public-release.sh"
+    echo "   (The script will handle main branch updates automatically)"
+    echo ""
+    echo "⚠️  To bypass (NOT RECOMMENDED):"
+    echo "   git commit --no-verify"
+    echo ""
+    exit 1
+fi
+
 # Get list of staged files
 STAGED_V_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(v|sv|vh|svh)$' || true)
 STAGED_XML_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.xml$' || true)

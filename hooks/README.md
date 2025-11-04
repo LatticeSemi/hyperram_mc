@@ -7,6 +7,7 @@ This directory contains Git hooks that help maintain code quality.
 ### pre-commit
 
 Runs automatically before each commit to check:
+- 🛡️ **Blocks direct commits to main branch**
 - ✅ No trailing whitespace
 - ✅ No tab characters (enforces spaces)
 - ✅ UTF-8 file encoding
@@ -14,6 +15,13 @@ Runs automatically before each commit to check:
 - ✅ Python syntax (if Python files)
 - ✅ XML well-formedness (if xmllint installed)
 - ✅ No large files (>1MB)
+
+### pre-push
+
+Runs automatically before pushing to remote:
+- 🛡️ **Blocks direct pushes to main branch**
+- ✅ Enforces pull request workflow
+- ✅ Ensures code review process
 
 ## Installation
 
@@ -25,35 +33,79 @@ Runs automatically before each commit to check:
 
 ### Manual Installation
 
-Copy the hook to your `.git/hooks` directory:
+Copy the hooks to your `.git/hooks` directory:
 
 ```bash
 # Linux/macOS/Git Bash
 cp hooks/pre-commit .git/hooks/pre-commit
+cp hooks/pre-push .git/hooks/pre-push
 chmod +x .git/hooks/pre-commit
+chmod +x .git/hooks/pre-push
 
 # Windows PowerShell
 Copy-Item hooks/pre-commit .git/hooks/pre-commit
+Copy-Item hooks/pre-push .git/hooks/pre-push
 icacls .git\hooks\pre-commit /grant Everyone:RX
+icacls .git\hooks\pre-push /grant Everyone:RX
 ```
 
 ## Usage
 
-Once installed, the hook runs automatically:
+Once installed, the hooks run automatically:
 
 ```bash
+# This will be BLOCKED if on main branch
 git add file.v
-git commit -m "Add feature"
-# Hook runs here automatically
+git commit -m "Add feature"  # pre-commit hook runs here
+
+# This will be BLOCKED if pushing to main
+git push origin main  # pre-push hook runs here
 ```
 
-### Skipping the Hook
+### Main Branch Protection
 
-If you need to skip the checks (not recommended):
+**Commits to main branch are BLOCKED:**
+```bash
+$ git checkout main
+$ git commit -m "Direct commit to main"
+❌ COMMIT TO MAIN BLOCKED!
+You cannot commit directly to the main branch.
+```
+
+**Pushes to main branch are BLOCKED:**
+```bash
+$ git push origin main
+❌ PUSH TO MAIN BLOCKED!
+You cannot push directly to the main branch.
+```
+
+**Proper workflow:**
+```bash
+# 1. Create feature branch
+git checkout -b feature/my-feature
+
+# 2. Commit to feature branch (allowed)
+git commit -m "Add feature"
+
+# 3. Push feature branch (allowed)
+git push origin feature/my-feature
+
+# 4. Create Pull Request on GitHub
+```
+
+### Skipping the Hooks
+
+If you absolutely need to bypass (NOT RECOMMENDED):
 
 ```bash
+# Skip commit checks
 git commit --no-verify
+
+# Skip push checks
+git push --no-verify
 ```
+
+**⚠️ Warning:** Bypassing hooks defeats the purpose of code review and CI/CD!
 
 ## What Gets Checked
 

@@ -232,15 +232,15 @@ fi
 # Check CI status for internal releases (must pass before publishing)
 if [ "$RELEASE_TYPE" = "internal" ] && [ "$CURRENT_BRANCH" = "main" ]; then
     info "Checking CI status for internal release..."
-    
+
     # Get latest commit SHA
     LATEST_SHA=$(git rev-parse HEAD)
-    
+
     # Check if CI has run and passed (requires gh CLI or curl to GitHub API)
     if command -v gh &> /dev/null; then
         # Using GitHub CLI
         CI_STATUS=$(gh api repos/{owner}/{repo}/commits/$LATEST_SHA/status --jq '.state' 2>/dev/null || echo "unknown")
-        
+
         if [ "$CI_STATUS" = "success" ]; then
             success "CI status: PASSED ✅"
         elif [ "$CI_STATUS" = "pending" ]; then
@@ -395,7 +395,10 @@ info "Updating version in metadata.xml on main branch..."
 sed -i.bak "s|<lsccip:version>.*</lsccip:version>|<lsccip:version>${NEW_VERSION}</lsccip:version>|g" "$METADATA_FILE"
 rm -f "${METADATA_FILE}.bak"
 git add "$METADATA_FILE"
+# Allow commit to main for release script (bypass pre-commit main branch check)
+export ALLOW_MAIN_COMMIT=1
 git commit -m "Bump version to $NEW_VERSION for $RELEASE_TYPE release"
+unset ALLOW_MAIN_COMMIT
 success "metadata.xml version updated on main to $NEW_VERSION"
 
 # -----------------------------------------------------------------------------

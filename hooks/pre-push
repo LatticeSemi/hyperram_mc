@@ -1,0 +1,57 @@
+#!/bin/bash
+# Pre-push hook for HyperRAM Memory Controller
+# This hook prevents pushing directly to main branch
+
+set -e
+
+# Color codes for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Get current branch
+CURRENT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "")
+
+# Read from stdin (format: <local ref> <local sha> <remote ref> <remote sha>)
+while read local_ref local_sha remote_ref remote_sha; do
+    # Extract branch name from remote ref (refs/heads/main -> main)
+    remote_branch=$(echo "$remote_ref" | sed 's|refs/heads/||')
+    
+    # Check if trying to push to main
+    if [ "$remote_branch" = "main" ]; then
+        echo ""
+        echo "========================================"
+        echo -e "${RED}❌ PUSH TO MAIN BLOCKED!${NC}"
+        echo "========================================"
+        echo ""
+        echo "You cannot push directly to the main branch."
+        echo ""
+        echo "📋 Correct workflow:"
+        echo "  1. Create a feature branch:"
+        echo "     git checkout -b feature/your-feature"
+        echo ""
+        echo "  2. Push your feature branch:"
+        echo "     git push origin feature/your-feature"
+        echo ""
+        echo "  3. Create a Pull Request on GitHub"
+        echo ""
+        echo "  4. After PR approval and CI pass, merge via GitHub"
+        echo ""
+        echo "🚫 Direct pushes to main are not allowed."
+        echo "   This enforces code review and CI checks."
+        echo ""
+        echo "ℹ️  For releases, use the release script:"
+        echo "   ./scripts/create-public-release.sh"
+        echo ""
+        echo "⚠️  To bypass (NOT RECOMMENDED):"
+        echo "   git push --no-verify origin main"
+        echo ""
+        exit 1
+    fi
+done
+
+# If we get here, not pushing to main
+echo -e "${GREEN}✓ Push allowed (not to main branch)${NC}"
+exit 0
+
