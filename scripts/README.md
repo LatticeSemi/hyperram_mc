@@ -121,7 +121,6 @@ release/vX.Y.Z.## branch contains:
 ├── metadata.xml         # IP metadata
 ├── bus_interface.xml    # Bus interface definitions
 ├── memory_map.xml       # Memory map definitions
-├── address_space.xml    # Address space definitions
 ├── README.md            # Project README
 ├── QUICKSTART.md        # Quick start guide (when created)
 ├── soc/                 # Integration examples (when created)

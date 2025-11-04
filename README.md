@@ -429,7 +429,6 @@ The data memory space is accessed via the AXI4 interface (`s_axi_*` ports) and p
 ## Configuration
 
 Configuration parameters are available through:
-- `address_space.xml` - Address space configuration
 - `memory_map.xml` - Memory map definitions
 - `bus_interface.xml` - Bus interface configuration
 

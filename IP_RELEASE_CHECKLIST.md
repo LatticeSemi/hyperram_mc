@@ -213,7 +213,7 @@ Use the automated release script with version management:
 - [ ] `doc/` contains documentation (doc/introduction.html)
 - [ ] `plugin/` contains plugin scripts (plugin/plugin.py)
 - [ ] `testbench/` contains testbenches (if used)
-- [ ] XML files at root level (metadata.xml, bus_interface.xml, memory_map.xml, address_space.xml)
+- [ ] XML files at root level (metadata.xml, bus_interface.xml, memory_map.xml)
 
 ---
 

@@ -49,7 +49,6 @@ PUBLIC_FILES=(
     "metadata.xml"
     "bus_interface.xml"
     "memory_map.xml"
-    "address_space.xml"
 )
 
 # Patterns to exclude (even if inside public directories)
