@@ -33,17 +33,23 @@ set -e  # Exit on error
 # Configuration
 # -----------------------------------------------------------------------------
 VERSION_FILE="VERSION"
-METADATA_FILE="hyperram_mc/metadata.xml"
+METADATA_FILE="metadata.xml"
 
 # Directories/files to include in public release
 PUBLIC_DIRS=(
-    "hyperram_mc/"
+    "rtl/"
+    "doc/"
+    "plugin/"
 )
 
 PUBLIC_FILES=(
     "README.md"
     "QUICKSTART.md"
     "system_integration/"
+    "metadata.xml"
+    "bus_interface.xml"
+    "memory_map.xml"
+    "address_space.xml"
 )
 
 # Patterns to exclude (even if inside public directories)

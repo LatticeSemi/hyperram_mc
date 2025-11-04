@@ -115,11 +115,13 @@ The script includes **only these files/directories** in public releases:
 
 ```
 release/vX.Y.Z.## branch contains:
-├── hyperram_mc/          # Complete IP directory
-│   ├── rtl/             # All RTL files
-│   ├── doc/             # Documentation
-│   ├── plugin/          # Plugin scripts
-│   └── *.xml            # All XML metadata
+├── rtl/                 # All RTL files
+├── doc/                 # Documentation
+├── plugin/              # Plugin scripts
+├── metadata.xml         # IP metadata
+├── bus_interface.xml    # Bus interface definitions
+├── memory_map.xml       # Memory map definitions
+├── address_space.xml    # Address space definitions
 ├── README.md            # Project README
 ├── QUICKSTART.md        # Quick start guide (when created)
 ├── system_integration/  # Integration examples (when created)

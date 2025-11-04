@@ -210,10 +210,10 @@ Use the automated release script with version management:
 
 ### Directory Structure Validation
 - [ ] `rtl/` contains only RTL source files
-- [ ] `doc/` contains documentation
-- [ ] `plugin/` contains plugin scripts (if used)
+- [ ] `doc/` contains documentation (doc/introduction.html)
+- [ ] `plugin/` contains plugin scripts (plugin/plugin.py)
 - [ ] `testbench/` contains testbenches (if used)
-- [ ] XML files at IP root level
+- [ ] XML files at root level (metadata.xml, bus_interface.xml, memory_map.xml, address_space.xml)
 
 ---
 
