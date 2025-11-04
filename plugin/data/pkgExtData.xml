@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lsccip:ip xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip" xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014" xmlns:lattice="http://www.latticesemi.com/lattic" platform="Propel" platform_version="2024.1">
+<lsccip:ip xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip" xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014" xmlns:lattice="http://www.latticesemi.com/lattic" platform="Propel" platform_version="2025.2">
     <lsccip:extensions>
         <lsccip:rtl>
             <lsccip:refPath>

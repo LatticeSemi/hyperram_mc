@@ -77,7 +77,7 @@ module hyperbus_controller #(
   input  wire [3:0]  local_size,
   input  wire [31:0] local_wdata,
   input  wire        local_wvalid,
-  input  wire [3:0]	 local_wstrb,
+  input  wire [3:0]   local_wstrb,
   output reg [31:0]  local_rdata,
   output reg         local_rvalid,
   output reg         core_busy,
@@ -106,7 +106,13 @@ module hyperbus_controller #(
   input  wire                            rwds_in_cflag_i,
   output reg [1:0]                      rwds_in_coarse_dly_o
 );
-
+  //reset cdc
+  wire hyperbus_rstn;
+  sync_non_rst  lclk_rstn_sync(
+    .in_data (rst_n),
+    .dest_clk (hyperbus_clk_i),
+    .out_data (hyperbus_rstn)
+  );
 //--------------------------------------------//
 //    Logic for Control Flow with Hyperram    //
 //--------------------------------------------//
@@ -668,8 +674,8 @@ module hyperbus_controller #(
   endgenerate
 
   reg tx_ready_ff0, tx_ready_ff1, tx_ready_flag, tx_ready_flag_ff0, tx_ready_flag_ff1;
-  always @(posedge hyperbus_clk_i or negedge rst_n)
-    if(!rst_n) begin
+  always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+    if(!hyperbus_rstn) begin
       tx_ready_ff0 <= 1'b0;
       tx_ready_ff1 <= 1'b0;
     end
@@ -678,8 +684,8 @@ module hyperbus_controller #(
       tx_ready_ff1 <= tx_ready_ff0;
     end
 
-  always @(posedge hyperbus_clk_i or negedge rst_n)
-    if(!rst_n) begin
+  always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+    if(!hyperbus_rstn) begin
       tx_ready_flag <= 1'b0;
     end
     else begin
@@ -688,8 +694,8 @@ module hyperbus_controller #(
       else if (tx_fifo_empty)
         tx_ready_flag <= 1'b0;
     end
-  always @(posedge hyperbus_clk_i or negedge rst_n)
-    if(!rst_n) begin
+  always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+    if(!hyperbus_rstn) begin
       tx_ready_flag_ff0 <= 1'b0;
       tx_ready_flag_ff1 <= 1'b0;
     end
@@ -717,7 +723,9 @@ module hyperbus_controller #(
       .WrEn       (tx_fifo_wr_en),
       .RdEn       (tx_ready_flag),
       .Reset      (~rst_n),
-      .RPReset    (~rst_n),
+      .RPReset    (~hyperbus_rstn),
+      // .Reset      (1'b0),
+      // .RPReset    (1'b0),
       .Q          (tx_packed_data_phy),
       .Empty      (tx_fifo_empty),
       .Full       (),
@@ -727,8 +735,9 @@ module hyperbus_controller #(
 
   reg [1:0] csn_raw_ff0;
   reg [1:0] csn_raw_ff1;
-  always @(posedge hyperbus_clk_i or negedge rst_n)
-    if(!rst_n) begin
+  reg [1:0] csn_raw_ff2;
+  always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+    if(!hyperbus_rstn) begin
       csn_raw       <= 2'b11;
       reset_raw     <= 2'b11;
       clk_en        <= 2'b11; // all en follows BB direction: 0 for output, 1 for input
@@ -748,14 +757,16 @@ module hyperbus_controller #(
       rwds_out_en  <= tx_packed_data_phy[45:44];
       clk_post_en  <= tx_packed_data_phy[47:46];
     end
-    always @(posedge hyperbus_clk_i or negedge rst_n)
-      if(!rst_n) begin
+    always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+      if(!hyperbus_rstn) begin
         csn_raw_ff0 <= 2'b11;
         csn_raw_ff1 <= 2'b11;
+        csn_raw_ff2 <= 2'b11;
       end
       else begin
         csn_raw_ff0 <= csn_raw;
         csn_raw_ff1 <= csn_raw_ff0;
+        csn_raw_ff2 <= csn_raw_ff1;
       end
 
   wire [35:0] rx_packed_data_sys;
@@ -769,24 +780,24 @@ module hyperbus_controller #(
   reg rx_receive_start;
   reg [4:0] dq_valid_cnt;
   reg rx_fifo_wr_en;
-  always @(posedge hyperbus_clk_i or negedge rst_n)
-    if(!rst_n)
+  always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+    if(!hyperbus_rstn)
       rx_receive_start <= 1'b0;
     else begin
       if (csn_raw == 2'b00)
         rx_receive_start  <= 4'd1;
-      else if ((DELAY_HALF_CYCLE && (csn_raw_ff1 == 2'b11)) || ((!DELAY_HALF_CYCLE) && (csn_raw_ff0 == 2'b11)))//add one cycle for 100MHZ
+      else if ((DELAY_HALF_CYCLE && (csn_raw_ff2 == 2'b11)) || ((!DELAY_HALF_CYCLE) && (csn_raw_ff1 == 2'b11)))//add one cycle for 100MHZ
         rx_receive_start  <= 4'd0;
     end
 
-  always @(posedge hyperbus_clk_i or negedge rst_n)
-    if(!rst_n) begin
+  always @(posedge hyperbus_clk_i or negedge hyperbus_rstn)
+    if(!hyperbus_rstn) begin
       dq_valid_cnt  <= 5'd0;
       rx_fifo_wr_en <= 1'b0;
     end
     else begin
       if (rx_receive_start) begin
-        if (dq_valid_cnt == (5'd15 + mtr_latency + mtr_latency + DELAY_HALF_CYCLE))//add one cycle for 100MHZ
+        if (dq_valid_cnt == (5'd16 + mtr_latency + mtr_latency + DELAY_HALF_CYCLE))//add one cycle for 100MHZ and another for FD1P3DX delay
           rx_fifo_wr_en <= 1'b1;
         else
           dq_valid_cnt <= dq_valid_cnt + 4'd1;
@@ -796,32 +807,38 @@ module hyperbus_controller #(
       end
     end
 
-  defparam rx_fifo.pmi_data_width_w      = 36;
-  defparam rx_fifo.pmi_data_width_r      = 36;
-  defparam rx_fifo.pmi_data_depth_w      = 256;
-  defparam rx_fifo.pmi_data_depth_r      = 256;
-  defparam rx_fifo.pmi_full_flag         = 256;
-  defparam rx_fifo.pmi_empty_flag        = 0;
-  defparam rx_fifo.pmi_almost_full_flag  = 255;
-  defparam rx_fifo.pmi_almost_empty_flag = 1;
-  defparam rx_fifo.pmi_regmode           = "reg";
-  defparam rx_fifo.pmi_resetmode         = "async";
-  defparam rx_fifo.pmi_family            = "LIFCL";
-  defparam rx_fifo.pmi_implementation    = "EBR";
-  pmi_fifo_dc rx_fifo (
-      .Data       (rx_packed_data_phy),
-      .WrClock    (hyperbus_clk_i),
-      .RdClock    (clk_i),
-      .WrEn       (rx_fifo_wr_en),
-      .RdEn       (1'b1),
-      .Reset      (~rst_n),
-      .RPReset    (~rst_n),
-      .Q          (rx_packed_data_sys),
-      .Empty      (rx_fifo_empty),
-      .Full       (),
-      .AlmostEmpty(),
-      .AlmostFull ()
+  pmi_fifo_dc #(
+    .pmi_data_width_w      (36  ),
+    .pmi_data_width_r      (36  ),
+    .pmi_data_depth_w      (256 ),
+    .pmi_data_depth_r      (256 ),
+    .pmi_full_flag         (256 ),
+    .pmi_empty_flag        (0   ),
+    .pmi_almost_full_flag  (255 ),
+    .pmi_almost_empty_flag (1   ),
+    .pmi_regmode           ("reg"),
+    .pmi_resetmode         ("async"),
+    .pmi_family            ("LIFCL"),
+    .pmi_implementation    ("EBR")
+  )
+  rx_fifo (
+    .Data       (rx_packed_data_phy),
+    .WrClock    (hyperbus_clk_i),
+    .RdClock    (clk_i),
+    .WrEn       (rx_fifo_wr_en),
+    .RdEn       (1'b1),
+    .Reset      (~hyperbus_rstn),
+    .RPReset    (~rst_n),
+    // .Reset      (1'b0),
+    // .RPReset    (1'b0),
+    .Q          (rx_packed_data_sys),
+    .Empty      (rx_fifo_empty),
+    .Full       (),
+    .AlmostEmpty(),
+    .AlmostFull ()
   );
+
+
 
   always @(posedge clk_i or negedge rst_n)
     if(!rst_n) begin
@@ -844,6 +861,6 @@ module hyperbus_controller #(
       rwds_in_move_o<= 1'd0;
       rwds_in_direction_o<= 1'd0;
       rwds_in_coarse_dly_o<= 2'd0;
-	end
+  end
 
 endmodule

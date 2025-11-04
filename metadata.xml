@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<lsccip:ip xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip" xmlns:xi="http://www.w3.org/2001/XInclude" version="1.0" platform="Propel" platform_version="2024.1">
+<lsccip:ip xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip" xmlns:xi="http://www.w3.org/2001/XInclude" version="1.0" platform="Propel" platform_version="2025.2">
     <lsccip:general>
         <lsccip:vendor>latticesemi.com</lsccip:vendor>
         <lsccip:library>ip</lsccip:library>
         <lsccip:name>hyperram_mc</lsccip:name>
         <lsccip:display_name>Hyperram Memory Controller</lsccip:display_name>
         <lsccip:version>1.0.0</lsccip:version>
-        <lsccip:category>Processors_Controllers_and_Peripherals</lsccip:category>
+        <lsccip:category>Solution_IPs</lsccip:category>
         <lsccip:keywords>BusType_AXI-Lite, BusType_AXI</lsccip:keywords>
         <lsccip:type>cacheable</lsccip:type>
         <lsccip:min_radiant_version>3.1</lsccip:min_radiant_version>
         <lsccip:min_esi_version>2022.1</lsccip:min_esi_version>
         <lsccip:supported_products>
-            <lsccip:supported_family name="LFMXO5">
-                <lsccip:supported_device name="LFMXO5-25" />
-                <lsccip:supported_device name="LFMXO5-65T" />
-            </lsccip:supported_family>
+            <lsccip:supported_family name="*" />
         </lsccip:supported_products>
         <lsccip:supported_platforms>
             <lsccip:supported_platform name="esi" />
@@ -49,35 +46,6 @@
                         options="range(1,33)"
                         group1="General"
          />
-        <!-- <lsccip:setting id="CACHE_EN"
-                        type="param"
-                        value_type="bool"
-                        conn_mod="hyperram_mc"
-                        title="Enable Cache"
-                        default="True"
-                        editable="False"
-                        group1="Cache Settings"
-         />
-        <lsccip:setting id="CACHE_WIDTH"
-                        type="param"
-                        value_type="int"
-                        conn_mod="hyperram_mc"
-                        title="Cache Width"
-                        default="32"
-                        options="[32, 64, 128]"
-                        editable="False"
-                        group1="Cache Settings"
-         />
-        <lsccip:setting id="CACHE_DEPTH"
-                        type="param"
-                        value_type="int"
-                        conn_mod="hyperram_mc"
-                        title="Cache Depth"
-                        default="1024"
-                        options="[64, 128, 256, 512, 1024]"
-                        editable="CACHE_EN == True"
-                        group1="Cache Settings"
-         /> -->
         <lsccip:setting id="SYSBUS_CLOCK_MHZ"
                         type="param"
                         value_type="int"
@@ -323,8 +291,8 @@
          />
         <lsccip:port name="s_axi_awid"
                      dir="in"
-                     range="(ID_W-1,0)"
                      conn_mod="hyperram_mc"
+                     range="(ID_W-1,0)"
                      bus_interface="AXI_DATA_S00"
          />
         <lsccip:port name="s_axi_awaddr"
@@ -413,8 +381,8 @@
          />
         <lsccip:port name="s_axi_bid"
                      dir="out"
-                     range="(ID_W-1,0)"
                      conn_mod="hyperram_mc"
+                     range="(ID_W-1,0)"
                      bus_interface="AXI_DATA_S00"
          />
         <lsccip:port name="s_axi_bresp"
@@ -435,8 +403,8 @@
          />
         <lsccip:port name="s_axi_arid"
                      dir="in"
-                     range="(ID_W-1,0)"
                      conn_mod="hyperram_mc"
+                     range="(ID_W-1,0)"
                      bus_interface="AXI_DATA_S00"
          />
         <lsccip:port name="s_axi_araddr"
@@ -498,8 +466,8 @@
          />
         <lsccip:port name="s_axi_rid"
                      dir="out"
-                     range="(ID_W-1,0)"
                      conn_mod="hyperram_mc"
+                     range="(ID_W-1,0)"
                      bus_interface="AXI_DATA_S00"
          />
         <lsccip:port name="s_axi_rdata"
@@ -560,7 +528,7 @@
                      range="(0,0)"
                      conn_port="hyperbus_clkn_o"
                      conn_range="(0,0)"
-                    />
+         />
         <lsccip:port name="hyperbus_clkn_m1_o"
                      dir="out"
                      conn_mod="hyperram_mc"
@@ -568,15 +536,17 @@
                      conn_port="hyperbus_clkn_o"
                      conn_range="(1,1)"
                      dangling="HYPERRAM_NUM == 1"
-                    />
+         />
         <lsccip:port name="hyperbus_clk270_i"
                      dir="in"
                      conn_mod="hyperram_mc"
                      conn_port="hyperbus_clk270_i"
                      port_type="clock"
-                    />
+         />
     </lsccip:ports>
+    <lsccip:outFileConfigs>
+        <lsccip:fileConfig name="wrapper" rtl_seq="hyperram_mc.v;axi2local.v;axi_addr.v;axi_if.v;axil_if.v;hyperbus_controller.v;phy_jedi.v;skidbuffer.v;sync_non_rst.v" />
+    </lsccip:outFileConfigs>
     <xi:include parse="xml" href="bus_interface.xml" />
-    <xi:include parse="xml" href="address_space.xml" />
     <xi:include parse="xml" href="memory_map.xml" />
 </lsccip:ip>

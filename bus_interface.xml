@@ -540,7 +540,9 @@
                 </lsccip:portMaps>
             </lsccip:abstractionType>
         </lsccip:abstractionTypes>
-        <lsccip:master/>
+        <lsccip:master>
+            <lsccip:addressSpaceRef addressSpaceRef="INT_M0_Address_Space"/>
+        </lsccip:master>
     </lsccip:busInterface>
     <lsccip:busInterface>
         <lsccip:name>HYPERBUS_M0</lsccip:name>
@@ -594,7 +596,9 @@
                 </lsccip:portMaps>
             </lsccip:abstractionType>
         </lsccip:abstractionTypes>
-        <lsccip:master/>
+        <lsccip:master>
+            <lsccip:addressSpaceRef addressSpaceRef="HYPERBUS_M0_Address_Space"/>
+        </lsccip:master>
     </lsccip:busInterface>
     <lsccip:busInterface>
         <lsccip:name>HYPERBUS_M1</lsccip:name>
@@ -648,6 +652,8 @@
                 </lsccip:portMaps>
             </lsccip:abstractionType>
         </lsccip:abstractionTypes>
-        <lsccip:master/>
+        <lsccip:master>
+            <lsccip:addressSpaceRef addressSpaceRef="HYPERBUS_M1_Address_Space"/>
+        </lsccip:master>
     </lsccip:busInterface>
 </lsccip:busInterfaces>
