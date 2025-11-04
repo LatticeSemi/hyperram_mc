@@ -96,7 +96,7 @@ git remote add public git@github.com:yourorg/hyperram-mc-public.git
 - [ ] No uncommitted temporary files
 - [ ] `.gitignore` up to date
 - [ ] Pull latest changes: `git pull origin main`
-- [ ] VERSION file exists and is readable
+- [ ] `metadata.xml` exists with valid version (X.Y.Z or X.Y.Z.##)
 
 ### Automated Release Creation
 
@@ -143,8 +143,7 @@ Use the automated release script with version management:
 - [ ] Review release branch: `git log --oneline --graph <branch-name>`
 - [ ] Verify files included: `git ls-tree -r --name-only <branch-name>`
 - [ ] Check no internal files leaked (IP_RELEASE_CHECKLIST.md, .editorconfig, hooks/, etc.)
-- [ ] Verify metadata.xml version updated (public releases: X.Y.Z, internal: X.Y.Z.##)
-- [ ] Verify VERSION file in release branch
+- [ ] Verify `metadata.xml` version in release branch (public releases: X.Y.Z, internal: X.Y.Z.##)
 - [ ] Verify correct branch prefix (release/* or staging/*)
 
 ### Push to Repositories
@@ -193,7 +192,7 @@ Use the automated release script with version management:
 
 ### Post-Release
 - [ ] Return to main branch: `git checkout main`
-- [ ] Verify VERSION file shows new version
+- [ ] Verify `metadata.xml` shows new version
 - [ ] Update release notes (if applicable)
 - [ ] Notify team of release
 

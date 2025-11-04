@@ -129,13 +129,12 @@ release/vX.Y.Z.## branch contains:
 ├── rtl/                 # All RTL files
 ├── doc/                 # Documentation
 ├── plugin/              # Plugin scripts
-├── metadata.xml         # IP metadata
+├── metadata.xml         # IP metadata (includes version)
 ├── bus_interface.xml    # Bus interface definitions
 ├── memory_map.xml       # Memory map definitions
 ├── README.md            # Project README
 ├── QUICKSTART.md        # Quick start guide (when created)
 ├── soc/                 # Integration examples (when created)
-├── VERSION              # Version file
 └── LICENSE              # License file
 ```
 
@@ -214,10 +213,9 @@ To:
    - Check revision description (for external releases)
 
 4. **Script Automatically:**
-   - Updates VERSION file on main
+   - Updates metadata.xml version on main (X.Y.Z.## for internal, X.Y.Z for external)
    - Creates orphan release branch
    - Copies only public files
-   - Updates metadata.xml version
    - Updates doc/introduction.html revision history (external releases only)
    - Creates commit and tag
 
@@ -256,7 +254,7 @@ To:
   - `staging` - Private internal staging repository (internal releases)
   - `public` - Public release repository (public releases only)
 - On `main` branch with no uncommitted changes
-- `VERSION` file exists (created automatically if missing)
+- `metadata.xml` exists with valid version
 
 ### Setup Git Remotes
 
@@ -285,18 +283,31 @@ git remote -v
 - **staging**: Internal release testing, `staging/*` branches only
 - **public**: Public releases, `release/*` branches only (major/minor/bugfix)
 
-### VERSION File
+### Version Management (metadata.xml)
 
-The script maintains a `VERSION` file at the repository root:
+The script uses `metadata.xml` as the **single source of truth** for versioning:
 
+```xml
+<lsccip:version>1.0.0.01</lsccip:version>
 ```
-1.2.3.05
-```
 
-Format: `X.Y.Z.##`
-- Automatically incremented by script
-- Updated on `main` branch
-- Included in release branch
+**Format:** `X.Y.Z` or `X.Y.Z.##`
+
+**How it works:**
+- **Internal releases**: Version includes internal counter (e.g., `1.0.0.01`, `1.0.0.02`)
+- **External releases**: Version drops internal counter (e.g., `1.0.1`, `1.1.0`, `2.0.0`)
+- Automatically updated on `main` branch by the script
+- Copied to release branch
+
+**Version Progression Example:**
+```
+Initial:        metadata.xml = 1.0.0
+Internal #1:    metadata.xml = 1.0.0.01
+Internal #2:    metadata.xml = 1.0.0.02
+Bugfix release: metadata.xml = 1.0.1 (internal counter dropped)
+Internal #1:    metadata.xml = 1.0.1.01
+Minor release:  metadata.xml = 1.1.0 (internal counter dropped)
+```
 
 ### Error Handling
 
@@ -306,8 +317,9 @@ The script performs safety checks:
 - ❌ Uncommitted changes detected
 - ❌ Invalid release type
 - ❌ Empty release message
-- ❌ Invalid VERSION file format
+- ❌ Invalid metadata.xml version format
 - ❌ Missing critical files (metadata.xml)
+- ❌ Missing revision description (for external releases)
 
 All checks must pass before proceeding.
 
@@ -328,11 +340,14 @@ git commit -m "Commit message"
 git stash
 ```
 
-**"VERSION file not found"**
-The script creates it automatically with version `1.0.0.00`.
+**"Invalid version format in metadata.xml"**
+Ensure metadata.xml contains a valid version in `X.Y.Z` or `X.Y.Z.##` format:
+```xml
+<lsccip:version>1.0.0</lsccip:version>
+```
 
 **Want to abort a release?**
-Press `n` when prompted for confirmation. The script will clean up automatically.
+Press `n` when prompted for confirmation. The script will clean up automatically and revert the metadata.xml update.
 
 **Release branch still exists after abort?**
 ```bash
@@ -348,10 +363,8 @@ git branch -D release/vX.Y.Z.##
 # Delete the tag
 git tag -d vX.Y.Z.##
 
-# Manually revert VERSION file (optional)
-# Edit VERSION file to previous version
-git add VERSION
-git commit --amend
+# Revert metadata.xml version update
+git reset --hard HEAD~1
 
 # Rerun the script
 ./scripts/create-public-release.sh ...
@@ -369,6 +382,6 @@ git commit --amend
 ### See Also
 
 - [IP_RELEASE_CHECKLIST.md](../IP_RELEASE_CHECKLIST.md) - Complete release checklist
-- [VERSION](../VERSION) - Current version number
+- [metadata.xml](../metadata.xml) - IP metadata (includes version)
 - [README.md](../README.md) - Project README
 

@@ -12,12 +12,12 @@ echo "HyperRAM IP - Version Status Dashboard"
 echo "=========================================="
 echo ""
 
-# Current local version
-if [ -f "VERSION" ]; then
-    CURRENT_VERSION=$(cat VERSION | tr -d '[:space:]')
+# Current local version from metadata.xml
+if [ -f "metadata.xml" ]; then
+    CURRENT_VERSION=$(grep '<lsccip:version>' metadata.xml | sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | tr -d '[:space:]')
     echo "📍 Current Development Version: $CURRENT_VERSION"
 else
-    echo "⚠️  VERSION file not found"
+    echo "⚠️  metadata.xml not found"
 fi
 echo ""
 

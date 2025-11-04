@@ -34,7 +34,6 @@ set -e  # Exit on error
 # -----------------------------------------------------------------------------
 # Configuration
 # -----------------------------------------------------------------------------
-VERSION_FILE="VERSION"
 METADATA_FILE="metadata.xml"
 
 # Directories/files to include in public release
@@ -233,29 +232,41 @@ fi
 success "Pre-flight checks passed"
 
 # -----------------------------------------------------------------------------
-# Read current version
+# Read current version from metadata.xml
 # -----------------------------------------------------------------------------
-if [ ! -f "$VERSION_FILE" ]; then
-    warning "VERSION file not found. Creating with version 1.0.0.00"
-    echo "1.0.0.00" > "$VERSION_FILE"
-    git add "$VERSION_FILE"
-    git commit -m "Initialize VERSION file"
-fi
-
-CURRENT_VERSION=$(cat "$VERSION_FILE" | tr -d '[:space:]')
-info "Current version: $CURRENT_VERSION"
-
-# Parse version components
-if [[ ! $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]{2})$ ]]; then
-    error "Invalid version format in VERSION file: $CURRENT_VERSION"
-    error "Expected format: X.Y.Z.## (e.g., 1.2.3.05)"
+if [ ! -f "$METADATA_FILE" ]; then
+    error "metadata.xml not found at: $METADATA_FILE"
     exit 1
 fi
 
-MAJOR=${BASH_REMATCH[1]}
-MINOR=${BASH_REMATCH[2]}
-BUGFIX=${BASH_REMATCH[3]}
-INTERNAL=${BASH_REMATCH[4]}
+# Extract version from metadata.xml
+CURRENT_VERSION=$(grep '<lsccip:version>' "$METADATA_FILE" | sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | tr -d '[:space:]')
+
+if [ -z "$CURRENT_VERSION" ]; then
+    error "Could not extract version from metadata.xml"
+    exit 1
+fi
+
+info "Current version: $CURRENT_VERSION"
+
+# Parse version components - support both X.Y.Z and X.Y.Z.## formats
+if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]{2})$ ]]; then
+    # Format: X.Y.Z.## (has internal counter)
+    MAJOR=${BASH_REMATCH[1]}
+    MINOR=${BASH_REMATCH[2]}
+    BUGFIX=${BASH_REMATCH[3]}
+    INTERNAL=${BASH_REMATCH[4]}
+elif [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+    # Format: X.Y.Z (no internal counter, assume 00)
+    MAJOR=${BASH_REMATCH[1]}
+    MINOR=${BASH_REMATCH[2]}
+    BUGFIX=${BASH_REMATCH[3]}
+    INTERNAL=00
+else
+    error "Invalid version format in metadata.xml: $CURRENT_VERSION"
+    error "Expected format: X.Y.Z or X.Y.Z.## (e.g., 1.2.3 or 1.2.3.05)"
+    exit 1
+fi
 
 # -----------------------------------------------------------------------------
 # Calculate new version
@@ -281,20 +292,22 @@ case "$RELEASE_TYPE" in
         ;;
 esac
 
-# Format internal counter as 2 digits
+# Format version based on release type
 INTERNAL_FORMATTED=$(printf "%02d" $INTERNAL)
-NEW_VERSION="${MAJOR}.${MINOR}.${BUGFIX}.${INTERNAL_FORMATTED}"
 
-# Determine target remote and branch prefix based on release type
 if [ "$RELEASE_TYPE" = "internal" ]; then
+    # Internal releases: Include internal counter (X.Y.Z.##)
+    NEW_VERSION="${MAJOR}.${MINOR}.${BUGFIX}.${INTERNAL_FORMATTED}"
     TARGET_REMOTE="staging"
     BRANCH_PREFIX="staging"
     RELEASE_TAG="v${NEW_VERSION}"
     IS_PUBLIC_RELEASE=false
 else
+    # External releases: Drop internal counter (X.Y.Z only)
+    NEW_VERSION="${MAJOR}.${MINOR}.${BUGFIX}"
     TARGET_REMOTE="public"
     BRANCH_PREFIX="release"
-    RELEASE_TAG="v${MAJOR}.${MINOR}.${BUGFIX}"
+    RELEASE_TAG="v${NEW_VERSION}"
     IS_PUBLIC_RELEASE=true
 fi
 
@@ -331,13 +344,14 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Update VERSION file on main branch
+# Update version in metadata.xml on main branch
 # -----------------------------------------------------------------------------
-info "Updating VERSION file on main branch..."
-echo "$NEW_VERSION" > "$VERSION_FILE"
-git add "$VERSION_FILE"
+info "Updating version in metadata.xml on main branch..."
+sed -i.bak "s|<lsccip:version>.*</lsccip:version>|<lsccip:version>${NEW_VERSION}</lsccip:version>|g" "$METADATA_FILE"
+rm -f "${METADATA_FILE}.bak"
+git add "$METADATA_FILE"
 git commit -m "Bump version to $NEW_VERSION for $RELEASE_TYPE release"
-success "VERSION file updated on main"
+success "metadata.xml version updated on main to $NEW_VERSION"
 
 # -----------------------------------------------------------------------------
 # Create release branch
@@ -388,18 +402,12 @@ done
 success "Cleanup complete"
 
 # -----------------------------------------------------------------------------
-# Update version in metadata.xml
+# Verify metadata.xml version
 # -----------------------------------------------------------------------------
-if [ -f "$METADATA_FILE" ]; then
-    info "Updating version in metadata.xml..."
-
-    # Update version tag (handle both with and without namespace prefix)
-    sed -i.bak "s|<lsccip:version>.*</lsccip:version>|<lsccip:version>${MAJOR}.${MINOR}.${BUGFIX}</lsccip:version>|g" "$METADATA_FILE"
-    sed -i.bak "s|<version>.*</version>|<version>${MAJOR}.${MINOR}.${BUGFIX}</version>|g" "$METADATA_FILE"
-
-    rm -f "${METADATA_FILE}.bak"
-    success "metadata.xml updated with version ${MAJOR}.${MINOR}.${BUGFIX}"
-fi
+# Note: metadata.xml was already updated on main branch and copied here
+# For internal releases: contains X.Y.Z.##
+# For external releases: contains X.Y.Z
+info "metadata.xml version in release branch: $NEW_VERSION"
 
 # -----------------------------------------------------------------------------
 # Update revision history in doc/introduction.html (for external releases only)
@@ -407,12 +415,6 @@ fi
 if [ "$IS_PUBLIC_RELEASE" = true ] && [ -n "$REVISION_DESCRIPTION" ]; then
     update_revision_history "${MAJOR}.${MINOR}.${BUGFIX}" "$REVISION_DESCRIPTION"
 fi
-
-# -----------------------------------------------------------------------------
-# Create VERSION file in release branch
-# -----------------------------------------------------------------------------
-echo "$NEW_VERSION" > "$VERSION_FILE"
-git add "$VERSION_FILE"
 
 # -----------------------------------------------------------------------------
 # Create LICENSE file if not present
@@ -451,7 +453,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     error "Release aborted. Cleaning up..."
     git checkout main
     git branch -D "$RELEASE_BRANCH" 2>/dev/null || true
-    # Revert VERSION file update
+    # Revert metadata.xml version update
     git reset --hard HEAD~1
     exit 1
 fi
