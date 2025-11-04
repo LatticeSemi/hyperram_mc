@@ -124,7 +124,7 @@ release/vX.Y.Z.## branch contains:
 ├── address_space.xml    # Address space definitions
 ├── README.md            # Project README
 ├── QUICKSTART.md        # Quick start guide (when created)
-├── system_integration/  # Integration examples (when created)
+├── soc/                 # Integration examples (when created)
 ├── VERSION              # Version file
 └── LICENSE              # License file
 ```

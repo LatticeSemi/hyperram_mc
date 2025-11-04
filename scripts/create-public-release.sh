@@ -45,7 +45,7 @@ PUBLIC_DIRS=(
 PUBLIC_FILES=(
     "README.md"
     "QUICKSTART.md"
-    "system_integration/"
+    "soc/"
     "metadata.xml"
     "bus_interface.xml"
     "memory_map.xml"
