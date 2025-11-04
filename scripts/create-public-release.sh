@@ -229,6 +229,51 @@ if [ ! -f "$METADATA_FILE" ]; then
     exit 1
 fi
 
+# Check CI status for internal releases (must pass before publishing)
+if [ "$RELEASE_TYPE" = "internal" ] && [ "$CURRENT_BRANCH" = "main" ]; then
+    info "Checking CI status for internal release..."
+    
+    # Get latest commit SHA
+    LATEST_SHA=$(git rev-parse HEAD)
+    
+    # Check if CI has run and passed (requires gh CLI or curl to GitHub API)
+    if command -v gh &> /dev/null; then
+        # Using GitHub CLI
+        CI_STATUS=$(gh api repos/{owner}/{repo}/commits/$LATEST_SHA/status --jq '.state' 2>/dev/null || echo "unknown")
+        
+        if [ "$CI_STATUS" = "success" ]; then
+            success "CI status: PASSED ✅"
+        elif [ "$CI_STATUS" = "pending" ]; then
+            error "CI is still running. Wait for CI to complete before internal publish."
+            error "Check status: gh run list --branch main"
+            exit 1
+        elif [ "$CI_STATUS" = "failure" ] || [ "$CI_STATUS" = "error" ]; then
+            error "CI FAILED ❌"
+            error "Internal publish is BLOCKED until CI passes on main branch"
+            error "Fix CI failures and try again"
+            error "Check failures: gh run list --branch main"
+            exit 1
+        else
+            warning "Unable to determine CI status (gh CLI may need configuration)"
+            warning "Proceeding with caution..."
+            read -p "CI status unknown. Continue anyway? (y/n) " -n 1 -r
+            echo
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                exit 1
+            fi
+        fi
+    else
+        warning "GitHub CLI (gh) not installed - cannot verify CI status"
+        warning "Install gh CLI: https://cli.github.com/"
+        warning "For internal releases, CI must pass on main before publishing"
+        read -p "Continue without CI check? (not recommended) (y/n) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            exit 1
+        fi
+    fi
+fi
+
 success "Pre-flight checks passed"
 
 # -----------------------------------------------------------------------------
