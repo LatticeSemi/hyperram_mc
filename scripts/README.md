@@ -8,7 +8,7 @@ This script implements a **three-remote release strategy** where one local repos
 
 ```
 ┌────────────────────────────────────────────────┐
-│   YOUR LOCAL: hyperram/                        │
+│   YOUR LOCAL: hyperram_mc/                     │
 │                                                │
 │   Branches:                                    │
 │   • main (active development)                  │
