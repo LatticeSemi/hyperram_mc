@@ -55,3 +55,4 @@ done
 echo -e "${GREEN}✓ Push allowed (not to main branch)${NC}"
 exit 0
 
+
