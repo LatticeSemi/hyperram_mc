@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="LFMXO5" date="2025 05 14 11:11:21" device="LFMXO5-25" gen_platform="Propel" generator="ipgen" library="ip" module="axi_dma" name="axi_dma0" package="BBG400" source_format="Verilog" speed="8_High-Performance_1.0V" vendor="latticesemi.com" version="1.0.0">
+ <Package>
+  <File modified="2025 05 14 11:11:21" name="rtl/axi_dma0_bb.v" type="black_box_verilog"/>
+  <File modified="2025 05 14 11:11:21" name="axi_dma0.cfg" type="cfg"/>
+  <File modified="2025 05 14 11:11:21" name="misc/axi_dma0_tmpl.v" type="template_verilog"/>
+  <File modified="2025 05 14 11:11:21" name="misc/axi_dma0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 05 14 11:11:21" name="rtl/axi_dma0.v" type="top_level_verilog"/>
+  <File modified="2025 05 14 11:11:21" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 05 14 11:11:21" name="design.xml" type="IP-XACT_design"/>
+ </Package>
+</RadiantModule>

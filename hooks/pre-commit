@@ -53,14 +53,25 @@ if [ "$CURRENT_BRANCH" = "main" ] && [ -z "$ALLOW_MAIN_COMMIT" ]; then
     exit 1
 fi
 
-# Get list of staged files
-STAGED_V_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(v|sv|vh|svh)$' || true)
-STAGED_XML_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.xml$' || true)
-STAGED_PY_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.py$' || true)
+# Get list of staged files (excluding example_design/, sim/, and testbench/ directories)
+# Exception: ONLY testbench/tb_top.* at root level ARE checked (not in example_design/)
+# Note: example_design/ contains Radiant/Propel generated files (including any tb_top.* in subfolders)
+#       sim/ contains simulation scripts and prebuilt libraries
+#       testbench/ contains testbench files and models (except root testbench/tb_top.*)
+STAGED_V_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(v|sv|vh|svh)$' | grep -v '^example_design/' | grep -v '^sim/' | { grep -v '^testbench/' || true; } | cat)
+# Only include testbench/tb_top.* at root level (anchored with ^)
+STAGED_V_FILES_TB_TOP=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^testbench/tb_top\.(v|sv)$' || true)
+STAGED_V_FILES="$STAGED_V_FILES"$'\n'"$STAGED_V_FILES_TB_TOP"
 
-# Exit early if no relevant files
+STAGED_XML_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.xml$' | grep -v '^example_design/' | grep -v '^sim/' | grep -v '^testbench/' || true)
+STAGED_PY_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.py$' | grep -v '^example_design/' | grep -v '^sim/' | grep -v '^testbench/' || true)
+
+# Remove empty lines
+STAGED_V_FILES=$(echo "$STAGED_V_FILES" | sed '/^$/d')
+
+# Exit early if no relevant files (after exclusions)
 if [ -z "$STAGED_V_FILES" ] && [ -z "$STAGED_XML_FILES" ] && [ -z "$STAGED_PY_FILES" ]; then
-    echo -e "${GREEN}✓ No Verilog, XML, or Python files to check${NC}"
+    echo -e "${GREEN}✓ No files to check (example_design/, sim/, testbench/ excluded except tb_top.*)${NC}"
     exit 0
 fi
 
@@ -209,7 +220,18 @@ fi
 echo ""
 echo "📦 Checking for large files..."
 LARGE_FILES=0
-for file in $(git diff --cached --name-only --diff-filter=ACM); do
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -v '^example_design/' | grep -v '^sim/' | grep -v '^testbench/' || true); do
+    if [ -f "$file" ]; then
+        size=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0)
+        if [ "$size" -gt 1048576 ]; then  # 1MB
+            echo -e "${YELLOW}⚠ Large file detected: $file ($(numfmt --to=iec-i --suffix=B $size))${NC}"
+            LARGE_FILES=1
+        fi
+    fi
+done
+
+# Check tb_top files for size (only at root testbench/ level, not in example_design/)
+for file in $(git diff --cached --name-only --diff-filter=ACM | grep -E '^testbench/tb_top\.(v|sv)$' || true); do
     if [ -f "$file" ]; then
         size=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0)
         if [ "$size" -gt 1048576 ]; then  # 1MB
@@ -220,7 +242,7 @@ for file in $(git diff --cached --name-only --diff-filter=ACM); do
 done
 
 if [ $LARGE_FILES -eq 0 ]; then
-    echo -e "${GREEN}✓ No large files detected${NC}"
+    echo -e "${GREEN}✓ No large files detected (example_design/, sim/, testbench/ excluded except tb_top.*)${NC}"
 fi
 
 # ============================================================================

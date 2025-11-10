@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5f00" date="2025 05 14 14:14:31" device="LFMXO5-25" device_int="jd5f25" family="LFMXO5" gen_platform="Propel" gen_platform_version="2024.1.2406150513_p" generator="ipgen" library="ip" module="axi2ahb_bridge" name="axi2ahbl0" operation="Commercial" package="BBG400" package_int="BBG400" partnumber="LFMXO5-25-8BBG400C" source_format="Verilog" speed="8_High-Performance_1.0V" speed_int="11" vendor="latticesemi.com" version="1.1.1">
+ <Package>
+  <File modified="2025 05 14 14:14:31" name="rtl/axi2ahbl0_bb.v" type="black_box_verilog"/>
+  <File modified="2025 05 14 14:14:31" name="axi2ahbl0.cfg" type="cfg"/>
+  <File modified="2025 05 14 14:14:31" name="misc/axi2ahbl0_tmpl.v" type="template_verilog"/>
+  <File modified="2025 05 14 14:14:31" name="misc/axi2ahbl0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 05 14 14:14:31" name="rtl/axi2ahbl0.v" type="top_level_verilog"/>
+  <File modified="2025 05 14 14:14:31" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 05 14 14:14:31" name="design.xml" type="IP-XACT_design"/>
+ </Package>
+</RadiantModule>

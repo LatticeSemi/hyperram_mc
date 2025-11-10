@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="LFMXO5" date="2025 05 14 14:08:42" device="LFMXO5-25" gen_platform="Propel" generator="ipgen" library="module" module="axi_crossbar_lite_dv" name="axi_crossbarNxM" package="BBG400" source_format="Verilog" speed="8_High-Performance_1.0V" vendor="latticesemi.com" version="0.1.0">
+ <Package>
+  <File modified="2025 05 14 14:08:42" name="rtl/axi_crossbarNxM_bb.v" type="black_box_verilog"/>
+  <File modified="2025 05 14 14:08:42" name="axi_crossbarNxM.cfg" type="cfg"/>
+  <File modified="2025 05 14 14:08:42" name="misc/axi_crossbarNxM_tmpl.v" type="template_verilog"/>
+  <File modified="2025 05 14 14:08:42" name="misc/axi_crossbarNxM_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 05 14 14:08:42" name="rtl/axi_crossbarNxM.v" type="top_level_verilog"/>
+  <File modified="2025 05 14 14:08:42" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 05 14 14:08:42" name="design.xml" type="IP-XACT_design"/>
+ </Package>
+</RadiantModule>

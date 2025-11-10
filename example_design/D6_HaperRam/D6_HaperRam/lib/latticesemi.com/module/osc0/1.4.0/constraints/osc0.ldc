@@ -1,0 +1,47 @@
+set device "LFCPNX-100"
+set device_int "jd5d80"
+set package "ASG256"
+set package_int "ASG256"
+set speed "9_High-Performance_1.0V"
+set speed_int "12"
+set operation "Commercial"
+set family "LFCPNX"
+set architecture "jd5d00"
+set partnumber "LFCPNX-100-9ASG256C"
+set WRAPPER_INST "lscc_osc_inst"
+set HF_OSC_EN "ENABLED"
+set HF_CLK_DIV_DEC 9
+set HF_CLK_DIV "8"
+set HF_CFG_EN "ENABLED"
+set LF_OUTPUT_EN "ENABLED"
+set SEDCLK_EN 0
+set HF_SED_SEC_DIV_DEC 2
+set HF_SED_SEC_DIV "1"
+set LMMI_CLK_EN "DISABLED"
+set FAMILY "LFCPNX"
+set DEVICE "LFCPNX-100"
+
+
+set CLK_FREQ_HF [expr {double(round(450000000/$HF_CLK_DIV_DEC))/1000000}]
+set CLK_PERIOD_HF [expr {double(round(1000000/$CLK_FREQ_HF))/1000}]
+
+set CLK_PERIOD_LF [expr (round(1000000/32))]
+
+set CLK_FREQ_SEDSEC [expr {double(round(450000000/$HF_SED_SEC_DIV_DEC))/1000000}]
+set CLK_PERIOD_SEDSEC [expr {double(round(1000000/$CLK_FREQ_SEDSEC))/1000}]
+
+if {$DEVICE != "LIFCL-33U" && $HF_OSC_EN == "ENABLED"} {
+    create_clock -name {hf_clk_out_o} -period $CLK_PERIOD_HF [get_pins lscc_osc_inst/gen_osca.u_OSC_A/HFCLKOUT]
+    }
+    
+if {$DEVICE == "LIFCL-33U" && $HF_OSC_EN == "ENABLED"} {
+    create_clock -name {hf_clk_out_o} -period $CLK_PERIOD_HF [get_pins lscc_osc_inst/gen_oscd.u_OSC_D/HFCLKOUT]
+    }
+
+if {$DEVICE != "LIFCL-33U" && $LF_OUTPUT_EN == "ENABLED"} {
+    create_clock -name {lf_clk_out_o} -period $CLK_PERIOD_LF [get_pins lscc_osc_inst/gen_osca.u_OSC_A/LFCLKOUT]
+    }
+    
+if {$DEVICE == "LIFCL-33U" && $LF_OUTPUT_EN == "ENABLED"} {
+    create_clock -name {lf_clk_out_o} -period $CLK_PERIOD_LF [get_pins lscc_osc_inst/gen_oscd.u_OSC_D/LFCLKOUT]
+    }

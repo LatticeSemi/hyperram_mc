@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="LFCPNX" date="2022 03 01 16:09:32" device="LFCPNX-100" generator="ipgen" library="module" module="axi_cdc_lite_dv" name="cdc_M09" package="ASG256" source_format="Verilog" speed="7_High-Performance_1.0V" vendor="latticesemi.com" version="0.1.0">
+ <Package>
+  <File modified="2022 03 01 16:09:31" name="rtl/cdc_M09_bb.v" type="black_box_verilog"/>
+  <File modified="2022 03 01 16:09:31" name="cdc_M09.cfg" type="cfg"/>
+  <File modified="2022 03 01 16:09:31" name="misc/cdc_M09_tmpl.v" type="template_verilog"/>
+  <File modified="2022 03 01 16:09:32" name="misc/cdc_M09_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2022 03 01 16:09:32" name="rtl/cdc_M09.v" type="top_level_verilog"/>
+  <File modified="2022 03 01 16:09:32" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2022 03 01 16:09:32" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2022 03 01 16:09:32" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2022 03 01 16:09:32" name="design.xml" type="IP-XACT_design"/>
+ </Package>
+</RadiantModule>
