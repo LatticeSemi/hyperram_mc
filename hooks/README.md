@@ -7,7 +7,7 @@ This directory contains Git hooks that help maintain code quality.
 ### pre-commit
 
 Runs automatically before each commit to check:
-- 🛡️ **Blocks direct commits to main branch**
+- 🛡️ **Blocks direct commits to main branch** (applies to ALL files)
 - ✅ No trailing whitespace
 - ✅ No tab characters (enforces spaces)
 - ✅ UTF-8 file encoding
@@ -15,6 +15,15 @@ Runs automatically before each commit to check:
 - ✅ Python syntax (if Python files)
 - ✅ XML well-formedness (if xmllint installed)
 - ✅ No large files (>1MB)
+
+**Note:** Quality checks (whitespace, tabs, encoding, etc.) are **skipped** for:
+- `example_design/` - Radiant/Propel generated files
+- `sim/` - Simulation scripts and prebuilt libraries
+- `testbench/` - Testbench files and models
+
+**Exception:** `testbench/tb_top.v` (or `tb_top.sv`) **IS checked** for quality.
+
+The main branch protection still applies to **all files** including excluded directories.
 
 ### pre-push
 
@@ -109,23 +118,41 @@ git push --no-verify
 
 ## What Gets Checked
 
+### Directories Included in Quality Checks
+- ✅ `rtl/` - RTL source files
+- ✅ `plugin/` - Plugin scripts
+- ✅ `doc/` - Documentation
+- ✅ Root directory files (*.xml, *.md, etc.)
+- ✅ `testbench/tb_top.v` or `tb_top.sv` - Main testbench (EXCEPTION)
+
+### Directories Excluded from Quality Checks
+- ⏭️ `example_design/` - Radiant/Propel generated files
+- ⏭️ `sim/` - Simulation scripts and prebuilt libraries
+- ⏭️ `testbench/` - Testbench files and models (except tb_top.*)
+
+**Exception:** Only `testbench/tb_top.v` or `testbench/tb_top.sv` **at the root level** ARE checked for quality (whitespace, tabs, encoding, etc.)
+- ✅ `testbench/tb_top.v` - Checked
+- ❌ `example_design/.../testbench/tb_top.v` - Not checked (excluded with example_design/)
+
+**Note:** Main branch protection still applies to **all files** including excluded directories
+
 ### For Verilog/SystemVerilog Files (.v, .sv)
-- Trailing whitespace
-- Tab characters (should use 2 spaces)
-- UTF-8 encoding
-- LF line endings
+- Trailing whitespace - **BLOCKS commit**
+- Tab characters (should use 2 spaces) - **BLOCKS commit**
+- UTF-8 encoding - **BLOCKS commit**
+- LF line endings (⚠️ warning only)
 
 ### For XML Files (.xml)
-- Trailing whitespace
-- Tab characters (should use 4 spaces)
-- UTF-8 encoding
-- XML syntax validation (if xmllint installed)
+- Trailing whitespace - **BLOCKS commit**
+- Tab characters (should use 4 spaces) - **BLOCKS commit**
+- UTF-8 encoding - **BLOCKS commit**
+- XML syntax validation (if xmllint installed) - **BLOCKS commit**
 
 ### For Python Files (.py)
-- Trailing whitespace
-- Tab characters (should use 4 spaces)
-- UTF-8 encoding
-- Python syntax errors
+- Trailing whitespace - **BLOCKS commit**
+- Tab characters (should use 4 spaces) - **BLOCKS commit**
+- UTF-8 encoding - **BLOCKS commit**
+- Python syntax errors - **BLOCKS commit**
 
 ## Dependencies
 

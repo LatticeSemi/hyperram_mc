@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5f00" date="2025 10 21 16:14:25" device="LFMXO5-25" device_int="jd5f25" display_module="system cache" display_vendor="latticesemi.com" family="LFMXO5" gen_platform="Propel" gen_platform_version="2025.2.0.2505160256" generator="ipgen" library="ip" module="system_cache" name="system_cache0" operation="Commercial" package="BBG400" package_int="BBG400" partnumber="LFMXO5-25-8BBG400C" source_format="Verilog" speed="8_High-Performance_1.0V" speed_int="11" vendor="latticesemi.com" version="2.0.0">
+ <Package>
+  <File modified="2025 10 21 16:14:25" name="rtl/system_cache0_bb.v" type="black_box_verilog"/>
+  <File modified="2025 10 21 16:14:25" name="system_cache0.cfg" type="cfg"/>
+  <File modified="2025 10 21 16:14:25" name="misc/system_cache0_tmpl.v" type="template_verilog"/>
+  <File modified="2025 10 21 16:14:25" name="misc/system_cache0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 10 21 16:14:25" name="rtl/system_cache0.v" type="top_level_verilog"/>
+  <File modified="2025 10 21 16:14:25" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 10 21 16:14:25" name="design.xml" type="IP-XACT_design"/>
+ </Package>
+</RadiantModule>

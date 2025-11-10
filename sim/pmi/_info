@@ -1,0 +1,2429 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/0ongoing/soc/dev/v2.2.0/projects/soc6_beta01_bmc_espi/hw/sim
+vAddSign
+Z1 !s110 1614908786
+!i10b 1
+!s100 16V1m@`>lgU9WKB`F?[[P3
+IPI8;[c_1XT3nI`OZA7cid3
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1392901662
+Z4 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_complex_mult.v
+Z5 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_complex_mult.v
+L0 388
+Z6 OL;L;10.6b;65
+r1
+!s85 0
+31
+Z7 !s108 1614908786.000000
+Z8 !s107 D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_sub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_rom.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dq_be.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dq.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_true_be.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_true.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_be.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll_fp.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_multaddsubsum.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_multaddsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_mac.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_fifo_dc.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_fifo.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_preadd_slice.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsubsum.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mac.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_casmultaddsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_spram.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_shift_reg.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_rom.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_dpram.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_counter.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_constant_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_complex_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_addsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_add.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/jtaghub16.v|
+Z9 !s90 -reportprogress|300|-work|pmi|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/jtaghub16.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_add.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_addsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_complex_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_constant_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_counter.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_dpram.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_rom.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_shift_reg.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_spram.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_casmultaddsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mac.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsubsum.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_preadd_slice.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_fifo.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_fifo_dc.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_mac.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_mult.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_multaddsub.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_multaddsubsum.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll_fp.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_be.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_true.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_true_be.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dq.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dq_be.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_rom.v|D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_sub.v|
+!i113 0
+Z10 o-work pmi -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z11 tCvgOpt 0
+n@add@sign
+vAddUnSign
+R1
+!i10b 1
+!s100 3?<G==1LYXk?b_B>i<Y4;1
+IiK5>NAEzCklY^dlk>H7zZ2
+R2
+R0
+R3
+R4
+R5
+L0 399
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@add@un@sign
+vjtaghub16
+R1
+!i10b 1
+!s100 RezL1]fJCX4A0@:4l5<701
+Ia8WYg7l>IZz`>;:DnOzho1
+R2
+R0
+w1339428760
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/jtaghub16.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/jtaghub16.v
+L0 16
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vlscc_add_sub
+Z12 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z13 !s110 1692077005
+!i10b 1
+!s100 n^Nf?^nLc=`kb4`Tk3ceU0
+I?iWYfg;XN3m^o<OehGRRA1
+R2
+Z14 !s105 pmi_v_unit
+S1
+Z15 dD:/Template/D6_sim/sim
+Z16 w1571399882
+Z17 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/adder_subtractor/rtl/lscc_add_sub.v
+Z18 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/adder_subtractor/rtl/lscc_add_sub.v
+Z19 L0 63
+R6
+r1
+!s85 0
+31
+Z20 !s108 1692077005.000000
+Z21 !s107 D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_lav-at.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ut24cp.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ut24c.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_lfmxo5.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_jd5f00.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_jd5r00.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_lfcpnx.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_jd5d00.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_lfd2nx.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_dsp.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_iCE40UP.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/subtractor/rtl/lscc_subtractor.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_sub.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/rom/rtl/lscc_rom.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_rom.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dq_be.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dq/rtl/lscc_ram_dq.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dq.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dp_true/rtl/lscc_ram_dp_true.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp_true.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp_be.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dp/rtl/lscc_ram_dp.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/multiplier/rtl/lscc_multiplier.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_mult.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_add_sub/rtl/lscc_mult_add_sub.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_multaddsub.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_add_sub_sum/rtl/lscc_mult_add_sub_sum.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_multaddsubsum.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_accumulate/rtl/lscc_mult_accumulate.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_mac.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/fifo_dc/rtl/lscc_fifo_dc.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_fifo_dc.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/fifo/rtl/lscc_fifo.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_fifo.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/ram_shift_reg/rtl/lscc_shift_register.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_shift_reg.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_rom/rtl/lscc_distributed_rom.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_rom.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_spram/rtl/lscc_distributed_spram.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_spram.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_dpram/rtl/lscc_distributed_dpram.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_dpram.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/counter/rtl/lscc_cntr.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_counter.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/complex_mult/rtl/lscc_complex_mult.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_complex_mult.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/adder/rtl/lscc_adder.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_add.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/adder_subtractor/rtl/lscc_add_sub.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_addsub.v|D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_lifcl.v|D:/lscc/radiant/2022.1/ip/../ip/pmi/pmi.v|
+Z22 !s90 -reportprogress|300|-work|pmi|-f|D:/lscc/radiant/2022.1/ip/pmi/pmi.f|-sv|-mfcu|
+!i113 0
+Z23 o-work pmi -sv -mfcu -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z24 !s92 -work pmi +incdir+D:/lscc/radiant/2022.1/ip/../ip/pmi/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/adder/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/adder_subtractor/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/complex_mult/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/counter/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/distributed_dpram/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/distributed_rom/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/ram_shift_reg/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/distributed_spram/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/avant/fifo/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/avant/fifo_dc/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/mult_accumulate/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/multiplier/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/mult_add_sub/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/avant/ram_dp/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/avant/ram_dp_true/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/avant/ram_dq/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/avant/rom/rtl/ +incdir+D:/lscc/radiant/2022.1/ip/../ip/common/subtractor/rtl/ -sv -mfcu -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R11
+vlscc_adder
+R12
+R13
+!i10b 1
+!s100 n<2ZDo?jDGWODRM55bf2L1
+IodcFn?C3;3HB2a?J87T7c2
+R2
+R14
+S1
+R15
+R16
+R17
+R18
+L0 402
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_cntr
+R12
+R13
+!i10b 1
+!s100 kGnWn15hh4;ES^dzXA<X[3
+IkT@i>Vh4iSBXdf:`n8LOb0
+R2
+R14
+S1
+R15
+w1564990907
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/counter/rtl/lscc_cntr.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/counter/rtl/lscc_cntr.v
+Z25 L0 58
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_complex_mult
+R12
+R13
+!i10b 1
+!s100 aW4^7QWSdcM3Hb17TmiWg0
+Ic85UEnJ9m:O5T5B`n9ij52
+R2
+R14
+S1
+R15
+Z26 w1631237199
+Z27 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/complex_mult/rtl/lscc_complex_mult.v
+Z28 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/complex_mult/rtl/lscc_complex_mult.v
+Z29 L0 60
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_distributed_dpram
+R12
+R13
+!i10b 1
+!s100 JOR@nUGD2I[C;=bZk:1eZ0
+IQGeIJUiAWJczE_^fHAF6D0
+R2
+R14
+S1
+R15
+w1583751136
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_dpram/rtl/lscc_distributed_dpram.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_dpram/rtl/lscc_distributed_dpram.v
+Z30 L0 57
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_distributed_rom
+R12
+R13
+!i10b 1
+!s100 @JL6;R2[H1V@G_QZGO;NJ0
+ImTZ<@ElhjXEa^kM_R<dIa3
+R2
+R14
+S1
+R15
+w1583751331
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_rom/rtl/lscc_distributed_rom.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_rom/rtl/lscc_distributed_rom.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_distributed_spram
+R12
+R13
+!i10b 1
+!s100 PgZXZ1K`hU]E_II1:5<>_0
+I`ao`iYN8[lkeHKk<a^Jfj2
+R2
+R14
+S1
+R15
+w1583722196
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_spram/rtl/lscc_distributed_spram.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/distributed_spram/rtl/lscc_distributed_spram.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo
+R12
+R13
+!i10b 1
+!s100 [k`gY=g=Cco4B3_SQXT^33
+I0W>BG8UOR?ONg@Kmb?bjF0
+R2
+R14
+S1
+R15
+Z31 w1661927931
+Z32 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/fifo/rtl/lscc_fifo.v
+Z33 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/fifo/rtl/lscc_fifo.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_dc
+R12
+R13
+!i10b 1
+!s100 Foh<l?Z17Toa0C^R]?1A91
+IoM<=eAE@O:UY^;Md;JVSM2
+R2
+R14
+S1
+R15
+Z34 w1665560777
+Z35 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/fifo_dc/rtl/lscc_fifo_dc.v
+Z36 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/fifo_dc/rtl/lscc_fifo_dc.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_dc_fwft_fabric
+R12
+Z37 !s110 1692065100
+!i10b 1
+!s100 h4X]=`K03MI?2F[:Ll]]N1
+IHdBdBb0U<P3`_DEU;=oe52
+R2
+R14
+S1
+R15
+Z38 w1684817799
+Z39 8D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/fifo_dc/rtl/lscc_fifo_dc.v
+Z40 FD:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/fifo_dc/rtl/lscc_fifo_dc.v
+L0 270
+R6
+r1
+!s85 0
+31
+Z41 !s108 1692065100.000000
+Z42 !s107 D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ap6a00b.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_lav-at.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ut24cp.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ut24c.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_lfmxo5.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_jd5f00.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_jd5r00.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_lfcpnx.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_jd5d00.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_lfd2nx.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_dsp.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_iCE40UP.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/subtractor/rtl/lscc_subtractor.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_sub.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/rom/rtl/lscc_rom.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_rom.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ram_dq_be.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/ram_dq/rtl/lscc_ram_dq.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ram_dq.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/ram_dp_true/rtl/lscc_ram_dp_true.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ram_dp_true.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ram_dp_be.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/ram_dp/rtl/lscc_ram_dp.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_ram_dp.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/multiplier/rtl/lscc_multiplier.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_mult.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/mult_add_sub/rtl/lscc_mult_add_sub.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_multaddsub.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/mult_add_sub_sum/rtl/lscc_mult_add_sub_sum.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_multaddsubsum.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/mult_accumulate/rtl/lscc_mult_accumulate.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_mac.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/fifo_dc/rtl/lscc_fifo_dc.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_fifo_dc.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/fifo/rtl/lscc_fifo.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_fifo.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/ram_shift_reg/rtl/lscc_shift_register.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_distributed_shift_reg.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/distributed_rom/rtl/lscc_distributed_rom.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_distributed_rom.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/distributed_spram/rtl/lscc_distributed_spram.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_distributed_spram.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/distributed_dpram/rtl/lscc_distributed_dpram.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_distributed_dpram.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/counter/rtl/lscc_cntr.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_counter.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/complex_mult/rtl/lscc_complex_mult.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_complex_mult.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/adder/rtl/lscc_adder.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_add.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//../common/adder_subtractor/rtl/lscc_add_sub.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_addsub.v|D:/lscc/radiant/2023.2/ip/../ip/pmi//pmi_lifcl.v|D:/lscc/radiant/2023.2/ip/../ip/pmi/pmi.v|
+Z43 !s90 -reportprogress|300|-work|pmi|-f|D:/lscc/radiant/2023.2/ip/pmi/pmi.f|-sv|-mfcu|
+!i113 0
+R23
+Z44 !s92 -work pmi +incdir+D:/lscc/radiant/2023.2/ip/../ip/pmi/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/adder/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/adder_subtractor/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/complex_mult/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/counter/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/distributed_dpram/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/distributed_rom/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/ram_shift_reg/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/distributed_spram/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/avant/fifo/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/avant/fifo_dc/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/mult_accumulate/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/multiplier/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/mult_add_sub/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/avant/ram_dp/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/avant/ram_dp_true/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/avant/ram_dq/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/avant/rom/rtl/ +incdir+D:/lscc/radiant/2023.2/ip/../ip/common/subtractor/rtl/ -sv -mfcu -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R11
+vlscc_fifo_dc_hw_core
+R12
+R37
+!i10b 1
+!s100 ^l?3aD9gkQo[`gC@6Tled1
+I0V>0ga>7:mWM:i;nIl@4j2
+R2
+R14
+S1
+R15
+R38
+R39
+R40
+L0 2530
+R6
+r1
+!s85 0
+31
+R41
+R42
+R43
+!i113 0
+R23
+R44
+R11
+vlscc_fifo_dc_main
+R12
+R13
+!i10b 1
+!s100 Z^gMTQB9@>=AVfEag7GKe1
+IW25ON=FCmao4W4=9KT=?W2
+R2
+R14
+S1
+R15
+R34
+R35
+R36
+L0 419
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_fwft_fabric
+R12
+R13
+!i10b 1
+!s100 7A1l_UZoZY5__KPoEn;[31
+IDXL@AnSVQce<F8d9WiX^Y0
+R2
+R14
+S1
+R15
+R31
+R32
+R33
+L0 255
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_hw_core
+R12
+R13
+!i10b 1
+!s100 G6b>8hlZjlUXG7nJ<<9Y52
+IaWn7@dY6ZlWRQDZ3;=Zim3
+R2
+R14
+S1
+R15
+R31
+R32
+R33
+L0 2423
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_main
+R12
+R13
+!i10b 1
+!s100 CK3E6EXIJE>7oc=?B2CEo2
+IL4J^ZWSJ7BWm:N[1PeM`z3
+R2
+R14
+S1
+R15
+R31
+R32
+R33
+L0 404
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_mem
+R12
+R13
+!i10b 1
+!s100 =OkCePGOdmlKgZ;gc451W0
+I`SS^=76L8::J5Kg>?1KFF2
+R2
+R14
+S1
+R15
+R34
+R35
+R36
+L0 3884
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_mem_core
+R12
+R13
+!i10b 1
+!s100 F8SL:=:U8dzWA5F>?c:kO3
+IlmGj1::3OcFooNdT_lY?71
+R2
+R14
+S1
+R15
+R34
+R35
+R36
+L0 7168
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_fifo_mem_main
+R12
+R13
+!i10b 1
+!s100 CVlE5:XiXjD_gc0zdbT^`2
+I632H6DIeD^50R::S5[HY21
+R2
+R14
+S1
+R15
+R34
+R35
+R36
+L0 4304
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_hard_fifo
+R12
+R37
+!i10b 1
+!s100 MA4RKJG0f<0iR7C6[len`1
+IF`QaFOkeRVf<Nen0h]X[e3
+R2
+R14
+S1
+R15
+w1679360365
+8D:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/fifo/rtl/lscc_fifo.v
+FD:/lscc/radiant/2023.2/ip/../ip/pmi//../avant/fifo/rtl/lscc_fifo.v
+L0 625
+R6
+r1
+!s85 0
+31
+R41
+R42
+R43
+!i113 0
+R23
+R44
+R11
+vlscc_hard_fifo_dc
+R12
+R13
+!i10b 1
+!s100 `zQjZmcR]C:27`<54cGk;3
+IT@kC]RM2gl1eG4;4>jd^k1
+R2
+R14
+S1
+R15
+R31
+R32
+R33
+L0 628
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_mult_accumulate
+R12
+R13
+!i10b 1
+!s100 m^o3Z6Bl<HZ73KS=U7dmh3
+Iz7QI@mBE7D`jHO5TU[<@n3
+R2
+R14
+S1
+R15
+w1584523096
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_accumulate/rtl/lscc_mult_accumulate.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_accumulate/rtl/lscc_mult_accumulate.v
+R29
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_mult_add_sub
+R12
+R13
+!i10b 1
+!s100 `[XVWokm8NJmLaKzH`WoK1
+Ig_Wm<1Tj_U4oV?:KZYlnL2
+R2
+R14
+S1
+R15
+R26
+R27
+R28
+L0 209
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_mult_add_sub_sum
+R12
+R13
+!i10b 1
+!s100 j<EnWFJOOR9fXL8jb1Sh41
+IMm=7S_P6;@P9j:`Mn_;VR3
+R2
+R14
+S1
+R15
+w1584522940
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_add_sub_sum/rtl/lscc_mult_add_sub_sum.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/mult_add_sub_sum/rtl/lscc_mult_add_sub_sum.v
+R19
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_multiplier
+R12
+R13
+!i10b 1
+!s100 XH8Qb1S[Sle02J3Ci1hIh0
+II>U0CbA5W5J6@[CLN>zQO2
+R2
+R14
+S1
+R15
+R26
+R27
+R28
+L0 391
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_multiplier_dsp
+R12
+R13
+!i10b 1
+!s100 nc^30ePWTdB<oFc9^^bE51
+I1AD:`bG3:S8^dMZ6zICSf1
+R2
+R14
+S1
+R15
+R26
+R27
+R28
+L0 741
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_multiplier_lut
+R12
+R13
+!i10b 1
+!s100 [G@W;W_:dzdh2CWncljJU0
+IUTGYQI[26bQdE^bG]W;A53
+R2
+R14
+S1
+R15
+R26
+R27
+R28
+L0 505
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp
+R12
+R13
+!i10b 1
+!s100 Gnf=mGQi[GmdMCZj@il;P2
+I6coX:>2MbPjLe4;__Rb6^2
+R2
+R14
+S1
+R15
+Z45 w1664791360
+Z46 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dp/rtl/lscc_ram_dp.v
+Z47 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dp/rtl/lscc_ram_dp.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp_core
+R12
+R13
+!i10b 1
+!s100 NmN0i;7gMLQ=WoQ=i[TDo0
+IcMNFAgDYQl>kok`93Gi3c1
+R2
+R14
+S1
+R15
+R45
+R46
+R47
+L0 3341
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp_main
+R12
+R13
+!i10b 1
+!s100 iLR_z802bPh3JLioKn1gi3
+Ia1Q2fZ3BMCjCzASVDQ>dj0
+R2
+R14
+S1
+R15
+R45
+R46
+R47
+L0 477
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp_true
+R12
+R13
+!i10b 1
+!s100 VjhUHYIX`Y`Ee;Og`CiI12
+IT85[?Z66gfooh0K?O>YDK0
+R2
+R14
+S1
+R15
+Z48 w1664249149
+Z49 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dp_true/rtl/lscc_ram_dp_true.v
+Z50 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dp_true/rtl/lscc_ram_dp_true.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp_true_core
+R12
+R13
+!i10b 1
+!s100 8H6CzAa8lUeG9<iZ;bl_Y3
+I20KD4B;KgWIR^oB7H?Ldn0
+R2
+R14
+S1
+R15
+R48
+R49
+R50
+L0 3757
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp_true_inst
+R12
+R13
+!i10b 1
+!s100 B8]QNlGC9AL6kI568LQiO2
+IFf0izn[22VIgTSc@]JbM53
+R2
+R14
+S1
+R15
+R48
+R49
+R50
+L0 1093
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dp_true_main
+R12
+R13
+!i10b 1
+!s100 @4WZ<AH<iSHHDZiiTEYFn2
+I`ZGQB05j;2O;^W_=[Zz]U2
+R2
+R14
+S1
+R15
+R48
+R49
+R50
+L0 518
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dq
+R12
+R13
+!i10b 1
+!s100 gjJ3S;S7MoD`S<T=Schl00
+I7MlBiPc=SFlYaX?diW>?53
+R2
+R14
+S1
+R15
+Z51 w1658914015
+Z52 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dq/rtl/lscc_ram_dq.v
+Z53 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/ram_dq/rtl/lscc_ram_dq.v
+Z54 L0 56
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dq_core
+R12
+R13
+!i10b 1
+!s100 GDY0]E[D7SZi4[dznQoJW1
+ITizBAC5VgdFI8@hJgZT4<1
+R2
+R14
+S1
+R15
+R51
+R52
+R53
+L0 1942
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dq_inst
+R12
+R13
+!i10b 1
+!s100 H@Lz]XB9[6m2VjYPDMLJ<0
+IJoP1`z:I6jhhAefbM0[_L3
+R2
+R14
+S1
+R15
+R51
+R52
+R53
+L0 979
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_ram_dq_main
+R12
+R13
+!i10b 1
+!s100 i^D>8?U@:?71M4R9M>PY71
+IPeClhLCZZgnP8aEdi8VaC3
+R2
+R14
+S1
+R15
+R51
+R52
+R53
+Z55 L0 468
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_rom
+R12
+R13
+!i10b 1
+!s100 798oAc?`5DhS;IboR2M@:3
+IN99D;BZo9AOFS>5HinRIJ2
+R2
+R14
+S1
+R15
+Z56 w1658908245
+Z57 8D:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/rom/rtl/lscc_rom.v
+Z58 FD:/lscc/radiant/2022.1/ip/../ip/pmi//../avant/rom/rtl/lscc_rom.v
+R54
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_rom_inst
+R12
+R13
+!i10b 1
+!s100 T0<f=i6G76ddD:_dL5d9?1
+IhhQ<<:lX_`zmMm]9<RjEz3
+R2
+R14
+S1
+R15
+R56
+R57
+R58
+R55
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_rom_inst_core
+R12
+R13
+!i10b 1
+!s100 1Gk;_A]1C3>M5I06b6^>g0
+IJRbZJcMDIUI`TfDWW0@:B3
+R2
+R14
+S1
+R15
+R56
+R57
+R58
+L0 1429
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_shift_register
+R12
+R13
+!i10b 1
+!s100 2ZIG:AM0k<KDS?LDzVJn52
+Id=]P35gFEc[gP<SGz_nbB2
+R2
+R14
+S1
+R15
+w1665105914
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//../common/ram_shift_reg/rtl/lscc_shift_register.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//../common/ram_shift_reg/rtl/lscc_shift_register.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_soft_fifo
+R12
+R13
+!i10b 1
+!s100 5`01^c^[hH9=BSSC8R=6o3
+IgbC2WH`mIHFdA9V<m@BU>0
+R2
+R14
+S1
+R15
+R31
+R32
+R33
+L0 2880
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_soft_fifo_dc
+R12
+R13
+!i10b 1
+!s100 CaF5k6Lh@U4CzBKgjI;__1
+IHl`WE=?GN?W=S]>MBF4]e1
+R2
+R14
+S1
+R15
+R34
+R35
+R36
+L0 3044
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_subtractor
+R12
+R13
+!i10b 1
+!s100 VFOAV3LJ9O[]A@5;NoUda1
+I5X6L5eAoPd83[2Hg?VYJm0
+R2
+R14
+S1
+R15
+R16
+R17
+R18
+L0 755
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vlscc_write_through
+R12
+R13
+!i10b 1
+!s100 3z1L@`Hj[[UWK1MKW[^oQ1
+I^>=VP=hCdYi90<L`9@Pl91
+R2
+R14
+S1
+R15
+R48
+R49
+R50
+L0 984
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vMultAddSub
+R1
+!i10b 1
+!s100 <iXA6=2:kUM@zVkN;Yj6S0
+Ic9gMhLB3[[FmEjc3eHzGk3
+R2
+R0
+R3
+R4
+R5
+Z59 L0 135
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@mult@add@sub
+vMultSign
+R1
+!i10b 1
+!s100 7K:QDbB:SYL3TKD4ZjLB73
+I_QQ:?`_djKDc@2Pzn=6;n2
+R2
+R0
+R3
+R4
+R5
+L0 277
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@mult@sign
+vMultSignPipe
+R1
+!i10b 1
+!s100 R:?GJm1^D8m`fOQZk>EFY2
+IKL69>nZETURB:Pd;<0MT71
+R2
+R0
+R3
+R4
+R5
+L0 342
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@mult@sign@pipe
+vMultUnSign
+R1
+!i10b 1
+!s100 6;ALI3P0h:<k7^EbV=VDn2
+IRc<nZZ5JzKYZYU^dNnf750
+R2
+R0
+R3
+R4
+R5
+L0 289
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@mult@un@sign
+vMultUnSignPipe
+R1
+!i10b 1
+!s100 o;H1FC6i1?EzIB^7VPTg63
+I`VL:?2<JKd=Y_7BiDm26W3
+R2
+R0
+R3
+R4
+R5
+L0 301
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@mult@un@sign@pipe
+vpmi_add
+R12
+R13
+!i10b 1
+!s100 k9aUmY[nXUfF>^DcP?NDO2
+I=DfHYG3mUZK[T=2ZMZoU_0
+R2
+R14
+S1
+R15
+w1562800366
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_add.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_add.v
+Z60 L0 55
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_add_sign
+R1
+!i10b 1
+!s100 N7g=6mE`QeeF>ZXW@CLgb1
+I:;;XRmnTWDYTSYaI0JIaK1
+R2
+R0
+Z61 w1392901660
+Z62 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_add.v
+Z63 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_add.v
+L0 119
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_add_unsign
+R1
+!i10b 1
+!s100 [:G[[So?zGAA<z[>Xh8@90
+I3N6lmAOTZTe7_XSnC2I7;1
+R2
+R0
+R61
+R62
+R63
+L0 106
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_addsub
+R12
+R13
+!i10b 1
+!s100 z2=fVUAdaY`MjTgI6QRmT2
+IQJ@SHDM5d;gX^ekdz5TaY0
+R2
+R14
+S1
+R15
+w1562800400
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_addsub.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_addsub.v
+L0 45
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_addsub_sign
+R1
+!i10b 1
+!s100 [LgkSK4DU>[k`AjUBoUBJ0
+IDUzaHlZ=o:XLk1Q?EmVdf1
+R2
+R0
+Z64 w1392901658
+Z65 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_addsub.v
+Z66 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_addsub.v
+L0 129
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_addsub_unsign
+R1
+!i10b 1
+!s100 F5^SURlIL>X1m_<^SIICX3
+I2OK?S[hTjd=zT[SY=PH7z0
+R2
+R0
+R64
+R65
+R66
+L0 109
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_complex_mult
+R12
+R13
+!i10b 1
+!s100 j:=6_6K]89T_ZncJO@Wj]1
+IdALZeXLW3P_RBR0X80kPj1
+R2
+R14
+S1
+R15
+w1562800443
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_complex_mult.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_complex_mult.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_constant_mult
+R1
+!i10b 1
+!s100 _TChY<_hhhSV_>kgb^cGT2
+Ic9N::XldTURg=5DJ35Uzg2
+R2
+R0
+w1392901666
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_constant_mult.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_constant_mult.v
+R29
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_counter
+R12
+R13
+!i10b 1
+!s100 G_GX>?agKz9IaXzfbAT1L0
+ITY:E_G=^3^ILPNbe=<9AL2
+R2
+R14
+S1
+R15
+w1562800475
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_counter.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_counter.v
+L0 44
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_distributed_dpram
+R12
+R13
+!i10b 1
+!s100 dNcgMhzmGlFEc4<iX1X9l0
+I8SDYoo7]hg?doi@P9G>0H0
+R2
+R14
+S1
+R15
+Z67 w1565060115
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_dpram.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_dpram.v
+L0 48
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_distributed_dpram_noreg
+R1
+!i10b 1
+!s100 KQ@@M@_@M<5I>3=fAjkiJ0
+IYEC6h`m8dLjMOL3B;81>X1
+R2
+R0
+Z68 w1392901672
+Z69 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_dpram.v
+Z70 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_dpram.v
+L0 123
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_dpram_reg
+R1
+!i10b 1
+!s100 hzLWGF3BXn809K>Y@B1X;2
+IF?U;3emYHd8=RaGh:0V[12
+R2
+R0
+R68
+R69
+R70
+L0 248
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_rom
+R12
+R13
+!i10b 1
+!s100 JGCVX[Q4?O;V5FRd=7TMN3
+IVYo0T=0gHb;K7?E6hL?>o3
+R2
+R14
+S1
+R15
+R67
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_rom.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_rom.v
+Z71 L0 47
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_distributed_rom_noreg
+R1
+!i10b 1
+!s100 ^J6g;NdXe9UXYz`oiQHla3
+I1FjW6T^QmWMl<0WhkU^O]1
+R2
+R0
+Z72 w1392901674
+Z73 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_rom.v
+Z74 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_rom.v
+R59
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_rom_reg
+R1
+!i10b 1
+!s100 T;9PYz]@NMf>[_?KlUPaH2
+IVcIz0z[?HciW_[nA?bR?S2
+R2
+R0
+R72
+R73
+R74
+L0 244
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_shift_reg
+R12
+R13
+!i10b 1
+!s100 4E3gGz2^6EVbXYGD_gd2Q3
+IU@]LzXH?cmfJOZRaWQ1BY2
+R2
+R14
+S1
+R15
+w1665454172
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_shift_reg.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_shift_reg.v
+L0 46
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_distributed_shift_reg_fixed
+R1
+!i10b 1
+!s100 Hb;JoMgWbHYhJ73X0[^ji0
+I8?jfG62GJlVLJeU]LhW2=3
+R2
+R0
+Z75 w1392901678
+Z76 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_shift_reg.v
+Z77 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_shift_reg.v
+L0 133
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_shift_reg_lossless
+R1
+!i10b 1
+!s100 [bA9FNh1hNKWYR__0hoY[1
+Ih49G;bLEniba=>6`b9<>22
+R2
+R0
+R75
+R76
+R77
+L0 187
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_shift_reg_lossy
+R1
+!i10b 1
+!s100 0b[I6ohWM0IM2^;[>odQL0
+IQYolGC6:_9oLlIWRA<G191
+R2
+R0
+R75
+R76
+R77
+L0 253
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_spram
+R12
+R13
+!i10b 1
+!s100 3>7@T_UV^Bdn`Jf_7`T0K0
+ISZc3F3_FM6dSJ<VY_@MfU3
+R2
+R14
+S1
+R15
+R67
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_spram.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_distributed_spram.v
+R71
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_distributed_spram_noreg
+R1
+!i10b 1
+!s100 7F0bD_f]I94XnCehan9Ll2
+I?16mHaZi4a@2hQGdB]Qen1
+R2
+R0
+Z78 w1392901680
+Z79 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_spram.v
+Z80 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_distributed_spram.v
+L0 111
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_distributed_spram_reg
+R1
+!i10b 1
+!s100 K^<[MHf[=fGhdgAVzmb7^1
+IG6We_bFkUVK]bU4h?z7VD2
+R2
+R0
+R78
+R79
+R80
+L0 234
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_dsp
+R12
+R13
+!i10b 1
+!s100 fLgfA7kgbN]zeXTRI;fEE3
+I4QO9QR]KXLZabKPe^W;OL0
+R2
+R14
+S1
+R15
+w1536293095
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_dsp.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_dsp.v
+L0 61
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_dsp_casmultaddsub
+R1
+!i10b 1
+!s100 Z1n7m<:NRMCmWci6Vk[592
+ICUBf=[UPbF3o67`EJg@l<0
+R2
+R0
+w1392901682
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_casmultaddsub.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_casmultaddsub.v
+L0 82
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_dsp_mac
+R1
+!i10b 1
+!s100 5TR0h3IB8ETjEA53m`O^i0
+I:CXTRK:1FW6]k@]?Mjb=Z1
+R2
+R0
+w1392901686
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mac.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mac.v
+L0 77
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_dsp_mult
+R1
+!i10b 1
+!s100 bO?OG`nI1YInd_f@@LL943
+IHdGVf3?`Qn1GaZzIO==:?2
+R2
+R0
+w1392901692
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mult.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_mult.v
+L0 62
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_dsp_multaddsub
+R1
+!i10b 1
+!s100 CWM46<c[Ma<nYR5EjaU<53
+Ih6gcKMA<X?ZfkXQWEN2m]2
+R2
+R0
+w1392901690
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsub.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsub.v
+L0 85
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_dsp_multaddsubsum
+R1
+!i10b 1
+!s100 EU3ULO_Cg7^A6U:IR^U<20
+I^3>=f;anRIQL8AOiY^2=Z3
+R2
+R0
+w1392901688
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsubsum.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_multaddsubsum.v
+Z81 L0 113
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_dsp_preadd_slice
+R1
+!i10b 1
+!s100 nW=mM^;CaFAW@M5:hDJS]3
+I?QjEJFM4bXBiDGVb8;JDG1
+R2
+R0
+w1392883808
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_preadd_slice.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_dsp_preadd_slice.v
+R81
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_fifo
+R12
+R13
+!i10b 1
+!s100 NN2OK^kTJhPB>U5A?Cj4S2
+IDK5RLDBjNXg?><T]:BYon0
+R2
+R14
+S1
+R15
+w1640152481
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_fifo.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_fifo.v
+L0 49
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_fifo_dc
+R12
+R13
+!i10b 1
+!s100 W7<m``Q3f`W2QBMZ0n]nD0
+IINEaZ[KX<^^d5hg0eQgmY0
+R2
+R14
+S1
+R15
+w1640152663
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_fifo_dc.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_fifo_dc.v
+L0 52
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_mac
+R12
+R13
+!i10b 1
+!s100 `X8V=JQd2REQ?DcSEB<AP3
+IIb<FYE@:29R31On]<DB:_2
+R2
+R14
+S1
+R15
+w1562800511
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_mac.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_mac.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_mult
+R12
+R13
+!i10b 1
+!s100 nBZW>Sn?E_ndJVLe[YXfG2
+IFKHF2g]QJ]BCKDEjYYnm31
+R2
+R14
+S1
+R15
+w1562800537
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_mult.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_mult.v
+R54
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_multaddsub
+R12
+R13
+!i10b 1
+!s100 ?DGPmEO5T3`>JHGR7NCV42
+IbUYfnFK_3f?3=]UTHG6M10
+R2
+R14
+S1
+R15
+w1562800566
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_multaddsub.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_multaddsub.v
+R30
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_multaddsubsum
+R12
+R13
+!i10b 1
+!s100 lX5C>@`iG`fQC>hI6GOV00
+IeAIO_`?`nmMgFKOUE0UB^0
+R2
+R14
+S1
+R15
+w1562800615
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_multaddsubsum.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_multaddsubsum.v
+R25
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_pll
+R1
+!i10b 1
+!s100 PR]ecG6@9RWgakbzE_dOO0
+IXkl5c5C2:`BA7N7MUMHki1
+R2
+R0
+w1392901714
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll.v
+R71
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_pll_fp
+R1
+!i10b 1
+!s100 KR1lPbUc;J3>1^z?1fBZ53
+IW`PlZ]23XG@EBO4_PdJU13
+R2
+R0
+w1392901712
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll_fp.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_pll_fp.v
+R71
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_ram_dp
+R12
+R13
+!i10b 1
+!s100 lB8:hL[4a@7I?_YH>kIRJ3
+IPBOeG[E60>?LYLg1b;8I43
+R2
+R14
+S1
+R15
+w1644979873
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp.v
+L0 53
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_ram_dp_be
+R12
+R13
+!i10b 1
+!s100 5C9<jWD8g_fOlVhNXVKVG0
+IIMC;Zko7m1ig=oA0Pz=8A1
+R2
+R14
+S1
+R15
+w1644980856
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp_be.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp_be.v
+Z82 L0 54
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_ram_dp_true
+R12
+R13
+!i10b 1
+!s100 @4USWlfmGic<QeP5L[;4g1
+IS2HO9;>dkJ<V51JjmP?@G3
+R2
+R14
+S1
+R15
+w1644979914
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp_true.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dp_true.v
+R82
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_ram_dp_true_be
+Z83 !s110 1614908787
+!i10b 1
+!s100 hiU]V<6A`hnT2nAN;j1[Z2
+IbiMOZ<IHm=1fo2o1]AhXY2
+R2
+R0
+w1392901720
+8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_true_be.v
+FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_ram_dp_true_be.v
+R82
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_ram_dq
+R12
+R13
+!i10b 1
+!s100 ^PClQNefNDN^j`e57_S@A3
+Im62U=H?2>]jmdg[n7Picz0
+R2
+R14
+S1
+R15
+w1644979923
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dq.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dq.v
+Z84 L0 50
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_ram_dq_be
+R12
+R13
+!i10b 1
+!s100 1X0d3B8[=6JL[D6]JhnTE0
+Ib>HhURZUmbIlj?ZB46T3a0
+R2
+R14
+S1
+R15
+w1644979933
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dq_be.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_ram_dq_be.v
+R84
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_rom
+R12
+R13
+!i10b 1
+!s100 7cd0Dj?SonYiiXVB1AFFa2
+I8]:bczZfF;b0@Ec_3D>VT1
+R2
+R14
+S1
+R15
+w1644979944
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_rom.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_rom.v
+R84
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_sub
+R12
+R13
+!i10b 1
+!s100 RQJV^nV9IgOYo;`=I<;2_3
+IPAGC46U0P2j4`gaf1KXKK2
+R2
+R14
+S1
+R15
+w1562800650
+8D:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_sub.v
+FD:/lscc/radiant/2022.1/ip/../ip/pmi//pmi_sub.v
+R60
+R6
+r1
+!s85 0
+31
+R20
+R21
+R22
+!i113 0
+R23
+R24
+R11
+vpmi_sub_sign
+R83
+!i10b 1
+!s100 GFkzjQK^FZU4doALQW[^R0
+IOHQ]OP6_l@0c>=A6BV?4;3
+R2
+R0
+Z85 w1392901734
+Z86 8D:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_sub.v
+Z87 FD:/lscc/diamond/3.11_x64/cae_library/simulation/verilog/pmi/pmi_sub.v
+L0 122
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vpmi_sub_unsign
+R83
+!i10b 1
+!s100 7]D3d5iZ_^_?[aGCbPaHT2
+I:c[DngF6R1NH^HQob@NMA0
+R2
+R0
+R85
+R86
+R87
+L0 105
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+vSubSign
+R1
+!i10b 1
+!s100 ?n;Q>lL8A7hHo@]9F6>e91
+I=8LEPRUfbKOY@eEg5VAFi1
+R2
+R0
+R3
+R4
+R5
+L0 410
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@sub@sign
+vSubUnSign
+R1
+!i10b 1
+!s100 ZM]cVSTK3F^mDXSM0NPT93
+I=g8Nf[`nkilHFzU9HW8oE0
+R2
+R0
+R3
+R4
+R5
+L0 421
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 0
+R10
+R11
+n@sub@un@sign

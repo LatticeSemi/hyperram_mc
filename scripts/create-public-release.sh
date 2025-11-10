@@ -41,12 +41,14 @@ PUBLIC_DIRS=(
     "rtl/"
     "doc/"
     "plugin/"
+    "testbench/"
+    "sim/"
+    "example_design/"
 )
 
 PUBLIC_FILES=(
     "README.md"
     "QUICKSTART.md"
-    "soc/"
     "metadata.xml"
     "bus_interface.xml"
     "memory_map.xml"
@@ -59,6 +61,10 @@ EXCLUDE_PATTERNS=(
     "INTERNAL_*"
     "TODO*"
     ".DS_Store"
+    # Note: Simulation artifacts (*.wlf, *.log, transcript, work/) are already
+    # excluded by .gitignore and won't be in the repository
+    # Note: Prebuilt libraries (sim/pmi/, sim/lfmxo5/, sim/uaplatform/) and
+    # bht_ini.bin are kept in git and will be included in releases
 )
 
 # -----------------------------------------------------------------------------

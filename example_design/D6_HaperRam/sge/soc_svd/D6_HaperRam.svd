@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+    <device schemaVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD.xsd" >
+      <vendor>Latticsemi.com</vendor>                                       <!-- device vendor name -->
+      <vendorID>Latticesemi</vendorID>                                        <!-- device vendor short name -->
+      <name>LFMXO5_25</name>                                        <!-- name of part-->
+      <series>LFMXO5</series>                                         <!-- device series the device belongs to -->
+      <version>1.0</version>                                          <!-- version of this description, adding CMSIS-SVD 1.1 tags -->
+      <description>D6_HaperRam</description>
+
+      <addressUnitBits>8</addressUnitBits>
+      <width>32</width>
+      <size>32</size>
+      <access>read-write</access>
+      <resetValue>0x00000000</resetValue>
+      <resetMask>0xFFFFFFFF</resetMask>
+
+      <peripherals>
+          <peripheral>
+          <name>cpu0_inst</name>
+          <version>2.5.0</version>
+          <baseAddress>0xF2000000</baseAddress>
+          <groupName>riscv_rtos</groupName>
+          <description></description>
+
+          <addressBlock>
+            <offset>0x0</offset>
+            <size>0x00100000</size>
+            <usage>registers</usage>
+          </addressBlock>
+
+          <registers>
+          
+          </registers>
+    </peripheral>
+    <peripheral>
+          <name>hram_controller0_inst</name>
+          <version>1.0.0</version>
+          <baseAddress>0x41000000</baseAddress>
+          <groupName>hyperram_mc</groupName>
+          <description></description>
+
+          <addressBlock>
+            <offset>0x0</offset>
+            <size>0x00001000</size>
+            <usage>registers</usage>
+          </addressBlock>
+
+          <registers>
+          
+          </registers>
+    </peripheral>
+    <peripheral>
+          <name>sysmem0_inst</name>
+          <version>2.4.0</version>
+          <baseAddress>0x10000000</baseAddress>
+          <groupName>system_memory</groupName>
+          <description></description>
+
+          <addressBlock>
+            <offset>0x0</offset>
+            <size>0x00007FFD</size>
+            <usage>registers</usage>
+          </addressBlock>
+
+          <registers>
+          
+          </registers>
+    </peripheral>
+    <peripheral>
+          <name>system_cache0_inst</name>
+          <version>2.0.0</version>
+          <baseAddress>0x40000000</baseAddress>
+          <groupName>system_cache</groupName>
+          <description></description>
+
+          <addressBlock>
+            <offset>0x0</offset>
+            <size>0x00001000</size>
+            <usage>registers</usage>
+          </addressBlock>
+
+          <registers>
+          
+          </registers>
+    </peripheral>
+
+      </peripherals>
+    </device>

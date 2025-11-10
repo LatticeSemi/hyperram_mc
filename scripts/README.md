@@ -129,12 +129,14 @@ release/vX.Y.Z.## branch contains:
 ├── rtl/                 # All RTL files
 ├── doc/                 # Documentation
 ├── plugin/              # Plugin scripts
+├── testbench/           # Testbench files
+├── sim/                 # Simulation scripts, memory init files, prebuilt libraries
+├── example_design/      # Example Radiant/Propel projects
 ├── metadata.xml         # IP metadata (includes version)
 ├── bus_interface.xml    # Bus interface definitions
 ├── memory_map.xml       # Memory map definitions
 ├── README.md            # Project README
 ├── QUICKSTART.md        # Quick start guide (when created)
-├── soc/                 # Integration examples (when created)
 └── LICENSE              # License file
 ```
 
@@ -145,6 +147,17 @@ release/vX.Y.Z.## branch contains:
 - `hooks/`
 - Any `INTERNAL_*` files
 - Backup files (`*.bak`, `*~`)
+
+**Excluded from git (via .gitignore):**
+- Simulation artifacts (`*.wlf`, `*.log`, `transcript`)
+- Compiled working directory (`work/`)
+- These files are never committed to git, so they won't be in releases
+
+**Included in sim/ directory (committed to git and released):**
+- ✅ `bht_ini.bin` - Required by cpu0.v during simulation
+- ✅ Prebuilt libraries in `sim/lfmxo5/`, `sim/pmi/`, `sim/uaplatform/` (all compiled artifacts)
+- ✅ Simulation scripts (`.do`, `.f`)
+- ✅ Memory init files (`.mem`, `.bin`, `.txt`)
 
 ### Automatic Revision History Updates
 

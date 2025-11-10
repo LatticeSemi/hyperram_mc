@@ -3,6 +3,7 @@
 *.out
 *.log
 *.wlf
+transcript
 
 # Waveform database files
 *.dump
@@ -15,6 +16,13 @@
 **/sim/*.vcd
 **/sim/*.log
 work/
+
+# Keep prebuilt libraries in sim/ (required for simulation)
+# These should NOT be ignored:
+# !sim/pmi/**
+# !sim/lfmxo5/**
+# !sim/uaplatform/**
+# !sim/bht_ini.bin
 
 # Synthesis and implementation outputs
 **/syn/output/
@@ -33,6 +41,16 @@ vivado*.log
 *.rdf
 *.ldf
 *.sty
+
+# Lattice Radiant output artifacts in example_design/
+example_design/**/*.html
+example_design/**/*.sty
+example_design/**/*.tcl
+example_design/**/*.ini
+example_design/**/*.rdf
+example_design/**/*.xml
+example_design/**/*.bin
+example_design/**/impl_1/
 
 # Verilator artifacts
 verilated*

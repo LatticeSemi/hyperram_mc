@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="LFCPNX" date="2024 03 28 21:53:11" device="LFCPNX-100" gen_platform="Propel" generator="ipgen" library="ip" module="uart" name="s1_apb_uart" package="LFG672" source_format="Verilog" speed="9_High-Performance_1.0V" vendor="latticesemi.com" version="1.3.0">
+ <Package>
+  <File modified="2024 03 28 21:53:11" name="rtl/s1_apb_uart_bb.v" type="black_box_verilog"/>
+  <File modified="2024 03 28 21:53:11" name="s1_apb_uart.cfg" type="cfg"/>
+  <File modified="2024 03 28 21:53:11" name="misc/s1_apb_uart_tmpl.v" type="template_verilog"/>
+  <File modified="2024 03 28 21:53:11" name="misc/s1_apb_uart_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2024 03 28 21:53:11" name="rtl/s1_apb_uart.v" type="top_level_verilog"/>
+  <File modified="2024 03 28 21:53:11" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2024 03 28 21:53:11" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2024 03 28 21:53:11" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2024 03 28 21:53:11" name="design.xml" type="IP-XACT_design"/>
+  <File modified="2022 11 14 00:42:05" name="testbench/lscc_lmmi2apb.v" type="testbench_verilog"/>
+  <File modified="2022 11 14 00:42:05" name="testbench/lscc_uart_model.v" type="testbench_verilog"/>
+  <File modified="2022 11 14 00:42:05" name="testbench/tb_lmmi_mst.v" type="testbench_verilog"/>
+  <File modified="2022 11 14 00:42:05" name="testbench/tb_top.v" type="testbench_verilog"/>
+  <File modified="2022 11 14 00:42:05" name="testbench/uart_rx.v" type="testbench_verilog"/>
+  <File modified="2022 11 14 00:42:05" name="testbench/uart_tx.v" type="testbench_verilog"/>
+  <File modified="2022 11 14 00:42:05" name="driver/uart.c" type="driver_source"/>
+  <File modified="2022 11 14 00:42:05" name="driver/uart.h" type="driver_header"/>
+  <File modified="2022 11 14 00:42:05" name="driver/uart.xml" type="driver_metadata"/>
+ </Package>
+</RadiantModule>

@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5f00" date="2025 07 09 15:42:37" device="LFMXO5-25" device_int="jd5f25" display_module="RISC-V RX" display_vendor="latticesemi.com" family="LFMXO5" gen_platform="Propel" gen_platform_version="2025.2.0.2505160256" generator="ipgen" library="ip" module="riscv_rtos" name="cpu0" operation="Commercial" package="BBG400" package_int="BBG400" partnumber="LFMXO5-25-8BBG400C" source_format="Verilog" speed="8_High-Performance_1.0V" speed_int="11" vendor="latticesemi.com" version="2.5.0">
+ <Package>
+  <File modified="2025 07 09 15:42:36" name="rtl/cpu0_bb.sv" type="black_box_verilog"/>
+  <File modified="2025 07 09 15:42:36" name="cpu0.cfg" type="cfg"/>
+  <File modified="2025 07 09 15:42:36" name="misc/cpu0_tmpl.sv" type="template_verilog"/>
+  <File modified="2025 07 09 15:42:36" name="misc/cpu0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 07 09 15:42:37" name="rtl/cpu0.sv" type="top_level_system_verilog"/>
+  <File modified="2025 07 09 15:42:37" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2025 07 09 15:42:37" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2025 07 09 15:42:37" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 07 09 15:42:37" name="design.xml" type="IP-XACT_design"/>
+  <File modified="2024 08 21 03:16:08" name="testbench/bht_ini.bin" type="testbench"/>
+  <File modified="2024 08 21 03:16:08" name="testbench/bht_ini_p.bin" type="testbench"/>
+  <File modified="2024 08 21 03:16:08" name="testbench/cache_update.py" type="testbench"/>
+  <File modified="2025 07 09 07:42:37" name="testbench/cpu0.yaml" type="testbench"/>
+  <File modified="2024 08 21 03:16:08" name="testbench/reginit.bin" type="testbench"/>
+  <File modified="2024 08 21 03:16:04" name="driver/cache.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/cache.h" type="driver_header"/>
+  <File modified="2024 10 30 06:04:36" name="driver/clint.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/clint.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/cpu.h" type="driver_header"/>
+  <File modified="2025 03 24 01:20:03" name="driver/cxu.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/debug.c" type="driver_source"/>
+  <File modified="2025 03 24 01:20:03" name="driver/debug.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/entry.S" type="driver"/>
+  <File modified="2024 08 21 03:16:04" name="driver/exception.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/exception.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/exit.c" type="driver_source"/>
+  <File modified="2024 10 30 06:04:36" name="driver/hal.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/interrupt.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/interrupt.h" type="driver_header"/>
+  <File modified="2025 03 24 01:20:03" name="driver/iob.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/iob.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/led.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/led.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/local_uart.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/local_uart.h" type="driver_header"/>
+  <File modified="2024 10 30 06:04:36" name="driver/plic.c" type="driver_source"/>
+  <File modified="2024 10 30 06:04:36" name="driver/plic.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/pmp.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/pmp.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:04" name="driver/reg_access.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:04" name="driver/reg_access.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:05" name="driver/riscv.h" type="driver_header"/>
+  <File modified="2025 03 24 01:20:03" name="driver/soft_reset.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:05" name="driver/start.S" type="driver"/>
+  <File modified="2024 08 21 03:16:05" name="driver/trap.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:05" name="driver/trap.h" type="driver_header"/>
+  <File modified="2024 08 21 03:16:05" name="driver/util.c" type="driver_source"/>
+  <File modified="2024 08 21 03:16:05" name="driver/util.h" type="driver_header"/>
+  <File modified="2024 10 30 06:04:37" name="driver/watchdog_timer.c" type="driver_source"/>
+  <File modified="2024 10 30 06:04:37" name="driver/watchdog_timer.h" type="driver_header"/>
+ </Package>
+</RadiantModule>

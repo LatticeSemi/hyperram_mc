@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5f00" date="2025 10 21 16:33:48" device="LFMXO5-25" device_int="jd5f25" display_module="Hyperram Memory Controller" display_vendor="latticesemi.com" family="LFMXO5" gen_platform="Propel" gen_platform_version="2025.2.0.2505160256" generator="ipgen" library="ip" module="hyperram_mc" name="hram_controller0" operation="Commercial" package="BBG400" package_int="BBG400" partnumber="LFMXO5-25-8BBG400C" source_format="Verilog" speed="8_High-Performance_1.0V" speed_int="11" vendor="latticesemi.com" version="1.0.0">
+ <Package>
+  <File modified="2025 10 21 16:33:48" name="rtl/hram_controller0_bb.v" type="black_box_verilog"/>
+  <File modified="2025 10 21 16:33:48" name="hram_controller0.cfg" type="cfg"/>
+  <File modified="2025 10 21 16:33:48" name="misc/hram_controller0_tmpl.v" type="template_verilog"/>
+  <File modified="2025 10 21 16:33:48" name="misc/hram_controller0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 10 21 16:33:48" name="rtl/hram_controller0.v" type="top_level_verilog"/>
+  <File modified="2025 10 21 16:33:48" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2025 10 21 16:33:48" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2025 10 21 16:33:48" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 10 21 16:33:48" name="design.xml" type="IP-XACT_design"/>
+ </Package>
+</RadiantModule>

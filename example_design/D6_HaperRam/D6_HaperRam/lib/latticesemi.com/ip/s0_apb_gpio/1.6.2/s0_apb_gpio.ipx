@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="LFCPNX" date="2024 03 28 21:51:48" device="LFCPNX-100" gen_platform="Propel" generator="ipgen" library="ip" module="gpio" name="s0_apb_gpio" package="LFG672" source_format="Verilog" speed="9_High-Performance_1.0V" vendor="latticesemi.com" version="1.6.2">
+ <Package>
+  <File modified="2024 03 28 21:51:48" name="rtl/s0_apb_gpio_bb.v" type="black_box_verilog"/>
+  <File modified="2024 03 28 21:51:48" name="s0_apb_gpio.cfg" type="cfg"/>
+  <File modified="2024 03 28 21:51:48" name="misc/s0_apb_gpio_tmpl.v" type="template_verilog"/>
+  <File modified="2024 03 28 21:51:48" name="misc/s0_apb_gpio_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2024 03 28 21:51:48" name="rtl/s0_apb_gpio.v" type="top_level_verilog"/>
+  <File modified="2024 03 28 21:51:48" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2024 03 28 21:51:48" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2024 03 28 21:51:48" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2024 03 28 21:51:48" name="design.xml" type="IP-XACT_design"/>
+  <File modified="2023 10 23 06:17:39" name="testbench/lscc_lmmi2apb.v" type="testbench_verilog"/>
+  <File modified="2023 10 23 06:17:39" name="testbench/tb_top.v" type="testbench_verilog"/>
+  <File modified="2023 10 23 06:17:39" name="driver/gpio.c" type="driver_source"/>
+  <File modified="2023 10 23 06:17:39" name="driver/gpio.h" type="driver_header"/>
+  <File modified="2023 10 23 06:17:39" name="driver/gpio.xml" type="driver_metadata"/>
+  <File modified="2023 10 23 06:17:39" name="driver/gpio_regs.h" type="driver_header"/>
+ </Package>
+</RadiantModule>

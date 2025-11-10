@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5d00" date="2024 06 07 18:54:05" device="LFCPNX-100" device_int="jd5d80" family="LFCPNX" gen_platform="Propel" gen_platform_version="2024.1.2406070012_p" generator="ipgen" library="sim_model" module="UART_Model" name="uart_model1" operation="Commercial" package="ASG256" package_int="ASG256" partnumber="LFCPNX-100-9ASG256C" source_format="Verilog" speed="9_High-Performance_1.0V" speed_int="12" vendor="latticesemi.com" version="1.0.0">
+ <Package>
+  <File modified="2024 06 07 18:54:05" name="rtl/uart_model1_bb.v" type="black_box_verilog"/>
+  <File modified="2024 06 07 18:54:05" name="uart_model1.cfg" type="cfg"/>
+  <File modified="2024 06 07 18:54:05" name="misc/uart_model1_tmpl.v" type="template_verilog"/>
+  <File modified="2024 06 07 18:54:05" name="misc/uart_model1_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2024 06 07 18:54:05" name="rtl/uart_model1.v" type="top_level_verilog"/>
+  <File modified="2024 06 07 18:54:05" name="rtl/uart_model1_globals.v" type="core_verilog"/>
+  <File modified="2020 09 23 13:55:04" name="rtl/uart_model.v" type="core_verilog"/>
+  <File modified="2023 07 06 10:09:30" name="rtl/uart_rx.v" type="core_verilog"/>
+  <File modified="2020 09 03 14:09:44" name="rtl/uart_tx.v" type="core_verilog"/>
+  <File modified="2024 06 07 18:54:05" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2024 06 07 18:54:05" name="design.xml" type="IP-XACT_design"/>
+  <File modified="2024 06 07 18:54:05" name="rtl/uart_model.v" type="core_verilog"/>
+  <File modified="2024 06 07 18:54:05" name="rtl/uart_rx.v" type="core_verilog"/>
+  <File modified="2024 06 07 18:54:05" name="rtl/uart_tx.v" type="core_verilog"/>
+ </Package>
+</RadiantModule>
