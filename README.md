@@ -21,7 +21,7 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
 
 | Parameter | Value |
 |-----------|-------|
-| **FPGA Family** | Nexus (LFMXO5) |
+| **FPGA Family** | Nexus |
 | **Target Device** | LFMXO5-65T-8BBG484C |
 | **Device Speed Grade** | 8 |
 | **Package** | BBG484C |
@@ -35,7 +35,7 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
 |----------|-------|------------|--------|
 | HyperRAM 1.0 | 333 Mbps | x8 | ✓ Supported |
 | HyperRAM 2.0 | 400 Mbps | x8 | ✓ Supported |
-| HyperRAM 3.0 | 800 Mbps | x16 (max clk 400MHz) | See notes |
+| HyperRAM 3.0 | 800 Mbps | x16 (max clk 400MHz) | ✗ Not supported |
 
 ### Memory Configuration
 
@@ -77,10 +77,10 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
 | Test Type | Status | Details |
 |-----------|--------|---------|
 | **RTL Simulation** | ✓ Passed | Functional verification complete |
-| **Hardware Testing** | ✓ Passed | Validated on J10 board |
+| **Hardware Testing** | ✓ Passed | Validated on LFMXO5-65T-EVN |
 | **STA Timing** | ✓ Met | Static timing analysis passed |
 
-**Test Board:** J10 board
+**Test Board:** LFMXO5-65T-EVN
 
 ## Directory Structure
 
