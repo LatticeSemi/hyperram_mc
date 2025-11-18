@@ -51,6 +51,8 @@ Use this flow if you're working with the repository as-is without regenerating t
    do qsim.do
    ```
 
+   **Note:** After approximately 553ms, the simulation will display "test pass!" indicating successful completion. You must manually terminate the simulation at this point, as it will continue running indefinitely if not stopped.
+
 4. **View the waveforms** in the QuestaSim GUI to analyze the simulation results.
 
 ---
@@ -105,6 +107,8 @@ If you have regenerated the HyperRAM IP using Propel, follow these additional st
    ```tcl
    do qsim.do
    ```
+
+   **Note:** After approximately 553ms, the simulation will display "test pass!" indicating successful completion. You must manually terminate the simulation at this point, as it will continue running indefinitely if not stopped.
 
 7. **View the waveforms** to verify correct operation.
 
