@@ -51,6 +51,7 @@ example_design/**/*.rdf
 example_design/**/*.xml
 example_design/**/*.bin
 example_design/**/impl_1/
+!example_design/**/impl_1/*.pdc
 
 # Verilator artifacts
 verilated*
