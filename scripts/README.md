@@ -4,7 +4,7 @@ This directory contains automation scripts for IP release management.
 
 ## Release Structure Overview
 
-This script implements a **three-remote release strategy** where one local repository pushes to development, staging, and public remotes:
+This script implements a **two-remote release strategy** where one local repository pushes to development and public remotes:
 
 ```
 ┌────────────────────────────────────────────────┐
@@ -12,35 +12,31 @@ This script implements a **three-remote release strategy** where one local repos
 │                                                │
 │   Branches:                                    │
 │   • main (active development)                  │
-│   • develop                                    │
 │   • feature/new-feature                        │
-│   • release/v1.0.0 (for public)                │
-│   • staging/v1.0.0.01 (for internal)           │
+│   • release/v1.0.0 (for external release)      │
 └────────────────────────────────────────────────┘
-       │                │                 │
-       │                │                 │
-       ↓                ↓                 ↓
-┌─────────────┐  ┌──────────────┐  ┌─────────────┐
-│   ORIGIN    │  │   STAGING    │  │   PUBLIC    │
-│ (private)   │  │  (private)   │  │  (public)   │
-│             │  │              │  │             │
-│ • main      │  │ • main ──────┼─→│ • release   │
-│ • develop   │  │ • tags       │  │ • tags      │
-│ • feature/* │  │              │  │             │
-│ ALL history │  │ STAGING only │  │ PUBLIC only │
-└─────────────┘  └──────────────┘  └─────────────┘
+       │                          │
+       │                          │
+       ↓                          ↓
+┌─────────────┐          ┌─────────────┐
+│   ORIGIN    │          │   PUBLIC    │
+│ (private)   │          │  (public)   │
+│             │          │             │
+│ • main      │          │ • release   │
+│ • feature/* │          │ • tags      │
+│ ALL history │          │             │
+└─────────────┘          └─────────────┘
 ```
 
 **Key Points:**
 - **One local repository** - All work happens in one place
-- **Three remotes:**
-  - `origin` - Private development repo (all branches, full history)
-  - `staging` - Private internal staging repo (internal releases only)
-  - `public` - Public release repo (public releases only)
+- **Two remotes:**
+  - `origin` - Private development repo (main branch for development, full history)
+  - `public` - Public release repo (release branch for external releases)
 - **Branch separation:**
-  - `release/*` branches → pushed to `public` remote (major/minor/bugfix)
-  - `staging/*` branches → pushed to `staging` remote (internal releases)
-- **Clean history** - Both staging and public repos have clean, isolated history
+  - `main` branch → development work
+  - `release/*` branches → pushed to `public` remote (major/minor/bugfix releases)
+- **Clean history** - Public repo has clean, isolated history
 
 ---
 
@@ -52,80 +48,63 @@ Automated script for creating public releases with version management.
 
 - ✅ **Automatic version incrementing** based on release type
 - ✅ **Selective file inclusion** - only public files in release
-- ✅ **Version format: X.Y.Z.##**
+- ✅ **Version format: X.Y.Z**
   - X = Major (breaking changes)
   - Y = Minor (new features)
   - Z = Bugfix (fixes only)
-  - ## = Internal counter (2 digits)
 - ✅ **Orphan branches** - no shared history with private repo
 - ✅ **Automatic metadata.xml version updates**
-- ✅ **Automatic doc/introduction.html revision history updates** for external releases
+- ✅ **Automatic IP Release Notes.md revision history updates**
+- ✅ **Tag-based releases** - select a specific tag or commit to base release on
 - ✅ **Safety checks** - prevents accidental releases with uncommitted changes
 - ✅ **Interactive confirmation** before committing
 
 ### Usage
 
-**For External Releases (major/minor/bugfix):**
 ```bash
-./scripts/create-public-release.sh <type> "<message>" "<revision_description>"
-```
-
-**For Internal Releases:**
-```bash
-./scripts/create-public-release.sh internal "<message>"
+./scripts/create-public-release.sh <type> "<message>" "<revision_description>" ["<software_version>"]
 ```
 
 **Release Types:**
 
 | Type | Increments | Use Case | Tag | Target Remote |
 |------|------------|----------|-----|---------------|
-| `major` | X.0.0.00 | Breaking changes | vX.0.0 | `public` |
-| `minor` | 0.Y.0.00 | New features (backward compatible) | v0.Y.0 | `public` |
-| `bugfix` | 0.0.Z.00 | Bug fixes only | v0.0.Z | `public` |
-| `internal` | 0.0.0.## | Internal testing | v0.0.0.## | `staging` |
+| `major` | X.0.0 | Breaking changes | vX.0.0 | `public` |
+| `minor` | 0.Y.0 | New features (backward compatible) | v0.Y.0 | `public` |
+| `bugfix` | 0.0.Z | Bug fixes only | v0.0.Z | `public` |
 
 ### Examples
 
 **Major Release:**
 ```bash
-./scripts/create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance and reduced latency"
+./scripts/create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance and reduced latency" "2025.2"
 ```
-- Current: 1.2.3.05 → New: 2.0.0.00
+- Current: 1.2.3 → New: 2.0.0
 - Tag: v2.0.0
 - Revision history updated with: "Major redesign for improved performance and reduced latency"
 
 **Minor Release:**
 ```bash
-./scripts/create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
+./scripts/create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices" "2025.2"
 ```
-- Current: 1.2.3.05 → New: 1.3.0.00
+- Current: 1.2.3 → New: 1.3.0
 - Tag: v1.3.0
 - Revision history updated with: "Added support for dual-rank HyperRAM devices"
 
 **Bugfix Release:**
 ```bash
-./scripts/create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation in high-speed mode"
+./scripts/create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation in high-speed mode" "2025.1.1"
 ```
-- Current: 1.2.3.05 → New: 1.2.4.00
+- Current: 1.2.3 → New: 1.2.4
 - Tag: v1.2.4
 - Revision history updated with: "Fixed read timing violation in high-speed mode"
 
-**Internal Release:**
-```bash
-./scripts/create-public-release.sh internal "Internal test build"
-```
-- Current: 1.2.3.05 → New: 1.2.3.06
-- Tag: v1.2.3.06
-- No revision history update (internal only)
-- Branch: staging/v1.2.3.06
-- Target: staging remote (private only, NOT pushed to public)
-
 ### What Gets Released
 
-The script includes **only these files/directories** in public releases:
+The script includes **only these files/directories** in releases:
 
 ```
-release/vX.Y.Z.## branch contains:
+release/vX.Y.Z branch contains:
 ├── rtl/                 # All RTL files
 ├── doc/                 # Documentation
 ├── plugin/              # Plugin scripts
@@ -161,45 +140,23 @@ release/vX.Y.Z.## branch contains:
 
 ### Automatic Revision History Updates
 
-For **external releases only** (major/minor/bugfix), the script automatically updates the revision history in `doc/introduction.html`:
+The script automatically updates the revision history in `IP Release Notes.md` for all releases:
 
 **What happens:**
 1. You provide a revision description when running the script (3rd parameter)
-2. Script automatically adds a new row to the revision history table
-3. New row contains: version number + your description
-4. Inserted at the TOP of the table (most recent first)
+2. Script automatically adds a new version section to the release notes
+3. New section contains: version number, software version, and your description (formatted as bullet points)
+4. Inserted at the TOP of the release notes (most recent first)
 
 **Example:**
 
 Running this command:
 ```bash
-./scripts/create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
+./scripts/create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices; Improved timing" "2025.2"
 ```
 
-Updates `doc/introduction.html` from:
-```html
-<H2>Revision History</H2>
-<TABLE cellpadding="10">
-  <TR>
-    <TD><B>1.0.0</B></TD> <TD>Initial release.</TD>
-  </TR>
-</TABLE>
-```
+Updates `IP Release Notes.md` with a new version section containing the changes formatted as bullet points.
 
-To:
-```html
-<H2>Revision History</H2>
-<TABLE cellpadding="10">
-  <TR>
-    <TD><B>1.1.0</B></TD> <TD>Added support for dual-rank HyperRAM devices</TD>
-  </TR>
-  <TR>
-    <TD><B>1.0.0</B></TD> <TD>Initial release.</TD>
-  </TR>
-</TABLE>
-```
-
-**Note:** Internal releases do NOT update the revision history (they're not published).
 
 ### Workflow
 
@@ -212,32 +169,38 @@ To:
 
 2. **Run Script:**
    ```bash
-   # For external release (major/minor/bugfix) - include revision description
-   ./scripts/create-public-release.sh minor "Added new feature X" "Added feature X for improved functionality"
-
-   # For internal release - no revision description needed
-   ./scripts/create-public-release.sh internal "Internal test build"
+   # For external release (major/minor/bugfix) - include revision description and software version
+   ./scripts/create-public-release.sh minor "Added new feature X" "Added feature X for improved functionality" "2025.2"
    ```
 
-3. **Review:**
+3. **Tag Selection:**
+   - If the release tag doesn't exist, script will prompt you to:
+     - Select a commit from recent history (1-10)
+     - Use HEAD (current commit)
+     - Provide a specific commit SHA
+     - Use an existing tag
+   - Script creates the tag at the selected commit in the main branch
+   - If tag already exists, you can choose to use it or cancel
+
+4. **Review:**
    - Script shows summary and asks for confirmation
    - Review files to be released
    - Confirm version increment
-   - Check revision description (for external releases)
+   - Check revision description
+   - Verify source tag/commit
 
-4. **Script Automatically:**
-   - Updates metadata.xml version on main (X.Y.Z.## for internal, X.Y.Z for external)
-   - Creates orphan release branch
-   - Copies only public files
-   - Updates doc/introduction.html revision history (external releases only)
-   - Creates commit and tag
+5. **Script Automatically:**
+   - Creates tag in main branch (if not already exists)
+   - Updates metadata.xml version on main (X.Y.Z format)
+   - Creates orphan release branch from the selected tag
+   - Copies only public files from the tagged commit
+   - Updates IP Release Notes.md revision history
+   - Creates commit in release branch
 
-5. **Push (Manual):**
-
-   **Public Release (major/minor/bugfix):**
+6. **Push (Manual):**
    ```bash
-   # Push to PUBLIC remote
-   git push public release/vX.Y.Z.##:main --force
+   # Push to PUBLIC remote (release branch)
+   git push public release/vX.Y.Z:release --force
    git push public vX.Y.Z
 
    # Push to ORIGIN (development)
@@ -246,26 +209,11 @@ To:
    git push origin vX.Y.Z
    ```
 
-   **Internal Release:**
-   ```bash
-   # Push to STAGING remote
-   git push staging staging/vX.Y.Z.##:main --force
-   git push staging vX.Y.Z.##
-
-   # Push to ORIGIN (development)
-   git checkout main
-   git push origin main
-   git push origin vX.Y.Z.##
-
-   # Do NOT push to public
-   ```
-
 ### Prerequisites
 
-- Git configured with **three remotes:**
-  - `origin` - Private development repository (all branches)
-  - `staging` - Private internal staging repository (internal releases)
-  - `public` - Public release repository (public releases only)
+- Git configured with **two remotes:**
+  - `origin` - Private development repository (main branch for development)
+  - `public` - Public release repository (release branch for external releases)
 - On `main` branch with no uncommitted changes
 - `metadata.xml` exists with valid version
 
@@ -275,51 +223,42 @@ To:
 # View current remotes
 git remote -v
 
-# Add staging remote (private, for internal releases)
-git remote add staging git@private-server:yourorg/hyperram-mc-staging.git
-
 # Add public remote (public, for external releases)
 git remote add public git@github.com:yourorg/hyperram-mc-public.git
 
-# Verify all three remotes
+# Verify remotes
 git remote -v
 # origin   git@private-server:yourorg/hyperram-internal.git (fetch)
 # origin   git@private-server:yourorg/hyperram-internal.git (push)
-# staging  git@private-server:yourorg/hyperram-mc-staging.git (fetch)
-# staging  git@private-server:yourorg/hyperram-mc-staging.git (push)
 # public   git@github.com:yourorg/hyperram-mc-public.git (fetch)
 # public   git@github.com:yourorg/hyperram-mc-public.git (push)
 ```
 
 **Remote Strategy:**
-- **origin**: All development work, all branches, full history
-- **staging**: Internal release testing, `staging/*` branches only
-- **public**: Public releases, `release/*` branches only (major/minor/bugfix)
+- **origin**: Development work, main branch, full history
+- **public**: Public releases, release branch only (major/minor/bugfix)
 
 ### Version Management (metadata.xml)
 
 The script uses `metadata.xml` as the **single source of truth** for versioning:
 
 ```xml
-<lsccip:version>1.0.0.01</lsccip:version>
+<lsccip:version>1.0.0</lsccip:version>
 ```
 
-**Format:** `X.Y.Z` or `X.Y.Z.##`
+**Format:** `X.Y.Z`
 
 **How it works:**
-- **Internal releases**: Version includes internal counter (e.g., `1.0.0.01`, `1.0.0.02`)
-- **External releases**: Version drops internal counter (e.g., `1.0.1`, `1.1.0`, `2.0.0`)
+- Version follows semantic versioning (X.Y.Z format)
 - Automatically updated on `main` branch by the script
 - Copied to release branch
 
 **Version Progression Example:**
 ```
 Initial:        metadata.xml = 1.0.0
-Internal #1:    metadata.xml = 1.0.0.01
-Internal #2:    metadata.xml = 1.0.0.02
-Bugfix release: metadata.xml = 1.0.1 (internal counter dropped)
-Internal #1:    metadata.xml = 1.0.1.01
-Minor release:  metadata.xml = 1.1.0 (internal counter dropped)
+Bugfix release: metadata.xml = 1.0.1
+Minor release:  metadata.xml = 1.1.0
+Major release:  metadata.xml = 2.0.0
 ```
 
 ### Error Handling
@@ -354,7 +293,7 @@ git stash
 ```
 
 **"Invalid version format in metadata.xml"**
-Ensure metadata.xml contains a valid version in `X.Y.Z` or `X.Y.Z.##` format:
+Ensure metadata.xml contains a valid version in `X.Y.Z` format:
 ```xml
 <lsccip:version>1.0.0</lsccip:version>
 ```
@@ -365,16 +304,16 @@ Press `n` when prompted for confirmation. The script will clean up automatically
 **Release branch still exists after abort?**
 ```bash
 git checkout main
-git branch -D release/vX.Y.Z.##
+git branch -D release/vX.Y.Z
 ```
 
 **Need to redo a release?**
 ```bash
 # Delete the release branch
-git branch -D release/vX.Y.Z.##
+git branch -D release/vX.Y.Z
 
 # Delete the tag
-git tag -d vX.Y.Z.##
+git tag -d vX.Y.Z
 
 # Revert metadata.xml version update
 git reset --hard HEAD~1
@@ -386,11 +325,10 @@ git reset --hard HEAD~1
 ### Best Practices
 
 1. **Always review** the files list before confirming
-2. **Test internal releases** before public releases
-3. **Update documentation** before creating release
-4. **Run checklist** (IP_RELEASE_CHECKLIST.md) before release
-5. **Tag messages** should be descriptive
-6. **Internal releases** should not be pushed to public
+2. **Update documentation** before creating release
+3. **Run checklist** (IP_RELEASE_CHECKLIST.md) before release
+4. **Tag messages** should be descriptive
+5. **Ensure CI passes** before creating release
 
 ### See Also
 

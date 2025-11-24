@@ -2,7 +2,7 @@
 # =============================================================================
 # Show Version Status Across All Remotes
 # =============================================================================
-# Displays current version status for developers, internal, and public releases
+# Displays current version status for development and public releases
 # =============================================================================
 
 set -e
@@ -37,18 +37,6 @@ if git ls-remote origin &>/dev/null; then
     echo "    Latest tag: $ORIGIN_LATEST"
 else
     echo "    ⚠️  Remote not accessible"
-fi
-echo ""
-
-# Staging (internal)
-echo "  STAGING (Internal):"
-if git ls-remote staging &>/dev/null; then
-    STAGING_LATEST=$(git ls-remote --tags staging | grep -v '\^{}' | tail -1 | sed 's/.*refs\/tags\///' || echo "No tags")
-    echo "    Latest tag: $STAGING_LATEST"
-    STAGING_BRANCHES=$(git ls-remote --heads staging | grep staging/ | wc -l || echo "0")
-    echo "    Active staging branches: $STAGING_BRANCHES"
-else
-    echo "    ⚠️  Remote not configured or not accessible"
 fi
 echo ""
 
