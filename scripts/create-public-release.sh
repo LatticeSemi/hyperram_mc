@@ -49,6 +49,7 @@ PUBLIC_DIRS=(
 PUBLIC_FILES=(
     "README.md"
     "QUICKSTART.md"
+    "IP Release Notes.md"
     "metadata.xml"
     "bus_interface.xml"
     "memory_map.xml"
@@ -81,6 +82,96 @@ success() { echo -e "${GREEN}✓ $1${NC}"; }
 warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
 info()    { echo -e "${BLUE}ℹ $1${NC}"; }
 
+# -----------------------------------------------------------------------------
+# Update IP Release Notes.md (includes revision history)
+# -----------------------------------------------------------------------------
+update_release_notes() {
+    local version=$1
+    local software_version=$2
+    local description=$3
+    local release_notes_file="IP Release Notes.md"
+
+    if [ ! -f "$release_notes_file" ]; then
+        warning "IP Release Notes.md not found, skipping release notes update"
+        return 0
+    fi
+
+    info "Updating release notes in $release_notes_file..."
+
+    # Convert description to bullet points
+    # Handle multiple formats: semicolon-separated, newline-separated, or single line
+    # Split by semicolons or newlines, then format as bullet points
+    # Use <br> tags for line breaks in markdown table cells
+    local formatted_changes=$(echo "$description" | \
+        sed 's/; */\n/g' | \
+        sed 's/^[[:space:]]*//' | \
+        sed 's/[[:space:]]*$//' | \
+        grep -v '^$' | \
+        sed 's/^/• /' | \
+        tr '\n' '\001' | \
+        sed 's/\001/<br>/g' | \
+        sed 's/  */ /g')
+
+    # Create new version section with table
+    # Note: The IP name placeholder [IP Name] will need to be replaced manually
+    # or can be extracted from metadata.xml if needed
+    local new_section="## [IP Name] IP v${version}
+
+| Software | Software Version | Summary of Changes |
+|----------|------------------|-------------------|
+| Lattice Radiant | ${software_version} | ${formatted_changes} |
+
+---"
+
+    # Insert the new section after the Introduction section
+    # If there's a placeholder table (with [Version] or [IP Name] placeholders), replace it
+    # Otherwise, insert before the first existing version section
+    awk -v new_section="$new_section" '
+        BEGIN {
+            found_separator=0
+            inserted=0
+            in_placeholder=0
+            placeholder_start=0
+        }
+        /^---$/ && !found_separator {
+            # Found the first separator after introduction
+            print
+            found_separator=1
+            next
+        }
+        found_separator && !inserted && /^## \[IP Name\] IP v\[Version\]/ {
+            # Found placeholder version section - mark it for replacement
+            in_placeholder=1
+            next
+        }
+        in_placeholder {
+            # Skip lines until we find the next separator (end of placeholder section)
+            if (/^---$/) {
+                # End of placeholder section, replace with new section
+                print new_section
+                inserted=1
+                in_placeholder=0
+            }
+            # Skip all lines within placeholder section (don't print them)
+            next
+        }
+        found_separator && !inserted && /^## \[IP Name\] IP v/ {
+            # Found the first existing version section (non-placeholder), insert new one before it
+            print new_section
+            inserted=1
+        }
+        { print }
+        END {
+            # If we found the separator but didn't insert (no existing versions or placeholder), insert now
+            if (found_separator && !inserted) {
+                print new_section
+            }
+        }
+    ' "$release_notes_file" > "${release_notes_file}.tmp"
+
+    mv "${release_notes_file}.tmp" "$release_notes_file"
+    success "Release notes updated with version $version"
+}
 
 # -----------------------------------------------------------------------------
 # Usage
@@ -540,12 +631,23 @@ done
 success "Cleanup complete"
 
 # -----------------------------------------------------------------------------
-# Verify metadata.xml version
+# Update metadata.xml version in release branch
 # -----------------------------------------------------------------------------
-# Note: metadata.xml was already updated on main branch and copied here
-# Contains X.Y.Z format
-info "metadata.xml version in release branch: $NEW_VERSION"
+info "Updating metadata.xml version in release branch to $NEW_VERSION..."
+if [ -f "$METADATA_FILE" ]; then
+    sed -i.bak "s|<lsccip:version>.*</lsccip:version>|<lsccip:version>${NEW_VERSION}</lsccip:version>|g" "$METADATA_FILE"
+    rm -f "${METADATA_FILE}.bak"
+    success "metadata.xml version updated to $NEW_VERSION"
+else
+    warning "metadata.xml not found in release branch"
+fi
 
+# -----------------------------------------------------------------------------
+# Update IP Release Notes.md
+# -----------------------------------------------------------------------------
+if [ -n "$REVISION_DESCRIPTION" ] && [ -n "$SOFTWARE_VERSION" ]; then
+    update_release_notes "${MAJOR}.${MINOR}.${BUGFIX}" "$SOFTWARE_VERSION" "$REVISION_DESCRIPTION"
+fi
 
 # -----------------------------------------------------------------------------
 # Create LICENSE file if not present
