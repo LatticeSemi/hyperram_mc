@@ -1,31 +1,31 @@
 #!/bin/bash
 # =============================================================================
-# HyperRAM IP Release Script (Three Remote Strategy)
+# HyperRAM IP Release Script (Two Remote Strategy with Tagging)
 # =============================================================================
 # This script creates release branches with only selected files/directories
-# and automatically manages version numbering.
+# and automatically manages version numbering using Git tags.
 #
-# Three Remote Repositories:
-#   origin  - Private development repo (main, feature, develop branches)
-#   public  - Public release repo (major/minor/bugfix releases only)
-#   staging - Private internal staging repo (internal releases only)
+# Two Remote Repositories:
+#   origin  - Private development repo (main branch for development)
+#   public  - Public release repo (release branch for external releases)
 #
-# Version Format: X.Y.Z.##
+# Version Format: X.Y.Z
 #   X  = Major release (breaking changes)
 #   Y  = Minor release (new features, backward compatible)
 #   Z  = Bugfix release (bug fixes only)
-#   ## = Internal release counter (2 digits)
+#
+# Workflow:
+#   1. Tag a version in main branch (tag may or may not be latest commit)
+#   2. Create release branch from the tag
+#   3. Update release notes with provided changes description
 #
 # Usage:
-#   ./create-public-release.sh <type> "<message>" ["<revision_description>"]
+#   ./create-public-release.sh <type> "<message>" "<revision_description>" ["<software_version>"]
 #
-# Examples (External Releases - require revision description):
-#   ./create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance"
-#   ./create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
-#   ./create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation"
-#
-# Examples (Internal Releases - revision description optional):
-#   ./create-public-release.sh internal "Internal testing build"
+# Examples:
+#   ./create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance" "2025.2"
+#   ./create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices" "2025.2"
+#   ./create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation" "2025.1.1"
 #
 # =============================================================================
 
@@ -49,6 +49,7 @@ PUBLIC_DIRS=(
 PUBLIC_FILES=(
     "README.md"
     "QUICKSTART.md"
+    "IP Release Notes.md"
     "metadata.xml"
     "bus_interface.xml"
     "memory_map.xml"
@@ -82,49 +83,94 @@ warning() { echo -e "${YELLOW}⚠ $1${NC}"; }
 info()    { echo -e "${BLUE}ℹ $1${NC}"; }
 
 # -----------------------------------------------------------------------------
-# Update revision history in doc/introduction.html
+# Update IP Release Notes.md (includes revision history)
 # -----------------------------------------------------------------------------
-update_revision_history() {
+update_release_notes() {
     local version=$1
-    local description=$2
-    local html_file="doc/introduction.html"
+    local software_version=$2
+    local description=$3
+    local release_notes_file="IP Release Notes.md"
 
-    if [ ! -f "$html_file" ]; then
-        warning "doc/introduction.html not found, skipping revision history update"
+    if [ ! -f "$release_notes_file" ]; then
+        warning "IP Release Notes.md not found, skipping release notes update"
         return 0
     fi
 
-    info "Updating revision history in $html_file..."
+    info "Updating release notes in $release_notes_file..."
 
-    # Create new table row
-    local new_row="    <TR>\n      <TD><B>${version}</B></TD> <TD>${description}</TD>\n    </TR>"
+    # Convert description to bullet points
+    # Handle multiple formats: semicolon-separated, newline-separated, or single line
+    # Split by semicolons or newlines, then format as bullet points
+    # Use <br> tags for line breaks in markdown table cells
+    local formatted_changes=$(echo "$description" | \
+        sed 's/; */\n/g' | \
+        sed 's/^[[:space:]]*//' | \
+        sed 's/[[:space:]]*$//' | \
+        grep -v '^$' | \
+        sed 's/^/• /' | \
+        tr '\n' '\001' | \
+        sed 's/\001/<br>/g' | \
+        sed 's/  */ /g')
 
-    # Use sed to insert the new row after the first <TR> (which is after the table opening)
-    # The revision history table structure is:
-    #   <TABLE cellpadding="10">
-    #     <TR>
-    #       <TD><B>version</B></TD> <TD>description</TD>
-    #     </TR>
-    #   </TABLE>
-    #
-    # We want to insert the new row as the FIRST row in the table
+    # Create new version section with table
+    # Note: The IP name placeholder [IP Name] will need to be replaced manually
+    # or can be extracted from metadata.xml if needed
+    local new_section="## [IP Name] IP v${version}
 
-    # Using awk to find the table and insert after the <TABLE> line
-    awk -v new_row="$new_row" '
-        /<H2>Revision History<\/H2>/ {
-            in_section=1
+| Software | Software Version | Summary of Changes |
+|----------|------------------|-------------------|
+| Lattice Radiant | ${software_version} | ${formatted_changes} |
+
+---"
+
+    # Insert the new section after the Introduction section
+    # If there's a placeholder table (with [Version] or [IP Name] placeholders), replace it
+    # Otherwise, insert before the first existing version section
+    awk -v new_section="$new_section" '
+        BEGIN {
+            found_separator=0
+            inserted=0
+            in_placeholder=0
+            placeholder_start=0
         }
-        in_section && /<TABLE/ {
+        /^---$/ && !found_separator {
+            # Found the first separator after introduction
             print
-            print new_row
-            in_section=0
+            found_separator=1
             next
         }
+        found_separator && !inserted && /^## \[IP Name\] IP v\[Version\]/ {
+            # Found placeholder version section - mark it for replacement
+            in_placeholder=1
+            next
+        }
+        in_placeholder {
+            # Skip lines until we find the next separator (end of placeholder section)
+            if (/^---$/) {
+                # End of placeholder section, replace with new section
+                print new_section
+                inserted=1
+                in_placeholder=0
+            }
+            # Skip all lines within placeholder section (don't print them)
+            next
+        }
+        found_separator && !inserted && /^## \[IP Name\] IP v/ {
+            # Found the first existing version section (non-placeholder), insert new one before it
+            print new_section
+            inserted=1
+        }
         { print }
-    ' "$html_file" > "${html_file}.tmp"
+        END {
+            # If we found the separator but didn't insert (no existing versions or placeholder), insert now
+            if (found_separator && !inserted) {
+                print new_section
+            }
+        }
+    ' "$release_notes_file" > "${release_notes_file}.tmp"
 
-    mv "${html_file}.tmp" "$html_file"
-    success "Revision history updated with version $version"
+    mv "${release_notes_file}.tmp" "$release_notes_file"
+    success "Release notes updated with version $version"
 }
 
 # -----------------------------------------------------------------------------
@@ -132,35 +178,30 @@ update_revision_history() {
 # -----------------------------------------------------------------------------
 usage() {
     cat << EOF
-Usage: $0 <type> "<message>" ["<revision_description>"]
+Usage: $0 <type> "<message>" "<revision_description>" ["<software_version>"]
 
 Release Types:
-    major     - Increment X (X.Y.Z.##) - Breaking changes
-    minor     - Increment Y (X.Y.Z.##) - New features (backward compatible)
-    bugfix    - Increment Z (X.Y.Z.##) - Bug fixes only
-    internal  - Increment ## (X.Y.Z.##) - Internal release (not public)
+    major     - Increment X (X.Y.Z) - Breaking changes
+    minor     - Increment Y (X.Y.Z) - New features (backward compatible)
+    bugfix    - Increment Z (X.Y.Z) - Bug fixes only
 
 Arguments:
-    type                 - Release type (major|minor|bugfix|internal)
+    type                 - Release type (major|minor|bugfix)
     message              - Release message describing changes (quoted string)
-    revision_description - Revision history description (REQUIRED for major/minor/bugfix, optional for internal)
+    revision_description - Revision history description (REQUIRED)
+    software_version     - Lattice Radiant software version (REQUIRED, e.g., "2025.2")
 
-Examples (External Releases):
-    $0 major "Complete redesign of controller FSM" "Major redesign for improved performance"
-    $0 minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices"
-    $0 bugfix "Fixed timing issue in read path" "Fixed read timing violation"
+Examples:
+    $0 major "Complete redesign of controller FSM" "Major redesign for improved performance" "2025.2"
+    $0 minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices" "2025.2"
+    $0 bugfix "Fixed timing issue in read path" "Fixed read timing violation" "2025.1.1"
 
-Examples (Internal Releases):
-    $0 internal "Internal testing build"
-
-Version Format: X.Y.Z.##
+Version Format: X.Y.Z
     X  = Major version
     Y  = Minor version
     Z  = Bugfix version
-    ## = Internal counter (2 digits)
 
-Public Tags: vX.Y.Z (internal counter not shown for major/minor/bugfix)
-Internal Tags: vX.Y.Z.## (full version for internal releases)
+Tags: vX.Y.Z
 
 EOF
     exit 1
@@ -178,9 +219,14 @@ RELEASE_TYPE=$1
 RELEASE_MESSAGE=$2
 REVISION_DESCRIPTION=$3
 
+RELEASE_TYPE=$1
+RELEASE_MESSAGE=$2
+REVISION_DESCRIPTION=$3
+SOFTWARE_VERSION=$4
+
 # Validate release type
 case "$RELEASE_TYPE" in
-    major|minor|bugfix|internal)
+    major|minor|bugfix)
         ;;
     *)
         error "Invalid release type: $RELEASE_TYPE"
@@ -193,10 +239,16 @@ if [ -z "$RELEASE_MESSAGE" ]; then
     usage
 fi
 
-# For external releases (major/minor/bugfix), require revision description
-if [ "$RELEASE_TYPE" != "internal" ] && [ -z "$REVISION_DESCRIPTION" ]; then
-    error "Revision description is REQUIRED for external releases (major/minor/bugfix)"
-    error "This will be added to the revision history in doc/introduction.html"
+# Require revision description and software version for all releases
+if [ -z "$REVISION_DESCRIPTION" ]; then
+    error "Revision description is REQUIRED"
+    error "This will be added to the IP Release Notes.md"
+    usage
+fi
+
+if [ -z "$SOFTWARE_VERSION" ]; then
+    error "Software version is REQUIRED"
+    error "Example: 2025.2, 2025.1.1, etc."
     usage
 fi
 
@@ -235,9 +287,9 @@ if [ ! -f "$METADATA_FILE" ]; then
     exit 1
 fi
 
-# Check CI status for internal releases (must pass before publishing)
-if [ "$RELEASE_TYPE" = "internal" ] && [ "$CURRENT_BRANCH" = "main" ]; then
-    info "Checking CI status for internal release..."
+# Check CI status (must pass before publishing)
+if [ "$CURRENT_BRANCH" = "main" ]; then
+    info "Checking CI status for release..."
 
     # Get latest commit SHA
     LATEST_SHA=$(git rev-parse HEAD)
@@ -250,12 +302,12 @@ if [ "$RELEASE_TYPE" = "internal" ] && [ "$CURRENT_BRANCH" = "main" ]; then
         if [ "$CI_STATUS" = "success" ]; then
             success "CI status: PASSED ✅"
         elif [ "$CI_STATUS" = "pending" ]; then
-            error "CI is still running. Wait for CI to complete before internal publish."
+            error "CI is still running. Wait for CI to complete before publishing."
             error "Check status: gh run list --branch main"
             exit 1
         elif [ "$CI_STATUS" = "failure" ] || [ "$CI_STATUS" = "error" ]; then
             error "CI FAILED ❌"
-            error "Internal publish is BLOCKED until CI passes on main branch"
+            error "Release is BLOCKED until CI passes on main branch"
             error "Fix CI failures and try again"
             error "Check failures: gh run list --branch main"
             exit 1
@@ -271,7 +323,7 @@ if [ "$RELEASE_TYPE" = "internal" ] && [ "$CURRENT_BRANCH" = "main" ]; then
     else
         warning "GitHub CLI (gh) not installed - cannot verify CI status"
         warning "Install gh CLI: https://cli.github.com/"
-        warning "For internal releases, CI must pass on main before publishing"
+        warning "CI must pass on main before publishing"
         read -p "Continue without CI check? (not recommended) (y/n) " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -283,88 +335,206 @@ fi
 success "Pre-flight checks passed"
 
 # -----------------------------------------------------------------------------
-# Read current version from metadata.xml
+# Read current version from release branch (if exists) or use 0.0.0 for first release
 # -----------------------------------------------------------------------------
-if [ ! -f "$METADATA_FILE" ]; then
-    error "metadata.xml not found at: $METADATA_FILE"
-    exit 1
+RELEASE_BRANCH="release"
+
+# Check if release branch exists (local or remote)
+RELEASE_BRANCH_EXISTS=false
+if git show-ref --verify --quiet refs/heads/release 2>/dev/null; then
+    RELEASE_BRANCH_EXISTS=true
+    info "Found local release branch"
+elif git show-ref --verify --quiet refs/remotes/origin/release 2>/dev/null; then
+    RELEASE_BRANCH_EXISTS=true
+    info "Found remote release branch (origin/release)"
+elif git show-ref --verify --quiet refs/remotes/public/release 2>/dev/null; then
+    RELEASE_BRANCH_EXISTS=true
+    info "Found remote release branch (public/release)"
 fi
 
-# Extract version from metadata.xml
-CURRENT_VERSION=$(grep '<lsccip:version>' "$METADATA_FILE" | sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | tr -d '[:space:]')
+if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
+    # Release branch exists - read version from it
+    info "Reading version from release branch..."
 
-if [ -z "$CURRENT_VERSION" ]; then
-    error "Could not extract version from metadata.xml"
-    exit 1
-fi
+    # Try to read from local branch first, then remote
+    if git show "release:$METADATA_FILE" >/dev/null 2>&1; then
+        CURRENT_VERSION=$(git show "release:$METADATA_FILE" | \
+            grep '<lsccip:version>' | \
+            sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | \
+            tr -d '[:space:]')
+    elif git show "origin/release:$METADATA_FILE" >/dev/null 2>&1; then
+        CURRENT_VERSION=$(git show "origin/release:$METADATA_FILE" | \
+            grep '<lsccip:version>' | \
+            sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | \
+            tr -d '[:space:]')
+    elif git show "public/release:$METADATA_FILE" >/dev/null 2>&1; then
+        CURRENT_VERSION=$(git show "public/release:$METADATA_FILE" | \
+            grep '<lsccip:version>' | \
+            sed 's/.*<lsccip:version>\(.*\)<\/lsccip:version>.*/\1/' | \
+            tr -d '[:space:]')
+    else
+        warning "Could not read metadata.xml from release branch"
+        warning "Assuming first release (0.0.0)"
+        CURRENT_VERSION="0.0.0"
+    fi
 
-info "Current version: $CURRENT_VERSION"
-
-# Parse version components - support both X.Y.Z and X.Y.Z.## formats
-if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]{2})$ ]]; then
-    # Format: X.Y.Z.## (has internal counter)
-    MAJOR=${BASH_REMATCH[1]}
-    MINOR=${BASH_REMATCH[2]}
-    BUGFIX=${BASH_REMATCH[3]}
-    INTERNAL=${BASH_REMATCH[4]}
-elif [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-    # Format: X.Y.Z (no internal counter, assume 00)
-    MAJOR=${BASH_REMATCH[1]}
-    MINOR=${BASH_REMATCH[2]}
-    BUGFIX=${BASH_REMATCH[3]}
-    INTERNAL=00
+    if [ -z "$CURRENT_VERSION" ]; then
+        warning "Could not extract version from release branch"
+        warning "Assuming first release (0.0.0)"
+        CURRENT_VERSION="0.0.0"
+    fi
 else
-    error "Invalid version format in metadata.xml: $CURRENT_VERSION"
-    error "Expected format: X.Y.Z or X.Y.Z.## (e.g., 1.2.3 or 1.2.3.05)"
+    # No release branch exists - this is the first release
+    info "No existing release branch found - this is the first release"
+    CURRENT_VERSION="0.0.0"
+fi
+
+info "Current release version: $CURRENT_VERSION"
+
+# Parse version components - X.Y.Z format only
+if [[ $CURRENT_VERSION =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+    # Format: X.Y.Z
+    MAJOR=${BASH_REMATCH[1]}
+    MINOR=${BASH_REMATCH[2]}
+    BUGFIX=${BASH_REMATCH[3]}
+else
+    error "Invalid version format: $CURRENT_VERSION"
+    error "Expected format: X.Y.Z (e.g., 1.2.3)"
     exit 1
 fi
 
 # -----------------------------------------------------------------------------
 # Calculate new version
 # -----------------------------------------------------------------------------
-case "$RELEASE_TYPE" in
-    major)
-        MAJOR=$((MAJOR + 1))
-        MINOR=0
-        BUGFIX=0
-        INTERNAL=0
-        ;;
-    minor)
-        MINOR=$((MINOR + 1))
-        BUGFIX=0
-        INTERNAL=0
-        ;;
-    bugfix)
-        BUGFIX=$((BUGFIX + 1))
-        INTERNAL=0
-        ;;
-    internal)
-        INTERNAL=$((INTERNAL + 1))
-        ;;
-esac
-
-# Format version based on release type
-INTERNAL_FORMATTED=$(printf "%02d" $INTERNAL)
-
-if [ "$RELEASE_TYPE" = "internal" ]; then
-    # Internal releases: Include internal counter (X.Y.Z.##)
-    NEW_VERSION="${MAJOR}.${MINOR}.${BUGFIX}.${INTERNAL_FORMATTED}"
-    TARGET_REMOTE="staging"
-    BRANCH_PREFIX="staging"
-    RELEASE_TAG="v${NEW_VERSION}"
-    IS_PUBLIC_RELEASE=false
+# For first release (0.0.0), always start at 1.0.0
+if [ "$CURRENT_VERSION" = "0.0.0" ]; then
+    info "First release - starting at version 1.0.0"
+    MAJOR=1
+    MINOR=0
+    BUGFIX=0
+    NEW_VERSION="1.0.0"
 else
-    # External releases: Drop internal counter (X.Y.Z only)
+    # Subsequent releases - bump based on release type
+    case "$RELEASE_TYPE" in
+        major)
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            BUGFIX=0
+            ;;
+        minor)
+            MINOR=$((MINOR + 1))
+            BUGFIX=0
+            ;;
+        bugfix)
+            BUGFIX=$((BUGFIX + 1))
+            ;;
+    esac
     NEW_VERSION="${MAJOR}.${MINOR}.${BUGFIX}"
-    TARGET_REMOTE="public"
-    BRANCH_PREFIX="release"
-    RELEASE_TAG="v${NEW_VERSION}"
-    IS_PUBLIC_RELEASE=true
 fi
+TARGET_REMOTE="public"
+RELEASE_TAG="v${NEW_VERSION}"
 
 info "New version: $NEW_VERSION"
 info "Release tag: $RELEASE_TAG"
 info "Target remote: $TARGET_REMOTE"
+
+# -----------------------------------------------------------------------------
+# Tag selection/creation
+# -----------------------------------------------------------------------------
+echo ""
+echo "========================================="
+echo "Tag Selection"
+echo "========================================="
+echo "Release Tag:    $RELEASE_TAG"
+echo ""
+
+# Check if tag already exists
+if git rev-parse "$RELEASE_TAG" >/dev/null 2>&1; then
+    warning "Tag $RELEASE_TAG already exists!"
+    echo ""
+    echo "Options:"
+    echo "  1. Use existing tag: $RELEASE_TAG"
+    echo "  2. Cancel and use a different version"
+    echo ""
+    read -p "Use existing tag? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        error "Release cancelled. Tag $RELEASE_TAG already exists."
+        exit 1
+    fi
+    SOURCE_TAG="$RELEASE_TAG"
+    info "Using existing tag: $SOURCE_TAG"
+else
+    # Tag doesn't exist - ask user to select commit to tag
+    echo "Tag $RELEASE_TAG does not exist. Select commit to tag:"
+    echo ""
+    echo "Recent commits on main:"
+    git log --oneline -10 main | nl -v 1 -w 2 -s '. '
+    echo ""
+    echo "Options:"
+    echo "  [1-10]  - Tag the commit shown above"
+    echo "  HEAD    - Tag current commit (HEAD)"
+    echo "  <sha>   - Tag specific commit SHA"
+    echo "  <tag>   - Use existing tag"
+    echo ""
+    read -p "Select commit to tag (or existing tag): " TAG_SELECTION
+
+    if [ -z "$TAG_SELECTION" ]; then
+        error "No selection provided"
+        exit 1
+    fi
+
+    # Determine the commit to tag
+    if [[ "$TAG_SELECTION" =~ ^[0-9]+$ ]] && [ "$TAG_SELECTION" -ge 1 ] && [ "$TAG_SELECTION" -le 10 ]; then
+        # User selected a number from the list
+        COMMIT_SHA=$(git log --oneline -10 main | sed -n "${TAG_SELECTION}p" | awk '{print $1}')
+        info "Selected commit: $COMMIT_SHA"
+    elif [ "$TAG_SELECTION" = "HEAD" ]; then
+        COMMIT_SHA=$(git rev-parse HEAD)
+        info "Selected current commit (HEAD): $COMMIT_SHA"
+    elif git rev-parse "$TAG_SELECTION" >/dev/null 2>&1; then
+        # Check if it's an existing tag
+        if git rev-parse "$TAG_SELECTION^{tag}" >/dev/null 2>&1; then
+            SOURCE_TAG="$TAG_SELECTION"
+            info "Using existing tag: $SOURCE_TAG"
+        else
+            # It's a commit SHA
+            COMMIT_SHA="$TAG_SELECTION"
+            info "Selected commit: $COMMIT_SHA"
+        fi
+    else
+        error "Invalid selection: $TAG_SELECTION"
+        exit 1
+    fi
+
+    # Create tag if needed
+    if [ -z "$SOURCE_TAG" ]; then
+        # Verify commit exists
+        if ! git cat-file -e "$COMMIT_SHA" 2>/dev/null; then
+            error "Commit $COMMIT_SHA does not exist"
+            exit 1
+        fi
+
+        # Show commit info
+        echo ""
+        info "Commit to tag:"
+        git log -1 --oneline "$COMMIT_SHA"
+        echo ""
+
+        read -p "Create tag $RELEASE_TAG at this commit? (y/n) " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            error "Release cancelled"
+            exit 1
+        fi
+
+        # Create tag
+        info "Creating tag $RELEASE_TAG at commit $COMMIT_SHA..."
+        git tag -a "$RELEASE_TAG" -m "$RELEASE_MESSAGE" "$COMMIT_SHA"
+        success "Tag $RELEASE_TAG created"
+        SOURCE_TAG="$RELEASE_TAG"
+    fi
+fi
 
 # -----------------------------------------------------------------------------
 # Confirmation
@@ -374,12 +544,12 @@ echo "========================================="
 echo "Release Summary"
 echo "========================================="
 echo "Type:           $RELEASE_TYPE"
-echo "Current:        $CURRENT_VERSION"
+echo "Current Release: $CURRENT_VERSION"
 echo "New Version:    $NEW_VERSION"
 echo "Release Tag:    $RELEASE_TAG"
+echo "Source Tag:     $SOURCE_TAG"
 echo "Target Remote:  $TARGET_REMOTE"
-echo "Branch Prefix:  $BRANCH_PREFIX"
-echo "Public Release: $IS_PUBLIC_RELEASE"
+echo "Release Branch: $RELEASE_BRANCH"
 echo "Message:        $RELEASE_MESSAGE"
 if [ -n "$REVISION_DESCRIPTION" ]; then
     echo "Revision Desc:  $REVISION_DESCRIPTION"
@@ -395,52 +565,57 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Update version in metadata.xml on main branch
+# Create or update release branch from tag
 # -----------------------------------------------------------------------------
-info "Updating version in metadata.xml on main branch..."
-sed -i.bak "s|<lsccip:version>.*</lsccip:version>|<lsccip:version>${NEW_VERSION}</lsccip:version>|g" "$METADATA_FILE"
-rm -f "${METADATA_FILE}.bak"
-git add "$METADATA_FILE"
-# Allow commit to main for release script (bypass pre-commit main branch check)
-export ALLOW_MAIN_COMMIT=1
-git commit -m "Bump version to $NEW_VERSION for $RELEASE_TYPE release"
-unset ALLOW_MAIN_COMMIT
-success "metadata.xml version updated on main to $NEW_VERSION"
+if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
+    # Release branch exists - checkout and update it
+    info "Updating existing release branch: $RELEASE_BRANCH from tag $SOURCE_TAG"
+
+    # Try to checkout local branch first
+    if git show-ref --verify --quiet refs/heads/release 2>/dev/null; then
+        git checkout release
+    elif git show-ref --verify --quiet refs/remotes/origin/release 2>/dev/null; then
+        git checkout -b release origin/release
+    elif git show-ref --verify --quiet refs/remotes/public/release 2>/dev/null; then
+        git checkout -b release public/release
+    else
+        error "Release branch exists but cannot be checked out"
+        exit 1
+    fi
+
+    # Remove all files to start fresh from tag
+    git rm -rf . > /dev/null 2>&1 || true
+else
+    # No release branch exists - create new orphan branch
+    info "Creating new release branch: $RELEASE_BRANCH from tag $SOURCE_TAG"
+    git checkout --orphan "$RELEASE_BRANCH"
+
+    # Remove everything
+    git rm -rf . > /dev/null 2>&1 || true
+fi
 
 # -----------------------------------------------------------------------------
-# Create release branch
+# Copy public files/directories from tagged commit
 # -----------------------------------------------------------------------------
-RELEASE_BRANCH="${BRANCH_PREFIX}/v${NEW_VERSION}"
-info "Creating orphan release branch: $RELEASE_BRANCH"
-
-# Create orphan branch (no shared history)
-git checkout --orphan "$RELEASE_BRANCH"
-
-# Remove everything
-git rm -rf . > /dev/null 2>&1 || true
-
-# -----------------------------------------------------------------------------
-# Copy public files/directories from main
-# -----------------------------------------------------------------------------
-info "Copying public files from main..."
+info "Copying public files from tag $SOURCE_TAG..."
 
 # Copy directories
 for dir in "${PUBLIC_DIRS[@]}"; do
-    if git cat-file -e main:"$dir" 2>/dev/null; then
+    if git cat-file -e "$SOURCE_TAG:$dir" 2>/dev/null; then
         info "  Copying directory: $dir"
-        git checkout main -- "$dir" 2>/dev/null || warning "Failed to copy $dir"
+        git checkout "$SOURCE_TAG" -- "$dir" 2>/dev/null || warning "Failed to copy $dir"
     else
-        warning "  Directory not found on main: $dir (skipping)"
+        warning "  Directory not found in tag: $dir (skipping)"
     fi
 done
 
 # Copy individual files (may not exist yet)
 for file in "${PUBLIC_FILES[@]}"; do
-    if git cat-file -e main:"$file" 2>/dev/null; then
+    if git cat-file -e "$SOURCE_TAG:$file" 2>/dev/null; then
         info "  Copying file: $file"
-        git checkout main -- "$file" 2>/dev/null || true
+        git checkout "$SOURCE_TAG" -- "$file" 2>/dev/null || true
     else
-        warning "  File not found on main: $file (will be included when created)"
+        warning "  File not found in tag: $file (will be included when created)"
     fi
 done
 
@@ -456,18 +631,22 @@ done
 success "Cleanup complete"
 
 # -----------------------------------------------------------------------------
-# Verify metadata.xml version
+# Update metadata.xml version in release branch
 # -----------------------------------------------------------------------------
-# Note: metadata.xml was already updated on main branch and copied here
-# For internal releases: contains X.Y.Z.##
-# For external releases: contains X.Y.Z
-info "metadata.xml version in release branch: $NEW_VERSION"
+info "Updating metadata.xml version in release branch to $NEW_VERSION..."
+if [ -f "$METADATA_FILE" ]; then
+    sed -i.bak "s|<lsccip:version>.*</lsccip:version>|<lsccip:version>${NEW_VERSION}</lsccip:version>|g" "$METADATA_FILE"
+    rm -f "${METADATA_FILE}.bak"
+    success "metadata.xml version updated to $NEW_VERSION"
+else
+    warning "metadata.xml not found in release branch"
+fi
 
 # -----------------------------------------------------------------------------
-# Update revision history in doc/introduction.html (for external releases only)
+# Update IP Release Notes.md
 # -----------------------------------------------------------------------------
-if [ "$IS_PUBLIC_RELEASE" = true ] && [ -n "$REVISION_DESCRIPTION" ]; then
-    update_revision_history "${MAJOR}.${MINOR}.${BUGFIX}" "$REVISION_DESCRIPTION"
+if [ -n "$REVISION_DESCRIPTION" ] && [ -n "$SOFTWARE_VERSION" ]; then
+    update_release_notes "${MAJOR}.${MINOR}.${BUGFIX}" "$SOFTWARE_VERSION" "$REVISION_DESCRIPTION"
 fi
 
 # -----------------------------------------------------------------------------
@@ -506,7 +685,10 @@ echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     error "Release aborted. Cleaning up..."
     git checkout main
-    git branch -D "$RELEASE_BRANCH" 2>/dev/null || true
+    # Only delete release branch if it was just created (orphan)
+    if [ "$RELEASE_BRANCH_EXISTS" = false ]; then
+        git branch -D "$RELEASE_BRANCH" 2>/dev/null || true
+    fi
     # Revert metadata.xml version update
     git reset --hard HEAD~1
     exit 1
@@ -530,12 +712,7 @@ ${RELEASE_MESSAGE}
 git commit -m "$COMMIT_MSG"
 success "Release committed"
 
-# -----------------------------------------------------------------------------
-# Create tag
-# -----------------------------------------------------------------------------
-info "Creating tag: $RELEASE_TAG"
-git tag -a "$RELEASE_TAG" -m "$COMMIT_MSG"
-success "Tag created: $RELEASE_TAG"
+# Note: Tag $RELEASE_TAG was already created in main branch earlier
 
 # -----------------------------------------------------------------------------
 # Success message
@@ -553,50 +730,23 @@ echo "Next steps:"
 echo "========================================="
 echo ""
 
-if [ "$IS_PUBLIC_RELEASE" = true ]; then
-    echo "PUBLIC RELEASE (major/minor/bugfix)"
-    echo "-----------------------------------"
-    echo ""
-    echo "1. Review the release branch:"
-    echo "   git log --oneline --graph $RELEASE_BRANCH"
-    echo ""
-    echo "2. Review files in release:"
-    echo "   git ls-tree -r --name-only $RELEASE_BRANCH"
-    echo ""
-    echo "3. Push to PUBLIC remote:"
-    echo "   git push public $RELEASE_BRANCH:main --force"
-    echo "   git push public $RELEASE_TAG"
-    echo ""
-    echo "4. Push to ORIGIN (development) remote:"
-    echo "   git checkout main"
-    echo "   git push origin main"
-    echo "   git push origin $RELEASE_TAG"
-    echo ""
-    echo "5. Optionally push to STAGING for record:"
-    echo "   git push staging $RELEASE_TAG"
-else
-    echo "INTERNAL RELEASE (staging only)"
-    echo "-------------------------------"
-    echo ""
-    echo "1. Review the release branch:"
-    echo "   git log --oneline --graph $RELEASE_BRANCH"
-    echo ""
-    echo "2. Review files in release:"
-    echo "   git ls-tree -r --name-only $RELEASE_BRANCH"
-    echo ""
-    echo "3. Push to STAGING remote (internal testing):"
-    echo "   git push staging $RELEASE_BRANCH:main --force"
-    echo "   git push staging $RELEASE_TAG"
-    echo ""
-    echo "4. Push to ORIGIN (development) remote:"
-    echo "   git checkout main"
-    echo "   git push origin main"
-    echo "   git push origin $RELEASE_TAG"
-    echo ""
-    echo "5. DO NOT push to PUBLIC (this is internal only)"
-    echo ""
-    echo "6. To test: git checkout $RELEASE_BRANCH"
-fi
+echo "RELEASE (major/minor/bugfix)"
+echo "----------------------------"
+echo ""
+echo "1. Review the release branch:"
+echo "   git log --oneline --graph $RELEASE_BRANCH"
+echo ""
+echo "2. Review files in release:"
+echo "   git ls-tree -r --name-only $RELEASE_BRANCH"
+echo ""
+echo "3. Push to PUBLIC remote (release branch):"
+echo "   git push public $RELEASE_BRANCH --force"
+echo "   git push public $RELEASE_TAG"
+echo ""
+echo "4. Push to ORIGIN (development) remote:"
+echo "   git checkout main"
+echo "   git push origin main"
+echo "   git push origin $RELEASE_TAG"
 
 echo ""
 echo "To return to main branch:"

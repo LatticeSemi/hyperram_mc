@@ -7,10 +7,10 @@ Complete development workflow for HyperRAM Memory Controller IP.
 ## **🔄 Development Flow Overview**
 
 ```
-Feature Branch → Pull Request → Main Branch → CI Pipeline → Internal Publish → External Publish
-     ↓              ↓              ↓              ↓                ↓                   ↓
-  Develop    Review + Sim    Fast-forward    Full CI         Staging           Release
-              Required         Merge          Gate            Branch            Branch
+Feature Branch → Pull Request → Main Branch → CI Pipeline → External Release
+     ↓              ↓              ↓              ↓                ↓
+  Develop    Review + Sim    Fast-forward    Full CI         Release
+              Required         Merge          Gate            Branch
 ```
 
 ---
@@ -196,8 +196,8 @@ git branch -d feature/your-feature-name  # Delete local feature branch
 - ✅ Coverage analysis
 
 **CI Status Options:**
-- ✅ **SUCCESS** → Internal publish allowed
-- ❌ **FAILURE** → Internal publish BLOCKED
+- ✅ **SUCCESS** → Release allowed
+- ❌ **FAILURE** → Release BLOCKED
 
 **Check CI status:**
 ```bash
@@ -212,13 +212,13 @@ gh run view <run-id>
 1. Review failure logs
 2. Create fix in new feature branch
 3. Follow PR process again
-4. CI must pass before internal publish
+4. CI must pass before release
 
 ---
 
-### **Phase 5: Internal Publish (Staging)**
+### **Phase 5: External Release**
 
-#### **Step 10: Prepare for Internal Publish**
+#### **Step 10: Prepare for Release**
 
 **Prerequisites:**
 - ✅ On main branch
@@ -233,95 +233,44 @@ git checkout main
 git pull origin main
 ```
 
-#### **Step 11: Run Internal Publish Script**
+#### **Step 11: Create Release**
 
 ```bash
-# Internal release (adds .## counter)
-./scripts/create-public-release.sh internal "Internal testing build for QA"
-```
-
-**Script will:**
-1. ✅ Check CI status (BLOCKS if failed!)
-2. ✅ Read version from metadata.xml (e.g., 1.0.0)
-3. ✅ Increment internal counter (e.g., 1.0.0 → 1.0.0.01)
-4. ✅ Update metadata.xml on main
-5. ✅ Create `staging/v1.0.0.01` branch
-6. ✅ Copy only public files
-7. ✅ Create commit and tag
-
-**Output:**
-```
-========================================
-Release Summary
-========================================
-Type:           internal
-Current:        1.0.0
-New Version:    1.0.0.01
-Release Tag:    v1.0.0.01
-Target Remote:  staging
-Branch Prefix:  staging
-Public Release: false
-========================================
-
-CI status: PASSED ✅
-```
-
-#### **Step 12: Push to Staging Remote**
-
-```bash
-# Push staging branch to staging remote
-git push staging staging/v1.0.0.01:main --force
-
-# Push tag
-git push staging v1.0.0.01
-
-# Return to main
-git checkout main
-```
-
----
-
-### **Phase 6: External Publish (Release)**
-
-#### **Step 13: Prepare for External Release**
-
-```bash
-# Switch to staging branch
-git checkout staging/v1.0.0.02  # Latest staging version
-
-# Pull latest from staging remote
-git pull staging main
-```
-
-#### **Step 14: Create External Release**
-
-```bash
-# External release (drops .## counter, requires revision description)
+# Release (requires revision description and software version)
 ./scripts/create-public-release.sh bugfix \
   "Fixed read timing violation" \
-  "Fixed read timing violation in high-speed mode"
+  "Fixed read timing violation in high-speed mode" \
+  "2025.1.1"
 ```
 
 **Script will:**
-1. ✅ Read version from metadata.xml (e.g., 1.0.0.02)
-2. ✅ Increment version based on type (e.g., 1.0.0.02 → 1.0.1)
-3. ✅ Drop internal counter (1.0.1, not 1.0.1.00)
-4. ✅ Update metadata.xml
-5. ✅ Update doc/introduction.html revision history
-6. ✅ Create `release/v1.0.1` branch
-7. ✅ Create commit and tag
+1. ✅ Read version from metadata.xml (e.g., 1.0.0)
+2. ✅ Increment version based on type (e.g., 1.0.0 → 1.0.1)
+3. ✅ Prompt for tag selection:
+   - Select a commit from recent history (1-10)
+   - Use HEAD (current commit)
+   - Provide a specific commit SHA
+   - Use an existing tag
+4. ✅ Create tag in main branch (if not already exists)
+5. ✅ Update metadata.xml version on main
+6. ✅ Create `release/v1.0.1` branch from the selected tag
+7. ✅ Copy public files from the tagged commit
+8. ✅ Update IP Release Notes.md revision history
+9. ✅ Create commit in release branch
 
-#### **Step 15: Push to Public Remote**
+#### **Step 12: Push to Public Remote**
 
 ```bash
-# Push release branch to public remote
-git push public release/v1.0.1:main --force
+# Push release branch to public remote (release branch)
+git push public release/v1.0.1:release --force
 
 # Push tag
 git push public v1.0.1
 
-# Return to main
+# Return to main and push to origin
 git checkout main
+git push origin main
+git push origin v1.0.1
 ```
 
 ---
@@ -385,32 +334,25 @@ git checkout main
 │ 11. CI triggers on main push                                    │
 │ 12. Full simulation suite ✅                                    │
 │ 13. Integration tests ✅                                        │
-│ 14. CI status: PASSED → Allow internal publish                 │
+│ 14. CI status: PASSED → Allow release                          │
 │                                                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│  Internal Publish (Staging)                                     │
+│  External Release                                                │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │ 15. git checkout main && git pull origin main                   │
-│ 16. ./scripts/create-public-release.sh internal "msg"          │
+│ 16. ./scripts/create-public-release.sh bugfix "..." "desc" "2025.1.1" │
 │     - CI check: Must be PASSED ✅                              │
-│     - Version: 1.0.0 → 1.0.0.01                                │
-│     - Creates: staging/v1.0.0.01                               │
-│ 17. git push staging staging/v1.0.0.01:main --force            │
-│ 18. git push staging v1.0.0.01                                  │
-│                                                                 │
-├─────────────────────────────────────────────────────────────────┤
-│  External Publish (Release)                                     │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│ 19. git checkout staging/v1.0.0.02                             │
-│ 20. git pull staging main                                       │
-│ 21. ./scripts/create-public-release.sh bugfix "..." "desc"     │
-│     - Version: 1.0.0.02 → 1.0.1 (drops .##)                    │
-│     - Creates: release/v1.0.1                                  │
-│     - Updates: doc/introduction.html                           │
-│ 22. git push public release/v1.0.1:main --force                │
-│ 23. git push public v1.0.1                                      │
+│     - Version: 1.0.0 → 1.0.1                                    │
+│     - Tag selection: Select commit/tag to base release on       │
+│     - Creates tag: v1.0.1 in main                               │
+│     - Creates: release/v1.0.1 from selected tag                 │
+│     - Updates: IP Release Notes.md                             │
+│ 17. git push public release/v1.0.1:release --force             │
+│ 18. git push public v1.0.1                                      │
+│ 19. git checkout main                                           │
+│ 20. git push origin main                                        │
+│ 21. git push origin v1.0.1                                      │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -424,13 +366,13 @@ git checkout main
 - ✅ Always use pull requests
 - ✅ Always wait for CI to pass
 - ✅ Always get peer review
-- ✅ Check CI status before internal publish
+- ✅ Check CI status before release
 
 ### **DON'T:**
 - ❌ Never push directly to main
 - ❌ Never merge locally to main
 - ❌ Never bypass pull request process
-- ❌ Never publish internally if CI failed
+- ❌ Never release if CI failed
 - ❌ Never skip simulation checks
 
 ---
@@ -455,9 +397,8 @@ gh repo view
 git remote -v
 
 # Expected:
-# origin  - Private development (all branches)
-# staging - Private internal (staging/* branches)
-# public  - Public release (release/* branches)
+# origin  - Private development (main branch)
+# public  - Public release (release branch)
 ```
 
 ---

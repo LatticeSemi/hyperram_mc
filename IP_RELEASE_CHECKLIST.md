@@ -127,36 +127,33 @@ Use the automated release script with version management:
   ./scripts/create-public-release.sh internal "Internal test build"
   ```
 
-**Version Format:** X.Y.Z.##
+**Version Format:** X.Y.Z
 - X = Major version
 - Y = Minor version
 - Z = Bugfix version
-- ## = Internal counter (2 digits)
 
 ### Review Release Branch
 
-**Branch Names by Type:**
-- Public releases: `release/vX.Y.Z.##`
-- Internal releases: `staging/vX.Y.Z.##`
+**Branch Names:**
+- Releases: `release/vX.Y.Z`
 
 **Review Checklist:**
 - [ ] Review release branch: `git log --oneline --graph <branch-name>`
 - [ ] Verify files included: `git ls-tree -r --name-only <branch-name>`
 - [ ] Check no internal files leaked (IP_RELEASE_CHECKLIST.md, .editorconfig, hooks/, etc.)
-- [ ] Verify `metadata.xml` version in release branch (public releases: X.Y.Z, internal: X.Y.Z.##)
-- [ ] Verify correct branch prefix (release/* or staging/*)
+- [ ] Verify `metadata.xml` version in release branch (X.Y.Z format)
+- [ ] Verify correct branch prefix (release/*)
 
 ### Push to Repositories
 
-**Three Remote Strategy:**
-- `origin` - Private development repo (all branches)
-- `staging` - Private internal staging repo (internal releases)
-- `public` - Public release repo (public releases only)
+**Two Remote Strategy:**
+- `origin` - Private development repo (main branch for development)
+- `public` - Public release repo (release branch for external releases)
 
-**For Public Releases (major/minor/bugfix):**
+**For Releases (major/minor/bugfix):**
 - [ ] Push release branch to PUBLIC remote:
   ```bash
-  git push public release/vX.Y.Z.##:main --force
+  git push public release/vX.Y.Z:release --force
   ```
 - [ ] Push tag to PUBLIC:
   ```bash
@@ -168,27 +165,6 @@ Use the automated release script with version management:
   git push origin main
   git push origin vX.Y.Z
   ```
-- [ ] Optionally push tag to STAGING for record:
-  ```bash
-  git push staging vX.Y.Z
-  ```
-
-**For Internal Releases:**
-- [ ] Push release branch to STAGING remote:
-  ```bash
-  git push staging staging/vX.Y.Z.##:main --force
-  ```
-- [ ] Push tag to STAGING:
-  ```bash
-  git push staging vX.Y.Z.##
-  ```
-- [ ] Push to ORIGIN (development):
-  ```bash
-  git checkout main
-  git push origin main
-  git push origin vX.Y.Z.##
-  ```
-- [ ] **DO NOT** push to PUBLIC (this is internal only)
 
 ### Post-Release
 - [ ] Return to main branch: `git checkout main`
