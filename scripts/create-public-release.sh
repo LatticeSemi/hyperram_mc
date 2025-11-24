@@ -567,6 +567,7 @@ fi
 # -----------------------------------------------------------------------------
 # Create or update release branch from tag
 # -----------------------------------------------------------------------------
+RELEASE_NOTES_TEMP=""  # Initialize variable for IP Release Notes.md handling
 if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
     # Release branch exists - checkout and update it
     info "Updating existing release branch: $RELEASE_BRANCH from tag $SOURCE_TAG"
@@ -574,13 +575,23 @@ if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
     # Try to checkout local branch first
     if git show-ref --verify --quiet refs/heads/release 2>/dev/null; then
         git checkout release
+        RELEASE_BRANCH_REF="release"
     elif git show-ref --verify --quiet refs/remotes/origin/release 2>/dev/null; then
         git checkout -b release origin/release
+        RELEASE_BRANCH_REF="origin/release"
     elif git show-ref --verify --quiet refs/remotes/public/release 2>/dev/null; then
         git checkout -b release public/release
+        RELEASE_BRANCH_REF="public/release"
     else
         error "Release branch exists but cannot be checked out"
         exit 1
+    fi
+
+    # Save IP Release Notes.md from release branch before removing files
+    if git show "${RELEASE_BRANCH_REF}:IP Release Notes.md" >/dev/null 2>&1; then
+        RELEASE_NOTES_TEMP=$(mktemp)
+        git show "${RELEASE_BRANCH_REF}:IP Release Notes.md" > "$RELEASE_NOTES_TEMP" 2>/dev/null
+        info "  Saved IP Release Notes.md from release branch"
     fi
 
     # Remove all files to start fresh from tag
@@ -611,11 +622,20 @@ done
 
 # Copy individual files (may not exist yet)
 for file in "${PUBLIC_FILES[@]}"; do
-    if git cat-file -e "$SOURCE_TAG:$file" 2>/dev/null; then
-        info "  Copying file: $file"
-        git checkout "$SOURCE_TAG" -- "$file" 2>/dev/null || true
+    # Special handling for IP Release Notes.md: use saved copy from release branch if it exists
+    if [ "$file" = "IP Release Notes.md" ] && [ -n "$RELEASE_NOTES_TEMP" ] && [ -f "$RELEASE_NOTES_TEMP" ]; then
+        # Restore IP Release Notes.md from release branch to preserve previous release history
+        info "  Restoring file from release branch: $file"
+        cp "$RELEASE_NOTES_TEMP" "$file"
+        rm -f "$RELEASE_NOTES_TEMP"
     else
-        warning "  File not found in tag: $file (will be included when created)"
+        # For all other files (or IP Release Notes.md if no release branch), copy from tag
+        if git cat-file -e "$SOURCE_TAG:$file" 2>/dev/null; then
+            info "  Copying file: $file"
+            git checkout "$SOURCE_TAG" -- "$file" 2>/dev/null || true
+        else
+            warning "  File not found in tag: $file (will be included when created)"
+        fi
     fi
 done
 
