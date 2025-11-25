@@ -58,8 +58,8 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
 
 | Resource | Count |
 |----------|-------|
-| **LUTs** | 590 |
-| **Registers (REG)** | 742 |
+| **LUTs** | 602 |
+| **Registers (REG)** | 749 |
 | **EBR (Block RAM)** | 3 |
 
 **Total I/O:** 20 pins
