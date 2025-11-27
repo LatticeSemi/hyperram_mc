@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
+
 // =============================================================================
 // FILE DETAILS
 // Project : <Hyperram>
@@ -23,7 +29,7 @@ module phy_jedi #(
   parameter DELAY_HALF_CYCLE        = 0,
   parameter DATA_FINE_DELAY_VALUE   = "0",
   parameter DATA_COARSE_DELAY_VALUE = "0NS",
-  parameter integer    DELAY_VALUE  = "100"  ,
+  parameter integer    DELAY_VALUE  = "0"  ,
   parameter            DEL_MODE     = "USER_DEFINED"
   )
   (

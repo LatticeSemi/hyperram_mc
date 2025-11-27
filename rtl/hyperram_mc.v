@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
+
 module hyperram_mc
    #(
      parameter FAMILY            = "LIFCL",
@@ -23,7 +29,7 @@ module hyperram_mc
 
      // hyperbus channels
      output wire [HYPERRAM_NUM-1:0]       hyperbus_clk_o,
-	   output wire [HYPERRAM_NUM-1:0]       hyperbus_clkn_o,
+     output wire [HYPERRAM_NUM-1:0]       hyperbus_clkn_o,
      output wire [HYPERRAM_NUM-1:0]       hyperbus_csn_o,
      output wire [HYPERRAM_NUM-1:0]       hyperbus_resetn_o,
      inout  wire [HYPERRAM_NUM-1:0]       hyperbus_rwds_io,
@@ -428,7 +434,7 @@ module hyperram_mc
         .dq_io                (hyperbus_dq_io[(8*i)+:8]),
         .rwds_io              (hyperbus_rwds_io[i]     ),
         .clk_lvds_o           (hyperbus_clk_o[i]       ),
-		    .clkn_lvds_o          (hyperbus_clkn_o[i]      ),
+        .clkn_lvds_o          (hyperbus_clkn_o[i]      ),
         .csn_o                (hyperbus_csn_o[i]       ),
         .reset_o              (hyperbus_resetn_o[i]    )
       );

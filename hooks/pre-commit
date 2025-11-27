@@ -167,13 +167,25 @@ fi
 if [ -n "$STAGED_PY_FILES" ]; then
     echo ""
     echo "🐍 Checking Python syntax..."
-    if command -v python3 &> /dev/null; then
+    # Try to find a working Python interpreter
+    PYTHON_CMD=""
+    for py_cmd in python3 python py; do
+        if command -v "$py_cmd" &> /dev/null; then
+            # Test if Python actually works (not just Windows app alias)
+            if "$py_cmd" -c "import sys; sys.exit(0)" 2>/dev/null; then
+                PYTHON_CMD="$py_cmd"
+                break
+            fi
+        fi
+    done
+
+    if [ -n "$PYTHON_CMD" ]; then
         PYTHON_FAILED=0
         for file in $STAGED_PY_FILES; do
             if [ -f "$file" ]; then
-                if ! python3 -m py_compile "$file" 2>/dev/null; then
+                if ! "$PYTHON_CMD" -m py_compile "$file" 2>/dev/null; then
                     echo -e "${RED}✗ Python syntax error in: $file${NC}"
-                    python3 -m py_compile "$file"
+                    "$PYTHON_CMD" -m py_compile "$file" 2>&1 | head -10
                     PYTHON_FAILED=1
                     FAILED=1
                 fi
@@ -183,7 +195,8 @@ if [ -n "$STAGED_PY_FILES" ]; then
             echo -e "${GREEN}✓ Python syntax checks passed${NC}"
         fi
     else
-        echo -e "${YELLOW}⚠ Python not found (skipping Python checks)${NC}"
+        echo -e "${YELLOW}⚠ Python not found or not working (skipping Python checks)${NC}"
+        echo "  Install Python or ensure it's in your PATH"
     fi
 fi
 

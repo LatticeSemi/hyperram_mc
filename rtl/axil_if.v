@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
+
 // =============================================================================
 // FILE DETAILS
 // Project : <Hyperram>
@@ -21,7 +27,6 @@
 module axil_if #(
     parameter C_AXI_ADDR_WIDTH     = 32,
     parameter C_AXI_DATA_WIDTH     = 32,
-    parameter [0:0] OPT_SKIDBUFFER = 1'b0,
     parameter [0:0] OPT_LOWPOWER   = 0,
     parameter SYSBUS_CLOCK_MHZ     = 150,
     parameter TVCS_10US            = 15
@@ -160,54 +165,25 @@ module axil_if #(
       //
       ////////////////////////////////////////////////////////////////////////
       // Write signaling
-      generate if (OPT_SKIDBUFFER)
-      begin : SKIDBUFFER_WRITE
-        wire awskd_valid, wskd_valid;
-        skidbuffer #(
-                  .OPT_OUTREG(0),
-                  .OPT_LOWPOWER(OPT_LOWPOWER),
-                  .DW(C_AXI_ADDR_WIDTH-ADDRLSB))
-            axilawskid(
-                  .i_clk(S_AXI_ACLK), .i_reset(i_reset),
-                  .i_valid(S_AXI_AWVALID), .o_ready(S_AXI_AWREADY),
-                  .i_data(S_AXI_AWADDR[C_AXI_ADDR_WIDTH-1:ADDRLSB]),
-                  .o_valid(awskd_valid), .i_ready(axil_write_ready),
-                  .o_data(awskd_addr));
+      reg axil_awready;
+      initial axil_awready = 1'b0;
 
-        skidbuffer #(
-                  .OPT_OUTREG(0),
-                  .OPT_LOWPOWER(OPT_LOWPOWER),
-                  .DW(C_AXI_DATA_WIDTH+C_AXI_DATA_WIDTH/8))
-            axilwskid(//
-                  .i_clk(S_AXI_ACLK), .i_reset(i_reset),
-                  .i_valid(S_AXI_WVALID), .o_ready(S_AXI_WREADY),
-                  .i_data({ S_AXI_WDATA, S_AXI_WSTRB }),
-                  .o_valid(wskd_valid), .i_ready(axil_write_ready),
-                  .o_data({ wskd_data, wskd_strb }));
+      always @(posedge S_AXI_ACLK)
+        if (!S_AXI_ARESETN)
+          axil_awready <= 1'b0;
+        else
+          axil_awready <= !axil_awready
+                            && (S_AXI_AWVALID && S_AXI_WVALID)
+                            && (!S_AXI_BVALID || S_AXI_BREADY);
 
-        assign axil_write_ready = awskd_valid && wskd_valid
-                                  && (!S_AXI_BVALID || S_AXI_BREADY);
-      end else begin : SIMPLE_WRITES
-        reg axil_awready;
-        initial axil_awready = 1'b0;
+      assign S_AXI_AWREADY = axil_awready;
+      assign S_AXI_WREADY  = axil_awready;
 
-        always @(posedge S_AXI_ACLK)
-          if (!S_AXI_ARESETN)
-            axil_awready <= 1'b0;
-          else
-            axil_awready <= !axil_awready
-                             && (S_AXI_AWVALID && S_AXI_WVALID)
-                             && (!S_AXI_BVALID || S_AXI_BREADY);
+      assign awskd_addr = S_AXI_AWADDR[C_AXI_ADDR_WIDTH-1:ADDRLSB];
+      assign wskd_data  = S_AXI_WDATA;
+      assign wskd_strb  = S_AXI_WSTRB;
 
-        assign S_AXI_AWREADY = axil_awready;
-        assign S_AXI_WREADY  = axil_awready;
-
-        assign awskd_addr = S_AXI_AWADDR[C_AXI_ADDR_WIDTH-1:ADDRLSB];
-        assign wskd_data  = S_AXI_WDATA;
-        assign wskd_strb  = S_AXI_WSTRB;
-
-        assign axil_write_ready = axil_awready;
-      end endgenerate
+      assign axil_write_ready = axil_awready;
 
 
       initial axil_bvalid = 0;
@@ -224,32 +200,13 @@ module axil_if #(
       assign S_AXI_BRESP = 2'b00;
 
       // Read signaling
-      generate if (OPT_SKIDBUFFER)
-      begin : SKIDBUFFER_READ
-        wire arskd_valid;
+      reg axil_arready;
+      always @(*)
+        axil_arready = !S_AXI_RVALID;
 
-        skidbuffer #(
-                  .OPT_OUTREG(0),
-                  .OPT_LOWPOWER(OPT_LOWPOWER),
-                  .DW(C_AXI_ADDR_WIDTH-ADDRLSB))
-            axilarskid(//
-                  .i_clk(S_AXI_ACLK), .i_reset(i_reset),
-                  .i_valid(S_AXI_ARVALID), .o_ready(S_AXI_ARREADY),
-                  .i_data(S_AXI_ARADDR[C_AXI_ADDR_WIDTH-1:ADDRLSB]),
-                  .o_valid(arskd_valid), .i_ready(axil_read_ready),
-                  .o_data(arskd_addr));
-
-        assign axil_read_ready = arskd_valid
-                                 && (!axil_read_valid || S_AXI_RREADY);
-      end else begin : SIMPLE_READS
-        reg axil_arready;
-        always @(*)
-          axil_arready = !S_AXI_RVALID;
-
-        assign arskd_addr = S_AXI_ARADDR[C_AXI_ADDR_WIDTH-1:ADDRLSB];
-        assign S_AXI_ARREADY = axil_arready;
-        assign axil_read_ready = (S_AXI_ARVALID && S_AXI_ARREADY);
-      end endgenerate
+      assign arskd_addr = S_AXI_ARADDR[C_AXI_ADDR_WIDTH-1:ADDRLSB];
+      assign S_AXI_ARREADY = axil_arready;
+      assign axil_read_ready = (S_AXI_ARVALID && S_AXI_ARREADY);
 
       initial axil_read_valid = 1'b0;
       always @(posedge S_AXI_ACLK)

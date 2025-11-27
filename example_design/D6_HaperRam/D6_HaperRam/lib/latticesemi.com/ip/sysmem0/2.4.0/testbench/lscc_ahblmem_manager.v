@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
 `ifndef LSCC_AHBLMEM_MANAGER
 `define LSCC_AHBLMEM_MANAGER
 
@@ -82,11 +87,11 @@ module lscc_ahblmem_manager # (
 // ------------------------------------------------------------------------------
 
 localparam      ADDR_WIDTH                 = clog2(ADDR_DEPTH);
-                                          
+
 localparam      SM_SIZE                    = 8;
-                                           
+
 localparam      SM_C_START                 = 8'h01;
-                                           
+
 localparam      SM_I_READ32_PS0_INIT       = 8'h02;
 localparam      SM_I_READ32_PS0_EXEC       = 8'h03;
 localparam      SM_I_READ32_PS0_HOLD       = 8'h04;
@@ -96,7 +101,7 @@ localparam      SM_I_READ16_PS0_HOLD       = 8'h07;
 localparam      SM_I_READ8_PS0_INIT        = 8'h08;
 localparam      SM_I_READ8_PS0_EXEC        = 8'h09;
 localparam      SM_I_READ8_PS0_HOLD        = 8'h0A;
-                                           
+
 localparam      SM_I_READ32_PS1_INIT       = 8'h0B;
 localparam      SM_I_READ32_PS1_EXEC       = 8'h0C;
 localparam      SM_I_READ32_PS1_HOLD       = 8'h0D;
@@ -106,7 +111,7 @@ localparam      SM_I_READ16_PS1_HOLD       = 8'h10;
 localparam      SM_I_READ8_PS1_INIT        = 8'h11;
 localparam      SM_I_READ8_PS1_EXEC        = 8'h12;
 localparam      SM_I_READ8_PS1_HOLD        = 8'h13;
-                                           
+
 localparam      SM_N_WRITE32_PS0_INIT      = 8'h14;
 localparam      SM_N_WRITE32_PS0_EXEC      = 8'h15;
 localparam      SM_N_WRITE32_PS0_HOLD      = 8'h16;
@@ -134,7 +139,7 @@ localparam      SM_N_READ8_PS0_HOLD        = 8'h2B;
 localparam      SM_N_READ8_PS01x_INIT      = 8'h2C;
 localparam      SM_N_READ8_PS01x_EXEC      = 8'h2D;
 localparam      SM_N_READ8_PS01x_HOLD      = 8'h2E;
-                                                 
+
 localparam      SM_N_WRITE32_PS1_INIT      = 8'h2F;
 localparam      SM_N_WRITE32_PS1_EXEC      = 8'h30;
 localparam      SM_N_WRITE32_PS1_HOLD      = 8'h31;
@@ -162,7 +167,7 @@ localparam      SM_N_READ8_PS1_HOLD        = 8'h46;
 localparam      SM_N_READ8_PS10x_INIT      = 8'h47;
 localparam      SM_N_READ8_PS10x_EXEC      = 8'h48;
 localparam      SM_N_READ8_PS10x_HOLD      = 8'h49;
-                                           
+
 localparam      SM_N_WR_TO_READ_PS0_INIT   = 8'h4A;
 localparam      SM_N_WR_TO_READ_PS0_WRITE  = 8'h4B;
 localparam      SM_N_WR_TO_READ_PS0_READ   = 8'h4C;
@@ -232,7 +237,7 @@ localparam      SM_S_READ8_PS10x_HOLD      = 8'h87;
 localparam      SM_C_END                   = 8'h88;
 localparam      SM_C_ERROR                 = 8'hFF;
 
-// HBURST commands                                  
+// HBURST commands
 localparam      SINGLE            = 3'b000;
 localparam      INCR              = 3'b001;
 localparam      WRAP4             = 3'b010;
@@ -241,20 +246,20 @@ localparam      WRAP8             = 3'b100;
 localparam      INCR8             = 3'b101;
 localparam      WRAP16            = 3'b110;
 localparam      INCR16            = 3'b111;
-// HTRANS commands           
+// HTRANS commands
 localparam      IDLE              = 2'b00;
 localparam      BUSY              = 2'b01;
 localparam      NSEQ              = 2'b10;
 localparam      SEQ               = 2'b11;
-// ADDR offset          
+// ADDR offset
 localparam      ADDR_32_OFF       = 3'b100;
 localparam      ADDR_16_OFF       = 3'b010;
 localparam      ADDR_8_OFF        = 3'b001;
-// HSIZE transactions           
+// HSIZE transactions
 localparam      X32_WORD          = 3'b010;
 localparam      X16_HALFWORD      = 3'b001;
 localparam      X8_BYTE           = 3'b000;
-// HWRITE transactions           
+// HWRITE transactions
 localparam      HWRITE            = 1'b1;
 localparam      HREAD             = 1'b0;
 
@@ -309,18 +314,18 @@ localparam      S1_TOTAL_COUNT    = (ACCESS_TYPE_S1 == "R/W") ? 5*(WR_S1_TOT_COU
 
 localparam      SAFE_COUNT        = 4*(S0_TOTAL_COUNT + S1_TOTAL_COUNT);
 
-localparam      WR2RD_LIMIT_S0    = (S0_READ_EN & S0_WRITE_EN) ? ((DATA_WIDTH == 32) ? ((WRITE32_LIMIT_S0 < READ32_LIMIT_S0) ? WRITE32_LIMIT_S0 : 
+localparam      WR2RD_LIMIT_S0    = (S0_READ_EN & S0_WRITE_EN) ? ((DATA_WIDTH == 32) ? ((WRITE32_LIMIT_S0 < READ32_LIMIT_S0) ? WRITE32_LIMIT_S0 :
                                                                                                                                READ32_LIMIT_S0) :
-                                                                  (DATA_WIDTH == 16) ? ((WRITE16_LIMIT_S0 < READ16_LIMIT_S0) ? WRITE16_LIMIT_S0 : 
+                                                                  (DATA_WIDTH == 16) ? ((WRITE16_LIMIT_S0 < READ16_LIMIT_S0) ? WRITE16_LIMIT_S0 :
                                                                                                                                READ16_LIMIT_S0) :
-                                                                  (DATA_WIDTH == 8) ? ((WRITE8_LIMIT_S0 < READ8_LIMIT_S0) ? WRITE8_LIMIT_S0 : 
+                                                                  (DATA_WIDTH == 8) ? ((WRITE8_LIMIT_S0 < READ8_LIMIT_S0) ? WRITE8_LIMIT_S0 :
                                                                                                                             READ8_LIMIT_S0) :
                                                                   0) : 0;
-localparam      WR2RD_LIMIT_S1    = (S1_READ_EN & S1_WRITE_EN) ? ((DATA_WIDTH == 32) ? ((WRITE32_LIMIT_S1 < READ32_LIMIT_S1) ? WRITE32_LIMIT_S1 : 
+localparam      WR2RD_LIMIT_S1    = (S1_READ_EN & S1_WRITE_EN) ? ((DATA_WIDTH == 32) ? ((WRITE32_LIMIT_S1 < READ32_LIMIT_S1) ? WRITE32_LIMIT_S1 :
                                                                                                                                READ32_LIMIT_S1) :
-                                                                  (DATA_WIDTH == 16) ? ((WRITE16_LIMIT_S1 < READ16_LIMIT_S1) ? WRITE16_LIMIT_S1 : 
+                                                                  (DATA_WIDTH == 16) ? ((WRITE16_LIMIT_S1 < READ16_LIMIT_S1) ? WRITE16_LIMIT_S1 :
                                                                                                                                READ16_LIMIT_S1) :
-                                                                  (DATA_WIDTH == 8) ? ((WRITE8_LIMIT_S1 < READ8_LIMIT_S1) ? WRITE8_LIMIT_S1 : 
+                                                                  (DATA_WIDTH == 8) ? ((WRITE8_LIMIT_S1 < READ8_LIMIT_S1) ? WRITE8_LIMIT_S1 :
                                                                                                                             READ8_LIMIT_S1) :
                                                                   0) : 0;
 localparam      WR2RD_INC_S0      = (DATA_WIDTH == 32) ? ADDR_32_OFF :
@@ -439,7 +444,7 @@ always @ (*) begin
             // -----------------
             // ----- START -----
             // -----------------
-            SM_C_START: begin 
+            SM_C_START: begin
                 if(INIT_FILE != "none") begin
                     if(S0_READ_EN) begin
                         case(DATA_WIDTH)
@@ -659,7 +664,7 @@ always @ (*) begin
             end
             SM_N_WRITE32_PS0_HOLD: begin
                 mstr_state_nxt_c = SM_N_WRITE32_PS0_EXEC;
-            end 
+            end
             // --------------------------------------
             // ----- 32-bit NSEQ READ (port S0) -----
             // --------------------------------------
@@ -1187,7 +1192,7 @@ always @ (*) begin
                 sys_cntr_nxt_c = {32{1'b0}};
             end
             SM_N_WR_TO_READ_PS0_WRITE: begin
-                mstr_state_nxt_c = SM_N_WR_TO_READ_PS0_READ;         
+                mstr_state_nxt_c = SM_N_WR_TO_READ_PS0_READ;
             end
             SM_N_WR_TO_READ_PS0_READ: begin
                 if(sys_cntr_r < WR2RD_LIMIT_S0) begin
@@ -1226,7 +1231,7 @@ always @ (*) begin
                 sys_cntr_nxt_c = {32{1'b0}};
             end
             SM_N_WR_TO_READ_PS1_WRITE: begin
-                mstr_state_nxt_c = SM_N_WR_TO_READ_PS1_READ;         
+                mstr_state_nxt_c = SM_N_WR_TO_READ_PS1_READ;
             end
             SM_N_WR_TO_READ_PS1_READ: begin
                 if(sys_cntr_r < WR2RD_LIMIT_S1) begin
@@ -1739,54 +1744,54 @@ always @ (*) begin
                 end
             end
             SM_C_END: begin
-        
+
             end
             SM_C_ERROR: begin
-        
+
             end
         endcase
     end
 end
 
 /*************************
- * PORT S0 hsel Controller 
+ * PORT S0 hsel Controller
  *************************/
 always @ (*) begin
     ahbl_s0_hsel_nxt_c = // INITIALIZATION STATES
-                         (mstr_state_nxt_c == SM_I_READ32_PS0_EXEC)      || 
+                         (mstr_state_nxt_c == SM_I_READ32_PS0_EXEC)      ||
                          (mstr_state_nxt_c == SM_I_READ16_PS0_EXEC)      ||
-                         (mstr_state_nxt_c == SM_I_READ8_PS0_EXEC)       || 
-                         // NON-SEQUENTIAL STATES (PORT S0 Priority)                        
-                         (mstr_state_nxt_c == SM_N_WRITE32_PS0_EXEC)     || 
+                         (mstr_state_nxt_c == SM_I_READ8_PS0_EXEC)       ||
+                         // NON-SEQUENTIAL STATES (PORT S0 Priority)
+                         (mstr_state_nxt_c == SM_N_WRITE32_PS0_EXEC)     ||
                          (mstr_state_nxt_c == SM_N_READ32_PS0_EXEC)      ||
-                         (mstr_state_nxt_c == SM_N_WRITE16_PS0_EXEC)     || 
+                         (mstr_state_nxt_c == SM_N_WRITE16_PS0_EXEC)     ||
                          (mstr_state_nxt_c == SM_N_READ16_PS0_EXEC)      ||
-                         (mstr_state_nxt_c == SM_N_WRITE8_PS0_EXEC)      || 
+                         (mstr_state_nxt_c == SM_N_WRITE8_PS0_EXEC)      ||
                          (mstr_state_nxt_c == SM_N_READ8_PS0_EXEC)       ||
-                         // NON-SEQUENTIAL STATES (PORT S1 Priority)  
+                         // NON-SEQUENTIAL STATES (PORT S1 Priority)
                          (mstr_state_nxt_c == SM_N_READ32_PS10x_EXEC)    ||
-                         (mstr_state_nxt_c == SM_N_READ16_PS10x_EXEC)    || 
+                         (mstr_state_nxt_c == SM_N_READ16_PS10x_EXEC)    ||
                          (mstr_state_nxt_c == SM_N_READ8_PS10x_EXEC)     ||
                          // WRITE TO READ STATES
-                         (mstr_state_nxt_c == SM_N_WR_TO_READ_PS0_WRITE) || 
+                         (mstr_state_nxt_c == SM_N_WR_TO_READ_PS0_WRITE) ||
                          (mstr_state_nxt_c == SM_N_WR_TO_READ_PS0_READ)  ||
-                         // SEQUENTIAL STATES (PORT S0 Priority) 
+                         // SEQUENTIAL STATES (PORT S0 Priority)
                          (mstr_state_nxt_c == SM_S_WRITE32_PS0_INIT)     ||
                          (mstr_state_nxt_c == SM_S_WRITE32_PS0_EXEC)     ||
                          (mstr_state_nxt_c == SM_S_WRITE32_PS0_HOLD)     ||
                          (mstr_state_nxt_c == SM_S_READ32_PS0_INIT)      ||
                          (mstr_state_nxt_c == SM_S_READ32_PS0_EXEC)      ||
                          (mstr_state_nxt_c == SM_S_READ32_PS0_HOLD)      ||
-                         (mstr_state_nxt_c == SM_S_WRITE16_PS0_INIT)     || 
-                         (mstr_state_nxt_c == SM_S_WRITE16_PS0_EXEC)     || 
+                         (mstr_state_nxt_c == SM_S_WRITE16_PS0_INIT)     ||
+                         (mstr_state_nxt_c == SM_S_WRITE16_PS0_EXEC)     ||
                          (mstr_state_nxt_c == SM_S_WRITE16_PS0_HOLD)     ||
-                         (mstr_state_nxt_c == SM_S_READ16_PS0_INIT)      || 
-                         (mstr_state_nxt_c == SM_S_READ16_PS0_EXEC)      || 
+                         (mstr_state_nxt_c == SM_S_READ16_PS0_INIT)      ||
+                         (mstr_state_nxt_c == SM_S_READ16_PS0_EXEC)      ||
                          (mstr_state_nxt_c == SM_S_READ16_PS0_HOLD)      ||
                          (mstr_state_nxt_c == SM_S_WRITE8_PS0_INIT)      ||
                          (mstr_state_nxt_c == SM_S_WRITE8_PS0_EXEC)      ||
                          (mstr_state_nxt_c == SM_S_WRITE8_PS0_HOLD)      ||
-                         (mstr_state_nxt_c == SM_S_READ8_PS0_INIT)       || 
+                         (mstr_state_nxt_c == SM_S_READ8_PS0_INIT)       ||
                          (mstr_state_nxt_c == SM_S_READ8_PS0_EXEC)       ||
                          (mstr_state_nxt_c == SM_S_READ8_PS0_HOLD)       ||
                          // SEQUENTIAL STATES (PORT S1 Priority)
@@ -1799,11 +1804,11 @@ always @ (*) begin
                          (mstr_state_nxt_c == SM_S_READ8_PS10x_INIT)     ||
                          (mstr_state_nxt_c == SM_S_READ8_PS10x_EXEC)     ||
                          (mstr_state_nxt_c == SM_S_READ8_PS10x_HOLD);
-    
+
 end
 
 /****************************
- * PORT S0 Address Controller 
+ * PORT S0 Address Controller
  ****************************/
 always @ (*) begin
     ahbl_s0_haddr_nxt_c = ahbl_s0_haddr_r;
@@ -1871,13 +1876,13 @@ always @ (*) begin
 end
 
 /**************************
- * PORT S0 hsize Controller 
+ * PORT S0 hsize Controller
  **************************/
 always @ (*) begin
     ahbl_s0_hsize_nxt_c = ahbl_s0_hsize_r;
     case(mstr_state_nxt_c)
         SM_C_START                 : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
-        // INITIALIZATION                           
+        // INITIALIZATION
         SM_I_READ32_PS0_INIT       : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_I_READ32_PS0_EXEC       : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_I_READ32_PS0_HOLD       : ahbl_s0_hsize_nxt_c = X32_WORD;
@@ -1887,7 +1892,7 @@ always @ (*) begin
         SM_I_READ8_PS0_INIT        : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_I_READ8_PS0_EXEC        : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_I_READ8_PS0_HOLD        : ahbl_s0_hsize_nxt_c = X8_BYTE;
-        // NON-SEQUENTIAL (PORT S0 PRIORITY)                                    
+        // NON-SEQUENTIAL (PORT S0 PRIORITY)
         SM_N_WRITE32_PS0_INIT      : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_N_WRITE32_PS0_EXEC      : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_N_WRITE32_PS0_HOLD      : ahbl_s0_hsize_nxt_c = X32_WORD;
@@ -1906,7 +1911,7 @@ always @ (*) begin
         SM_N_READ8_PS0_INIT        : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS0_EXEC        : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS0_HOLD        : ahbl_s0_hsize_nxt_c = X8_BYTE;
-        // NON-SEQUENTIAL (PORT S1 PRIORITY)                                          
+        // NON-SEQUENTIAL (PORT S1 PRIORITY)
         SM_N_READ32_PS10x_INIT     : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_N_READ32_PS10x_EXEC     : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_N_READ32_PS10x_HOLD     : ahbl_s0_hsize_nxt_c = X32_WORD;
@@ -1916,12 +1921,12 @@ always @ (*) begin
         SM_N_READ8_PS10x_INIT      : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS10x_EXEC      : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS10x_HOLD      : ahbl_s0_hsize_nxt_c = X8_BYTE;
-        // WRITE-TO-READ                                      
+        // WRITE-TO-READ
         SM_N_WR_TO_READ_PS0_INIT   : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
         SM_N_WR_TO_READ_PS0_WRITE  : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
         SM_N_WR_TO_READ_PS0_READ   : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
         SM_N_WR_TO_READ_PS0_HOLD   : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
-        // SEQUENTIAL (PORT S0 PRIORITY)         
+        // SEQUENTIAL (PORT S0 PRIORITY)
         SM_S_WRITE32_PS0_INIT      : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_S_WRITE32_PS0_EXEC      : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_S_WRITE32_PS0_HOLD      : ahbl_s0_hsize_nxt_c = X32_WORD;
@@ -1940,7 +1945,7 @@ always @ (*) begin
         SM_S_READ8_PS0_INIT        : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS0_EXEC        : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS0_HOLD        : ahbl_s0_hsize_nxt_c = X8_BYTE;
-        // SEQUENTIAL (PORT S1 PRIORITY)           
+        // SEQUENTIAL (PORT S1 PRIORITY)
         SM_S_READ32_PS10x_INIT     : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_S_READ32_PS10x_EXEC     : ahbl_s0_hsize_nxt_c = X32_WORD;
         SM_S_READ32_PS10x_HOLD     : ahbl_s0_hsize_nxt_c = X32_WORD;
@@ -1950,37 +1955,37 @@ always @ (*) begin
         SM_S_READ8_PS10x_INIT      : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS10x_EXEC      : ahbl_s0_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS10x_HOLD      : ahbl_s0_hsize_nxt_c = X8_BYTE;
-        // END and ERROR          
+        // END and ERROR
         SM_C_END                   : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
         SM_C_ERROR                 : ahbl_s0_hsize_nxt_c = DEFAULT_HSIZE;
     endcase
 end
 
 /***************************
- * PORT S0 htrans Controller 
+ * PORT S0 htrans Controller
  ***************************/
 always @ (*) begin
     ahbl_s0_htrans_nxt_c = ahbl_s0_htrans_r;
     case(mstr_state_nxt_c)
-        // INITIALIZATION                           
+        // INITIALIZATION
         SM_I_READ32_PS0_EXEC       : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_I_READ16_PS0_EXEC       : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_I_READ8_PS0_EXEC        : ahbl_s0_htrans_nxt_c = NSEQ;
-        // NON-SEQUENTIAL (PORT S0 PRIORITY)                                    
+        // NON-SEQUENTIAL (PORT S0 PRIORITY)
         SM_N_WRITE32_PS0_EXEC      : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_READ32_PS0_EXEC       : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_WRITE16_PS0_EXEC      : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_READ16_PS0_EXEC       : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_WRITE8_PS0_EXEC       : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_READ8_PS0_EXEC        : ahbl_s0_htrans_nxt_c = NSEQ;
-        // NON-SEQUENTIAL (PORT S1 PRIORITY)                                          
+        // NON-SEQUENTIAL (PORT S1 PRIORITY)
         SM_N_READ32_PS10x_EXEC     : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_READ16_PS10x_EXEC     : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_READ8_PS10x_EXEC      : ahbl_s0_htrans_nxt_c = NSEQ;
-        // WRITE-TO-READ                                      
+        // WRITE-TO-READ
         SM_N_WR_TO_READ_PS0_WRITE  : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_N_WR_TO_READ_PS0_READ   : ahbl_s0_htrans_nxt_c = NSEQ;
-        // SEQUENTIAL (PORT S0 PRIORITY)         
+        // SEQUENTIAL (PORT S0 PRIORITY)
         SM_S_WRITE32_PS0_INIT      : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_S_WRITE32_PS0_EXEC      : ahbl_s0_htrans_nxt_c = SEQ;
         SM_S_WRITE32_PS0_HOLD      : ahbl_s0_htrans_nxt_c = SEQ;
@@ -1999,7 +2004,7 @@ always @ (*) begin
         SM_S_READ8_PS0_INIT        : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_S_READ8_PS0_EXEC        : ahbl_s0_htrans_nxt_c = SEQ;
         SM_S_READ8_PS0_HOLD        : ahbl_s0_htrans_nxt_c = SEQ;
-        // SEQUENTIAL (PORT S1 PRIORITY)           
+        // SEQUENTIAL (PORT S1 PRIORITY)
         SM_S_READ32_PS10x_INIT     : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_S_READ32_PS10x_EXEC     : ahbl_s0_htrans_nxt_c = SEQ;
         SM_S_READ32_PS10x_HOLD     : ahbl_s0_htrans_nxt_c = SEQ;
@@ -2009,24 +2014,24 @@ always @ (*) begin
         SM_S_READ8_PS10x_INIT      : ahbl_s0_htrans_nxt_c = NSEQ;
         SM_S_READ8_PS10x_EXEC      : ahbl_s0_htrans_nxt_c = SEQ;
         SM_S_READ8_PS10x_HOLD      : ahbl_s0_htrans_nxt_c = SEQ;
-        // END and ERROR          
+        // END and ERROR
         default                    : ahbl_s0_htrans_nxt_c = IDLE;
     endcase
 end
 
 /***************************
- * PORT S0 hwrite controller 
+ * PORT S0 hwrite controller
  ***************************/
 always @ (*) begin
     ahbl_s0_hwrite_nxt_c = ahbl_s0_hwrite_r;
     case(mstr_state_nxt_c)
-        // NON-SEQUENTIAL (PORT S0 PRIORITY)                                    
+        // NON-SEQUENTIAL (PORT S0 PRIORITY)
         SM_N_WRITE32_PS0_EXEC      : ahbl_s0_hwrite_nxt_c = 1'b1;
         SM_N_WRITE16_PS0_EXEC      : ahbl_s0_hwrite_nxt_c = 1'b1;
-        SM_N_WRITE8_PS0_EXEC       : ahbl_s0_hwrite_nxt_c = 1'b1;                                      
-        // WRITE-TO-READ                                      
+        SM_N_WRITE8_PS0_EXEC       : ahbl_s0_hwrite_nxt_c = 1'b1;
+        // WRITE-TO-READ
         SM_N_WR_TO_READ_PS0_WRITE  : ahbl_s0_hwrite_nxt_c = 1'b1;
-        // SEQUENTIAL (PORT S0 PRIORITY)         
+        // SEQUENTIAL (PORT S0 PRIORITY)
         SM_S_WRITE32_PS0_INIT      : ahbl_s0_hwrite_nxt_c = 1'b1;
         SM_S_WRITE32_PS0_EXEC      : ahbl_s0_hwrite_nxt_c = 1'b1;
         SM_S_WRITE32_PS0_HOLD      : ahbl_s0_hwrite_nxt_c = 1'b1;
@@ -2041,7 +2046,7 @@ always @ (*) begin
 end
 
 /***************************
- * PORT S0 hw_data controller 
+ * PORT S0 hw_data controller
  ***************************/
 
 wire [31:0] tmem32_32_s0 = mem_s0[ahbl_s0_haddr_r >> 2];
@@ -2250,28 +2255,28 @@ always @ (*) begin
 end
 
 /*************************
- * PORT S1 hsel Controller 
+ * PORT S1 hsel Controller
  *************************/
 always @ (*) begin
     ahbl_s1_hsel_nxt_c = // INITIALIZATION STATES
-                         (mstr_state_nxt_c == SM_I_READ32_PS1_EXEC)      || 
+                         (mstr_state_nxt_c == SM_I_READ32_PS1_EXEC)      ||
                          (mstr_state_nxt_c == SM_I_READ16_PS1_EXEC)      ||
-                         (mstr_state_nxt_c == SM_I_READ8_PS1_EXEC)       || 
-                         // NON-SEQUENTIAL STATES (PORT S0 Priority)                        
-                         (mstr_state_nxt_c == SM_N_READ32_PS01x_EXEC)    || 
+                         (mstr_state_nxt_c == SM_I_READ8_PS1_EXEC)       ||
+                         // NON-SEQUENTIAL STATES (PORT S0 Priority)
+                         (mstr_state_nxt_c == SM_N_READ32_PS01x_EXEC)    ||
                          (mstr_state_nxt_c == SM_N_READ16_PS01x_EXEC)    ||
-                         (mstr_state_nxt_c == SM_N_READ8_PS01x_EXEC)     || 
+                         (mstr_state_nxt_c == SM_N_READ8_PS01x_EXEC)     ||
                          // NON-SEQUENTIAL STATES (PORT S1 Priority)
                          (mstr_state_nxt_c == SM_N_WRITE32_PS1_EXEC)     ||
-                         (mstr_state_nxt_c == SM_N_READ32_PS1_EXEC)      || 
+                         (mstr_state_nxt_c == SM_N_READ32_PS1_EXEC)      ||
                          (mstr_state_nxt_c == SM_N_WRITE16_PS1_EXEC)     ||
                          (mstr_state_nxt_c == SM_N_READ16_PS1_EXEC)      ||
-                         (mstr_state_nxt_c == SM_N_WRITE8_PS1_EXEC)      || 
+                         (mstr_state_nxt_c == SM_N_WRITE8_PS1_EXEC)      ||
                          (mstr_state_nxt_c == SM_N_READ8_PS1_EXEC)       ||
                          // WRITE TO READ STATES
-                         (mstr_state_nxt_c == SM_N_WR_TO_READ_PS1_WRITE) || 
+                         (mstr_state_nxt_c == SM_N_WR_TO_READ_PS1_WRITE) ||
                          (mstr_state_nxt_c == SM_N_WR_TO_READ_PS1_READ)  ||
-                         // SEQUENTIAL STATES (PORT S0 Priority) 
+                         // SEQUENTIAL STATES (PORT S0 Priority)
                          (mstr_state_nxt_c == SM_S_READ32_PS01x_INIT)    ||
                          (mstr_state_nxt_c == SM_S_READ32_PS01x_EXEC)    ||
                          (mstr_state_nxt_c == SM_S_READ32_PS01x_HOLD)    ||
@@ -2281,30 +2286,30 @@ always @ (*) begin
                          (mstr_state_nxt_c == SM_S_READ8_PS01x_INIT)     ||
                          (mstr_state_nxt_c == SM_S_READ8_PS01x_EXEC)     ||
                          (mstr_state_nxt_c == SM_S_READ8_PS01x_HOLD)     ||
-                         // SEQUENTIAL STATES (PORT S1 Priority) 
+                         // SEQUENTIAL STATES (PORT S1 Priority)
                          (mstr_state_nxt_c == SM_S_WRITE32_PS1_INIT)     ||
                          (mstr_state_nxt_c == SM_S_WRITE32_PS1_EXEC)     ||
                          (mstr_state_nxt_c == SM_S_WRITE32_PS1_HOLD)     ||
                          (mstr_state_nxt_c == SM_S_READ32_PS1_INIT)      ||
                          (mstr_state_nxt_c == SM_S_READ32_PS1_EXEC)      ||
                          (mstr_state_nxt_c == SM_S_READ32_PS1_HOLD)      ||
-                         (mstr_state_nxt_c == SM_S_WRITE16_PS1_INIT)     || 
-                         (mstr_state_nxt_c == SM_S_WRITE16_PS1_EXEC)     || 
+                         (mstr_state_nxt_c == SM_S_WRITE16_PS1_INIT)     ||
+                         (mstr_state_nxt_c == SM_S_WRITE16_PS1_EXEC)     ||
                          (mstr_state_nxt_c == SM_S_WRITE16_PS1_HOLD)     ||
-                         (mstr_state_nxt_c == SM_S_READ16_PS1_INIT)      || 
-                         (mstr_state_nxt_c == SM_S_READ16_PS1_EXEC)      || 
+                         (mstr_state_nxt_c == SM_S_READ16_PS1_INIT)      ||
+                         (mstr_state_nxt_c == SM_S_READ16_PS1_EXEC)      ||
                          (mstr_state_nxt_c == SM_S_READ16_PS1_HOLD)      ||
                          (mstr_state_nxt_c == SM_S_WRITE8_PS1_INIT)      ||
                          (mstr_state_nxt_c == SM_S_WRITE8_PS1_EXEC)      ||
                          (mstr_state_nxt_c == SM_S_WRITE8_PS1_HOLD)      ||
-                         (mstr_state_nxt_c == SM_S_READ8_PS1_INIT)       || 
+                         (mstr_state_nxt_c == SM_S_READ8_PS1_INIT)       ||
                          (mstr_state_nxt_c == SM_S_READ8_PS1_EXEC)       ||
                          (mstr_state_nxt_c == SM_S_READ8_PS1_HOLD);
-    
+
 end
 
 /****************************
- * PORT S1 Address Controller 
+ * PORT S1 Address Controller
  ****************************/
 always @ (*) begin
     ahbl_s1_haddr_nxt_c = ahbl_s1_haddr_r;
@@ -2372,13 +2377,13 @@ always @ (*) begin
 end
 
 /**************************
- * PORT S1 hsize Controller 
+ * PORT S1 hsize Controller
  **************************/
 always @ (*) begin
     ahbl_s1_hsize_nxt_c = ahbl_s1_hsize_r;
     case(mstr_state_nxt_c)
         SM_C_START                 : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
-        // INITIALIZATION                           
+        // INITIALIZATION
         SM_I_READ32_PS1_INIT       : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_I_READ32_PS1_EXEC       : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_I_READ32_PS1_HOLD       : ahbl_s1_hsize_nxt_c = X32_WORD;
@@ -2388,7 +2393,7 @@ always @ (*) begin
         SM_I_READ8_PS1_INIT        : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_I_READ8_PS1_EXEC        : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_I_READ8_PS1_HOLD        : ahbl_s1_hsize_nxt_c = X8_BYTE;
-        // NON-SEQUENTIAL (PORT S0 PRIORITY)                                          
+        // NON-SEQUENTIAL (PORT S0 PRIORITY)
         SM_N_READ32_PS01x_INIT     : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_N_READ32_PS01x_EXEC     : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_N_READ32_PS01x_HOLD     : ahbl_s1_hsize_nxt_c = X32_WORD;
@@ -2398,7 +2403,7 @@ always @ (*) begin
         SM_N_READ8_PS01x_INIT      : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS01x_EXEC      : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS01x_HOLD      : ahbl_s1_hsize_nxt_c = X8_BYTE;
-        // NON-SEQUENTIAL (PORT S1 PRIORITY)                                    
+        // NON-SEQUENTIAL (PORT S1 PRIORITY)
         SM_N_WRITE32_PS1_INIT      : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_N_WRITE32_PS1_EXEC      : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_N_WRITE32_PS1_HOLD      : ahbl_s1_hsize_nxt_c = X32_WORD;
@@ -2417,12 +2422,12 @@ always @ (*) begin
         SM_N_READ8_PS1_INIT        : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS1_EXEC        : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_N_READ8_PS1_HOLD        : ahbl_s1_hsize_nxt_c = X8_BYTE;
-        // WRITE-TO-READ                                      
+        // WRITE-TO-READ
         SM_N_WR_TO_READ_PS1_INIT   : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
         SM_N_WR_TO_READ_PS1_WRITE  : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
         SM_N_WR_TO_READ_PS1_READ   : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
         SM_N_WR_TO_READ_PS1_HOLD   : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
-        // SEQUENTIAL (PORT S0 PRIORITY)           
+        // SEQUENTIAL (PORT S0 PRIORITY)
         SM_S_READ32_PS01x_INIT     : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_S_READ32_PS01x_EXEC     : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_S_READ32_PS01x_HOLD     : ahbl_s1_hsize_nxt_c = X32_WORD;
@@ -2432,7 +2437,7 @@ always @ (*) begin
         SM_S_READ8_PS01x_INIT      : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS01x_EXEC      : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS01x_HOLD      : ahbl_s1_hsize_nxt_c = X8_BYTE;
-        // SEQUENTIAL (PORT S1 PRIORITY)         
+        // SEQUENTIAL (PORT S1 PRIORITY)
         SM_S_WRITE32_PS1_INIT      : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_S_WRITE32_PS1_EXEC      : ahbl_s1_hsize_nxt_c = X32_WORD;
         SM_S_WRITE32_PS1_HOLD      : ahbl_s1_hsize_nxt_c = X32_WORD;
@@ -2451,37 +2456,37 @@ always @ (*) begin
         SM_S_READ8_PS1_INIT        : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS1_EXEC        : ahbl_s1_hsize_nxt_c = X8_BYTE;
         SM_S_READ8_PS1_HOLD        : ahbl_s1_hsize_nxt_c = X8_BYTE;
-        // END and ERROR          
+        // END and ERROR
         SM_C_END                   : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
         SM_C_ERROR                 : ahbl_s1_hsize_nxt_c = DEFAULT_HSIZE;
     endcase
 end
 
 /***************************
- * PORT S1 htrans Controller 
+ * PORT S1 htrans Controller
  ***************************/
 always @ (*) begin
     ahbl_s1_htrans_nxt_c = ahbl_s1_htrans_r;
     case(mstr_state_nxt_c)
-        // INITIALIZATION                           
+        // INITIALIZATION
         SM_I_READ32_PS1_EXEC       : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_I_READ16_PS1_EXEC       : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_I_READ8_PS1_EXEC        : ahbl_s1_htrans_nxt_c = NSEQ;
-        // NON-SEQUENTIAL (PORT S0 PRIORITY)                                          
+        // NON-SEQUENTIAL (PORT S0 PRIORITY)
         SM_N_READ32_PS01x_EXEC     : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_READ16_PS01x_EXEC     : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_READ8_PS01x_EXEC      : ahbl_s1_htrans_nxt_c = NSEQ;
-        // NON-SEQUENTIAL (PORT S1 PRIORITY)                                    
+        // NON-SEQUENTIAL (PORT S1 PRIORITY)
         SM_N_WRITE32_PS1_EXEC      : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_READ32_PS1_EXEC       : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_WRITE16_PS1_EXEC      : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_READ16_PS1_EXEC       : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_WRITE8_PS1_EXEC       : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_READ8_PS1_EXEC        : ahbl_s1_htrans_nxt_c = NSEQ;
-        // WRITE-TO-READ                                      
+        // WRITE-TO-READ
         SM_N_WR_TO_READ_PS1_WRITE  : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_N_WR_TO_READ_PS1_READ   : ahbl_s1_htrans_nxt_c = NSEQ;
-        // SEQUENTIAL (PORT S0 PRIORITY)           
+        // SEQUENTIAL (PORT S0 PRIORITY)
         SM_S_READ32_PS01x_INIT     : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_S_READ32_PS01x_EXEC     : ahbl_s1_htrans_nxt_c = SEQ;
         SM_S_READ32_PS01x_HOLD     : ahbl_s1_htrans_nxt_c = SEQ;
@@ -2491,7 +2496,7 @@ always @ (*) begin
         SM_S_READ8_PS01x_INIT      : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_S_READ8_PS01x_EXEC      : ahbl_s1_htrans_nxt_c = SEQ;
         SM_S_READ8_PS01x_HOLD      : ahbl_s1_htrans_nxt_c = SEQ;
-        // SEQUENTIAL (PORT S1 PRIORITY)         
+        // SEQUENTIAL (PORT S1 PRIORITY)
         SM_S_WRITE32_PS1_INIT      : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_S_WRITE32_PS1_EXEC      : ahbl_s1_htrans_nxt_c = SEQ;
         SM_S_WRITE32_PS1_HOLD      : ahbl_s1_htrans_nxt_c = SEQ;
@@ -2510,24 +2515,24 @@ always @ (*) begin
         SM_S_READ8_PS1_INIT        : ahbl_s1_htrans_nxt_c = NSEQ;
         SM_S_READ8_PS1_EXEC        : ahbl_s1_htrans_nxt_c = SEQ;
         SM_S_READ8_PS1_HOLD        : ahbl_s1_htrans_nxt_c = SEQ;
-        // END and ERROR          
+        // END and ERROR
         default                    : ahbl_s1_htrans_nxt_c = IDLE;
     endcase
 end
 
 /***************************
- * PORT S1 hwrite controller 
+ * PORT S1 hwrite controller
  ***************************/
 always @ (*) begin
     ahbl_s1_hwrite_nxt_c = ahbl_s1_hwrite_r;
     case(mstr_state_nxt_c)
-        // NON-SEQUENTIAL (PORT S1 PRIORITY)                                    
+        // NON-SEQUENTIAL (PORT S1 PRIORITY)
         SM_N_WRITE32_PS1_EXEC      : ahbl_s1_hwrite_nxt_c = 1'b1;
         SM_N_WRITE16_PS1_EXEC      : ahbl_s1_hwrite_nxt_c = 1'b1;
-        SM_N_WRITE8_PS1_EXEC       : ahbl_s1_hwrite_nxt_c = 1'b1;                                      
-        // WRITE-TO-READ                                      
+        SM_N_WRITE8_PS1_EXEC       : ahbl_s1_hwrite_nxt_c = 1'b1;
+        // WRITE-TO-READ
         SM_N_WR_TO_READ_PS1_WRITE  : ahbl_s1_hwrite_nxt_c = 1'b1;
-        // SEQUENTIAL (PORT S1 PRIORITY)         
+        // SEQUENTIAL (PORT S1 PRIORITY)
         SM_S_WRITE32_PS1_INIT      : ahbl_s1_hwrite_nxt_c = 1'b1;
         SM_S_WRITE32_PS1_EXEC      : ahbl_s1_hwrite_nxt_c = 1'b1;
         SM_S_WRITE32_PS1_HOLD      : ahbl_s1_hwrite_nxt_c = 1'b1;
@@ -2542,7 +2547,7 @@ always @ (*) begin
 end
 
 /***************************
- * PORT S0 hw_data controller 
+ * PORT S0 hw_data controller
  ***************************/
 
 wire [31:0] tmem32_32_s1 = mem_s1[ahbl_s1_haddr_r >> 2];

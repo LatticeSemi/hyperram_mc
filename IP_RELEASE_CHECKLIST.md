@@ -15,9 +15,8 @@
 - [x] Proper use of blocking (`=`) in combinational logic (Verified: combinational always blocks use `=` or `assign`)
 - [x] Proper use of non-blocking (`<=`) in sequential logic (Verified: sequential always blocks use `<=`)
 - [x] All case statements have defaults or cover all cases
-  - [x] `axi_addr.v` - Case statements have `default` clauses (line 199)
   - [x] `hyperbus_controller.v` - Case statements for `ctrl_state` (line 267) and `data_state` (line 441) - No explicit default, but safe because they are in clocked processes (`always @(posedge clk_i)`). Clocked processes do not infer latches. All defined state values are covered.
-  - [x] `axil_if.v` - Case statements for register addressing (lines 308, 328) - In clocked process (`always @(posedge S_AXI_ACLK)`), so no latch inference. Covers valid register offsets (0x00-0x20). Invalid addresses (0x09-0x0F) will result in no write operation, which is acceptable behavior for register interface.
+  - [x] `axil_if.v` - Case statements for register addressing (lines 265, 285) - In clocked process (`always @(posedge S_AXI_ACLK)`), so no latch inference. Covers valid register offsets (0x00-0x20). Invalid addresses (0x09-0x0F) will result in no write operation, which is acceptable behavior for register interface.
 - [x] No X or Z assignments in synthesizable code (Verified: No X or Z assignments found)
 - [x] Clock domain crossings properly handled with synchronizers
   - [x] `sync_non_rst` module used for CDC (found in `hyperbus_controller.v`, `phy_jedi.v`)
@@ -183,7 +182,7 @@ Use the automated release script with version management:
 - [ ] No vendor tool project files (unless intentional)
 
 ### Directory Structure Validation
-- [x] `rtl/` contains only RTL source files (9 RTL files confirmed: hyperram_mc.v, axi_if.v, axi2local.v, etc.)
+- [x] `rtl/` contains only RTL source files (6 RTL files confirmed: hyperram_mc.v, hyperbus_controller.v, axi2local.v, axil_if.v, phy_jedi.v, sync_non_rst.v)
 - [x] `doc/` contains documentation (doc/introduction.html) (Confirmed exists)
 - [x] `plugin/` contains plugin scripts (plugin/plugin.py) (Confirmed exists)
 - [x] `testbench/` contains testbenches (if used) (tb_top.v and supporting files confirmed)
@@ -195,13 +194,12 @@ Use the automated release script with version management:
 
 ### Copyright & License
 - [ ] All RTL files have copyright headers
-  - [x] `axi_addr.v` - Apache License 2.0 (WB2AXIP)
-  - [x] `axi_if.v` - Apache License 2.0 (WB2AXIP)
   - [x] `axi2local.v` - Lattice Reference Design License
-  - [x] `skidbuffer.v` - Apache License 2.0 (WB2AXIP)
-  - [ ] `hyperram_mc.v` - No header/copyright (needs header)
-  - [ ] `hyperbus_controller.v` - Has file header but no copyright/license
-  - [ ] `axil_if.v` - Has file header but no copyright/license
+  - [x] `hyperram_mc.v` - Lattice Semiconductor Corporation (2025)
+  - [x] `hyperbus_controller.v` - Lattice Semiconductor Corporation (2025)
+  - [x] `axil_if.v` - Lattice Semiconductor Corporation (2025)
+  - [x] `phy_jedi.v` - Lattice Semiconductor Corporation (2025)
+  - [x] `sync_non_rst.v` - Lattice Semiconductor Corporation (2025)
   - [ ] `phy_jedi.v` - Has file header but no copyright/license
   - [ ] `sync_non_rst.v` - No header at all
 - [x] License specified (Lattice Reference, Proprietary, or Open Source) (Mix of Apache License 2.0 and Lattice Reference Design License found)
