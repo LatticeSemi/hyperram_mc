@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
 `ifndef LSCC_FIFO_MASTER
 `define LSCC_FIFO_MASTER
 
@@ -23,7 +28,7 @@ initial begin
         @(posedge rstn_i);
         @(posedge clk_i);
         fifo_address_rst_o  <= 1'b1;
-        @(posedge clk_i);   
+        @(posedge clk_i);
         fifo_address_rst_o  <= 1'b0;
         while (~fifo_full_o) begin
             wr_en_r         <= $urandom_range(1'b0,1'b1);
@@ -40,7 +45,7 @@ initial begin
     fifo_interface_en_o <= FIFO_EN;
     fifo_address_rst_o  <= 1'b0;
     wr_en_r             <= 1'b0;
-    fifo_wr_data_o      <= 8'h00;     
+    fifo_wr_data_o      <= 8'h00;
 end
 
 endmodule

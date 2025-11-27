@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
 `ifndef LSCC_DATA_CHECKER
 `define LSCC_DATA_CHECKER
 
@@ -71,7 +76,7 @@ module lscc_data_checker # (
 
 localparam ADDR_WIDTH             = clog2(ADDR_DEPTH);
 
-// HBURST commands                                  
+// HBURST commands
 localparam      SINGLE            = 3'b000;
 localparam      INCR              = 3'b001;
 localparam      WRAP4             = 3'b010;
@@ -80,20 +85,20 @@ localparam      WRAP8             = 3'b100;
 localparam      INCR8             = 3'b101;
 localparam      WRAP16            = 3'b110;
 localparam      INCR16            = 3'b111;
-// HTRANS commands           
+// HTRANS commands
 localparam      IDLE              = 2'b00;
 localparam      BUSY              = 2'b01;
 localparam      NSEQ              = 2'b10;
 localparam      SEQ               = 2'b11;
-// ADDR offset          
+// ADDR offset
 localparam      ADDR_32_OFF       = 3'b100;
 localparam      ADDR_16_OFF       = 3'b010;
 localparam      ADDR_8_OFF        = 3'b001;
-// HSIZE transactions           
+// HSIZE transactions
 localparam      X32_WORD          = 3'b010;
 localparam      X16_HALFWORD      = 3'b001;
 localparam      X8_BYTE           = 3'b000;
-// HWRITE transactions           
+// HWRITE transactions
 localparam      HWRITE            = 1'b1;
 localparam      HREAD             = 1'b0;
 
@@ -104,7 +109,7 @@ reg [DATA_WIDTH-1:0] mem [2**ADDR_WIDTH-1:0];
 
 initial begin
     if(INIT_FILE != "none") begin
-        if(INIT_FILE_FORMAT == "hex") begin 
+        if(INIT_FILE_FORMAT == "hex") begin
             $readmemh(INIT_FILE, mem, 0, ADDR_DEPTH-1);
         end
         else begin
@@ -174,9 +179,9 @@ always @ (posedge ahbl_hclk_i, ahbl_hresetn_i) begin
         ahbl_s0_hsize_p_r     <= ahbl_s0_hsize_i;
         ahbl_s0_hmastlock_p_r <= ahbl_s0_hmastlock_i;
         ahbl_s0_hprot_p_r     <= ahbl_s0_hprot_i;
-        ahbl_s0_htrans_p_r    <= ahbl_s0_htrans_i; 
-        ahbl_s0_hwrite_p_r    <= ahbl_s0_hwrite_i;  
-        ahbl_s0_hwdata_p_r    <= ahbl_s0_hwdata_i;   
+        ahbl_s0_htrans_p_r    <= ahbl_s0_htrans_i;
+        ahbl_s0_hwrite_p_r    <= ahbl_s0_hwrite_i;
+        ahbl_s0_hwdata_p_r    <= ahbl_s0_hwdata_i;
         if(PORT_COUNT == 2) begin
             ahbl_s1_hsel_p_r      <= ahbl_s1_hsel_i;
             ahbl_s1_hready_p_r    <= ahbl_s1_hready_i;
@@ -185,8 +190,8 @@ always @ (posedge ahbl_hclk_i, ahbl_hresetn_i) begin
             ahbl_s1_hsize_p_r     <= ahbl_s1_hsize_i;
             ahbl_s1_hmastlock_p_r <= ahbl_s1_hmastlock_i;
             ahbl_s1_hprot_p_r     <= ahbl_s1_hprot_i;
-            ahbl_s1_htrans_p_r    <= ahbl_s1_htrans_i; 
-            ahbl_s1_hwrite_p_r    <= ahbl_s1_hwrite_i;  
+            ahbl_s1_htrans_p_r    <= ahbl_s1_htrans_i;
+            ahbl_s1_hwrite_p_r    <= ahbl_s1_hwrite_i;
             ahbl_s1_hwdata_p_r    <= ahbl_s1_hwdata_i;
         end
     end
@@ -329,7 +334,7 @@ if(DATA_WIDTH == 32) begin : dwid_32
                 s0_rd_state_r <= s0_rd_state_nxt_r;
             end
         end
-        
+
         if(UNALIGNED_ACCESS_EN_S0 == 1 && SHIFT_DIRECTION_S0 != "none") begin
             if(SHIFT_DIRECTION_S0 == "right") begin
                 always @ (posedge ahbl_hclk_i) begin
@@ -408,7 +413,7 @@ if(DATA_WIDTH == 32) begin : dwid_32
                 s1_rd_state_r <= s1_rd_state_nxt_r;
             end
         end
-        
+
         if(UNALIGNED_ACCESS_EN_S1 == 1 && SHIFT_DIRECTION_S1 != "none") begin
             if(SHIFT_DIRECTION_S1 == "right") begin
                 always @ (posedge ahbl_hclk_i) begin
@@ -573,7 +578,7 @@ else if(DATA_WIDTH == 16) begin : dwid_16
                 s0_rd_state_r <= s0_rd_state_nxt_r;
             end
         end
-        
+
         always @ (posedge ahbl_hclk_i) begin
             if(t_rd_en_s0_w == 1) begin
                 s0_cmp_data_r <= mem[ahbl_s0_rd_addr_t_w >> 1];
@@ -634,7 +639,7 @@ else if(DATA_WIDTH == 16) begin : dwid_16
                 s1_rd_state_r <= s1_rd_state_nxt_r;
             end
         end
-        
+
         always @ (posedge ahbl_hclk_i) begin
             if(t_rd_en_s1_w == 1) begin
                 s1_cmp_data_r <= mem[ahbl_s1_rd_addr_t_w >> 1];
@@ -748,7 +753,7 @@ else begin : dwid_8
                 s0_rd_state_r <= s0_rd_state_nxt_r;
             end
         end
-        
+
         always @ (posedge ahbl_hclk_i) begin
             if(t_rd_en_s0_w == 1) begin
                 s0_cmp_data_r <= mem[ahbl_s0_rd_addr_t_w];
@@ -809,7 +814,7 @@ else begin : dwid_8
                 s1_rd_state_r <= s1_rd_state_nxt_r;
             end
         end
-        
+
         always @ (posedge ahbl_hclk_i) begin
             if(t_rd_en_s1_w == 1) begin
                 s1_cmp_data_r <= mem[ahbl_s1_rd_addr_t_w];
@@ -858,7 +863,7 @@ if(DATA_STREAMER_EN) begin
         end
 
         always @ (posedge fifo_clk_i) begin
-            if(fsel_w) begin 
+            if(fsel_w) begin
                 mem[faddr_ptr_r] <= fdata_wr_w;
             end
         end
@@ -893,7 +898,7 @@ if(DATA_STREAMER_EN) begin
         end
 
         always @ (posedge fifo_clk_i) begin
-            if(fsel_w) begin 
+            if(fsel_w) begin
                 mem[faddr_ptr_r] <= fdata_wr_w;
             end
         end
@@ -920,7 +925,7 @@ if(DATA_STREAMER_EN) begin
         end
 
         always @ (posedge fifo_clk_i) begin
-            if(fsel_w) begin 
+            if(fsel_w) begin
                 mem[faddr_ptr_r] <= fifo_wr_data_i;
             end
         end

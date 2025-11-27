@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
 
 //
 // Module: uart_rx
@@ -217,55 +222,55 @@ generate
     integer    lb_index;
     integer    display_character;
     integer    total_characters;
-    
-    initial 
+
+    initial
     begin
-       for (lb_index = 0; lb_index < lb_size; lb_index = lb_index + 1) 
+       for (lb_index = 0; lb_index < lb_size; lb_index = lb_index + 1)
          lb[lb_index] = 0;
-       
+
        lb_index    = lb_size - 1;
        total_characters    = 0;
     end
-    
+
     always @(negedge clk)
-      if (uart_rx_valid) 
+      if (uart_rx_valid)
 
         case (uart_rx_data/*dat_i[7:0]*/)
           10, 13: // Dump the Line Buffer when we receive a Carriage Return or Line Feed
         begin
            lb[lb_index] = "\n";
            total_characters = (lb_size - 1) - (lb_index - 1);
-           for (lb_index = lb_size - 1; lb_index > ((lb_size - 1) - total_characters); lb_index = lb_index - 1) 
+           for (lb_index = lb_size - 1; lb_index > ((lb_size - 1) - total_characters); lb_index = lb_index - 1)
              begin
             display_character = lb[lb_index];
             $write("%c", display_character);
              end
-           
-           for (lb_index = 0; lb_index < lb_size; lb_index = lb_index + 1) 
+
+           for (lb_index = 0; lb_index < lb_size; lb_index = lb_index + 1)
              lb[lb_index] = 0;
-           
+
            lb_index = lb_size - 1;
            total_characters = 0;
         end
-          
+
           default: // All other characters are just added to the Line Buffer.
         begin
            lb[lb_index] = uart_rx_data;//dat_i[7:0];
            lb_index = lb_index - 1;
            total_characters = total_characters + 1;
-           
+
            // Dump the Line Buffer when it is full
            if (total_characters == (lb_size - 1))
              begin
-            for (lb_index = lb_size - 1; lb_index >= 0; lb_index = lb_index - 1) 
+            for (lb_index = lb_size - 1; lb_index >= 0; lb_index = lb_index - 1)
               begin
                  display_character = lb[lb_index];
                  $write("%c", display_character);
               end
-            
-            for (lb_index = 0; lb_index < lb_size; lb_index = lb_index + 1) 
+
+            for (lb_index = 0; lb_index < lb_size; lb_index = lb_index + 1)
               lb[lb_index] = 0;
-            
+
             lb_index = lb_size - 1;
             total_characters = 0;
              end

@@ -102,10 +102,10 @@ hyperram_mc/
 
 - `hyperram_mc.v` - Top-level memory controller
 - `hyperbus_controller.v` - HyperBus protocol controller
-- `axi_if.v` - AXI4 interface
 - `axi2local.v` - AXI to local bus bridge
+- `axil_if.v` - AXI4-Lite interface
 - `phy_jedi.v` - PHY interface
-- `skidbuffer.v` - Pipeline skid buffer
+- `sync_non_rst.v` - Synchronizer for clock domain crossing
 
 ## Getting Started
 

@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
+
 module tb_top;
 
 GSR GSR_INST (.GSR_N(1'b1));

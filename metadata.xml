@@ -545,7 +545,7 @@
          />
     </lsccip:ports>
     <lsccip:outFileConfigs>
-        <lsccip:fileConfig name="wrapper" rtl_seq="hyperram_mc.v;axi2local.v;axi_addr.v;axi_if.v;axil_if.v;hyperbus_controller.v;phy_jedi.v;skidbuffer.v;sync_non_rst.v" />
+        <lsccip:fileConfig name="wrapper" rtl_seq="hyperram_mc.v;axi2local.v;axil_if.v;hyperbus_controller.v;phy_jedi.v;sync_non_rst.v" />
     </lsccip:outFileConfigs>
     <xi:include parse="xml" href="bus_interface.xml" />
     <xi:include parse="xml" href="memory_map.xml" />

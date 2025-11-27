@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
 `ifndef LSCC_AXIMEM_MANAGER
 `define LSCC_AXIMEM_MANAGER
 
@@ -93,7 +98,7 @@ module lscc_aximem_manager # (
     reg [31:0]            addr;
     reg [DATA_WIDTH-1:0]  data;
     reg [DATA_WIDTH-1:0]  valid_data;
-    reg [DATA_WIDTH-1:0]  mem [ADDR_DEPTH-1:0]; 
+    reg [DATA_WIDTH-1:0]  mem [ADDR_DEPTH-1:0];
     reg [DATA_WIDTH-1:0]  exp_data;
     reg [31:0]            exp_addr;
    wire [31:0]            exp_mem_addr;

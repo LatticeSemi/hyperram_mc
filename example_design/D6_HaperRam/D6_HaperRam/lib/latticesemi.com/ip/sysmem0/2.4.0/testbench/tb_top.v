@@ -1,3 +1,8 @@
+// -----------------------------------------------------------------------------
+//   Copyright (c) 2025 by Lattice Semiconductor Corporation
+//   ALL RIGHTS RESERVED
+//   Subject to Lattice's Software License Agreement
+// -----------------------------------------------------------------------------
 `ifndef TB_TOP
 `define TB_TOP
 
@@ -9,7 +14,7 @@
 `include "lscc_fifo_master.v"
 
 module tb_top();
-	
+
 // ----------------------------
 // Local Parameter
 // ----------------------------
@@ -196,7 +201,7 @@ wire                   done_o;
 reg [31:0] clock_prot_r = {32{1'b0}};
 
 // ----------------------------
-// System Counter 
+// System Counter
 // ----------------------------
 
 wire [31:0] safe_count_o;
@@ -250,14 +255,14 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
       .ahbl_hclk_i            (ahbl_hclk_i),
       .ahbl_hresetn_i         (ahbl_hresetn_i),
       .fifo_hold_i            (fifo_interface_en_i),
-  
+
   // ----------------------------
   // AHB-Lite Manager Interface 0
   // ----------------------------
       .ahbl_s0_hreadyout_i    (ahbl_s0_hreadyout_o),
       .ahbl_s0_hresp_i        (ahbl_s0_hresp_o),
       .ahbl_s0_hrdata_i       (ahbl_s0_hrdata_o),
-  
+
       .ahbl_s0_hsel_o         (ahbl_s0_hsel_i),
       .ahbl_s0_hready_o       (ahbl_s0_hready_i),
       .ahbl_s0_haddr_o        (ahbl_s0_haddr_i),
@@ -268,14 +273,14 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
       .ahbl_s0_htrans_o       (ahbl_s0_htrans_i),
       .ahbl_s0_hwrite_o       (ahbl_s0_hwrite_i),
       .ahbl_s0_hwdata_o       (ahbl_s0_hwdata_i),
-  
+
   // ----------------------------
   // AHB-Lite Manager Interface 1
   // ----------------------------
       .ahbl_s1_hreadyout_i   (ahbl_s1_hreadyout_o),
       .ahbl_s1_hresp_i       (ahbl_s1_hresp_o),
       .ahbl_s1_hrdata_i      (ahbl_s1_hrdata_o),
-  						   
+
       .ahbl_s1_hsel_o        (ahbl_s1_hsel_i),
       .ahbl_s1_hready_o      (ahbl_s1_hready_i),
       .ahbl_s1_haddr_o       (ahbl_s1_haddr_i),
@@ -286,7 +291,7 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
       .ahbl_s1_htrans_o      (ahbl_s1_htrans_i),
       .ahbl_s1_hwrite_o      (ahbl_s1_hwrite_i),
       .ahbl_s1_hwdata_o      (ahbl_s1_hwdata_i),
-  
+
   // ----------------------------
   // Master State
   // ----------------------------
@@ -294,7 +299,7 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
       .done_o                (done_o),
       .safe_count_o          (safe_count_o)
   );
-  
+
   lscc_data_checker # (
       .ADDR_DEPTH             (ADDR_DEPTH),
       .DATA_WIDTH             (DATA_WIDTH),
@@ -320,7 +325,7 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
   ) data_chk0 (
       .ahbl_hclk_i            (ahbl_hclk_i),
       .ahbl_hresetn_i         (ahbl_hresetn_i),
-  				            
+
       .ahbl_s0_hsel_i         (ahbl_s0_hsel_i),
       .ahbl_s0_hready_i       (ahbl_s0_hready_i),
       .ahbl_s0_haddr_i        (ahbl_s0_haddr_i),
@@ -331,10 +336,10 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
       .ahbl_s0_htrans_i       (ahbl_s0_htrans_i),
       .ahbl_s0_hwrite_i       (ahbl_s0_hwrite_i),
       .ahbl_s0_hwdata_i       (ahbl_s0_hwdata_i),
-  
+
       .ahbl_s0_hrdata_o       (ahbl_s0_hrdata_o),
       .ahbl_s0_hreadyout_o    (ahbl_s0_hreadyout_o),
-  
+
       .ahbl_s1_hsel_i         (ahbl_s1_hsel_i),
       .ahbl_s1_hready_i       (ahbl_s1_hready_i),
       .ahbl_s1_haddr_i        (ahbl_s1_haddr_i),
@@ -345,45 +350,45 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
       .ahbl_s1_htrans_i       (ahbl_s1_htrans_i),
       .ahbl_s1_hwrite_i       (ahbl_s1_hwrite_i),
       .ahbl_s1_hwdata_i       (ahbl_s1_hwdata_i),
-  
+
       .ahbl_s1_hrdata_o       (ahbl_s1_hrdata_o),
       .ahbl_s1_hreadyout_o    (ahbl_s1_hreadyout_o),
-  
+
       .fifo_clk_i             (fifo_clk_i),
       .fifo_wr_en_i           (fifo_wr_en_i),
       .fifo_wr_data_i         (fifo_wr_data_i),
       .fifo_interface_en_i    (fifo_interface_en_i),
       .fifo_address_rst_i     (fifo_address_rst_i),
-  							
+
       .fifo_full_i            (fifo_full_o),
-  
+
       .ahbl_s0_errgen_o       (ahbl_s0_errgen_o),
       .ahbl_s1_errgen_o       (ahbl_s1_errgen_o),
       .s0_exp_data_o          (s0_exp_data_o),
       .s1_exp_data_o          (s1_exp_data_o)
   );
-  
+
   // ----------------------------
   // Error Check
   // ----------------------------
-  
+
   always @ (posedge ahbl_hclk_i) begin
       s0_data_chk_r <= ahbl_s0_errgen_o | s0_data_chk_r;
       s1_data_chk_r <= ahbl_s1_errgen_o | s1_data_chk_r;
   end
-  
+
   if(PORT_COUNT == 2) begin
       always @ (posedge ahbl_hclk_i) begin
           if(ahbl_s0_hresp_o == 1'b1 || ahbl_s1_hresp_o == 1'b1) begin
               if(ahbl_s0_hresp_o == 1'b1) begin
                   $display("-----------------------------------------------------");
                   $display("!!!!!!!!!!! PORT S0 AHBL PROTOCOL FAILED !!!!!!!!!!!!");
-                  $display("-----------------------------------------------------");         
-              end 
+                  $display("-----------------------------------------------------");
+              end
               if(ahbl_s1_hresp_o == 1'b1) begin
                   $display("-----------------------------------------------------");
                   $display("!!!!!!!!!!! PORT S1 AHBL PROTOCOL FAILED !!!!!!!!!!!!");
-                  $display("-----------------------------------------------------");        
+                  $display("-----------------------------------------------------");
               end
               $finish;
           end
@@ -396,7 +401,7 @@ if (INTERFACE == "AHBL") begin : AHBL_TB
               $display("!!!!!!!!!!! PORT S0 AHBL PROTOCOL FAILED !!!!!!!!!!!!");
               $display("-----------------------------------------------------");
               $finish;
-          end 
+          end
       end
   end
 
@@ -414,7 +419,7 @@ always @ (posedge ahbl_hclk_i) begin
                 $display("-----------------------------------------------------");
             end
         end
-        if(PORT_COUNT == 2 && (ACCESS_TYPE_S1 == "R/O" || ACCESS_TYPE_S1 == "R/W")) begin 
+        if(PORT_COUNT == 2 && (ACCESS_TYPE_S1 == "R/O" || ACCESS_TYPE_S1 == "R/W")) begin
             if(s1_data_chk_r == 1'b1) begin
                 $display("-----------------------------------------------------");
                 $display("!!!!!!!!!!!!! PORT S1 SIMULATION FAILED !!!!!!!!!!!!!");
@@ -435,7 +440,7 @@ always @ (posedge ahbl_hclk_i) begin
             end
         end
 
-        if(PORT_COUNT == 2 && (ACCESS_TYPE_S1 == "R/O" || ACCESS_TYPE_S1 == "R/W")) begin 
+        if(PORT_COUNT == 2 && (ACCESS_TYPE_S1 == "R/O" || ACCESS_TYPE_S1 == "R/W")) begin
             if(ahbl_s1_errgen_o == 1'b1) begin
                 $display("ERROR on port S1 after %h cycles, during %h state at %i", clock_prot_r, mstr_state_o,$time);
             end
@@ -505,7 +510,7 @@ else begin : AXI4_TB// (INTERFACE == "AXI4")
     ) u_mngr1 (
       .axi_aclk_i             (axi_aclk_i),
       .axi_resetn_i           (axi_resetn_i),
-    
+
       .axi_m0_awid_o          (axi_s1_awid_i),
       .axi_m0_awaddr_o        (axi_s1_awaddr_i),
       .axi_m0_awlen_o         (axi_s1_awlen_i),
@@ -513,18 +518,18 @@ else begin : AXI4_TB// (INTERFACE == "AXI4")
       .axi_m0_awburst_o       (axi_s1_awburst_i),
       .axi_m0_awvalid_o       (axi_s1_awvalid_i),
       .axi_m0_awready_i       (axi_s1_awready_o),
-    
+
       .axi_m0_wdata_o         (axi_s1_wdata_i),
       .axi_m0_wstrb_o         (axi_s1_wstrb_i),
       .axi_m0_wlast_o         (axi_s1_wlast_i),
       .axi_m0_wvalid_o        (axi_s1_wvalid_i),
       .axi_m0_wready_i        (axi_s1_wready_o),
-    
+
       .axi_m0_bid_i           (axi_s1_bid_o),
       .axi_m0_bresp_i         (axi_s1_bresp_o),
       .axi_m0_bvalid_i        (axi_s1_bvalid_o),
       .axi_m0_bready_o        (axi_s1_bready_i),
-    
+
       .axi_m0_arid_o          (axi_s1_arid_i),
       .axi_m0_araddr_o        (axi_s1_araddr_i),
       .axi_m0_arlen_o         (axi_s1_arlen_i),
@@ -532,14 +537,14 @@ else begin : AXI4_TB// (INTERFACE == "AXI4")
       .axi_m0_arburst_o       (axi_s1_arburst_i),
       .axi_m0_arvalid_o       (axi_s1_arvalid_i),
       .axi_m0_arready_i       (axi_s1_arready_o),
-    
+
       .axi_m0_rid_i           (axi_s1_rid_o),
       .axi_m0_rdata_i         (axi_s1_rdata_o),
       .axi_m0_rresp_i         (axi_s1_rresp_o),
       .axi_m0_rlast_i         (axi_s1_rlast_o),
       .axi_m0_rvalid_i        (axi_s1_rvalid_o),
       .axi_m0_rready_o        (axi_s1_rready_i),
-    
+
       .axi_m0_data_chk        (axi_s1_errgen_o),
       .done_o                 (axi_s1_done),
       .safe_count_o           (safe_count_o)
@@ -549,7 +554,7 @@ else begin : AXI4_TB// (INTERFACE == "AXI4")
   // ----------------------------
   // Error Check
   // ----------------------------
-  
+
   always @ (posedge axi_aclk_i) begin
       s0_data_chk_r <= axi_s0_errgen_o | s0_data_chk_r;
       s1_data_chk_r <= axi_s1_errgen_o | s1_data_chk_r;
@@ -572,7 +577,7 @@ else begin : AXI4_TB// (INTERFACE == "AXI4")
       end
     end
   end
-  else begin //  (PORT_COUNT == 2) 
+  else begin //  (PORT_COUNT == 2)
     always @ (posedge axi_aclk_i) begin
       if(axi_s0_done && axi_s1_done) begin
         if (~s0_data_chk_r && ~s1_data_chk_r) begin
@@ -621,7 +626,7 @@ lscc_fifo_master # (
 
     .fifo_wr_en_o        (fifo_wr_en_i),
     .fifo_wr_data_o      (fifo_wr_data_i),
-    .fifo_interface_en_o (fifo_interface_en_i), 
+    .fifo_interface_en_o (fifo_interface_en_i),
     .fifo_address_rst_o  (fifo_address_rst_i),
 
     .fifo_full_o         (fifo_full_o)
