@@ -29,7 +29,7 @@ module phy_jedi #(
   parameter DELAY_HALF_CYCLE        = 0,
   parameter DATA_FINE_DELAY_VALUE   = "0",
   parameter DATA_COARSE_DELAY_VALUE = "0NS",
-  parameter integer    DELAY_VALUE  = "100"  ,
+  parameter integer    DELAY_VALUE  = "0"  ,
   parameter            DEL_MODE     = "USER_DEFINED"
   )
   (

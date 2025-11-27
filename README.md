@@ -441,10 +441,6 @@ Configuration parameters are available through:
 
 See the `doc/` directory for detailed documentation.
 
-## License
-
-[Specify your license here]
-
 ## Version
 
 v1.0.0
