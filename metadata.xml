@@ -5,7 +5,7 @@
         <lsccip:library>ip</lsccip:library>
         <lsccip:name>hyperram_mc</lsccip:name>
         <lsccip:display_name>Hyperram Memory Controller</lsccip:display_name>
-        <lsccip:version>1.0.0</lsccip:version>
+        <lsccip:version>0.0.0</lsccip:version>
         <lsccip:category>Solution_IPs</lsccip:category>
         <lsccip:keywords>BusType_AXI-Lite, BusType_AXI</lsccip:keywords>
         <lsccip:type>cacheable</lsccip:type>
