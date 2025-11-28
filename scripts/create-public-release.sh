@@ -127,12 +127,21 @@ update_release_notes() {
     # Insert the new section after the Introduction section
     # If there's a placeholder table (with [Version] or [IP Name] placeholders), replace it
     # Otherwise, insert before the first existing version section
-    awk -v new_section="$new_section" '
+    # Use a temporary file to pass new_section to awk to avoid issues with newlines and special characters
+    local new_section_file=$(mktemp)
+    printf '%s' "$new_section" > "$new_section_file"
+
+    awk -v new_section_file="$new_section_file" '
         BEGIN {
             found_separator=0
             inserted=0
             in_placeholder=0
             placeholder_start=0
+            # Read new_section from file
+            while ((getline line < new_section_file) > 0) {
+                new_section = (new_section == "" ? line : new_section "\n" line)
+            }
+            close(new_section_file)
         }
         /^---$/ && !found_separator {
             # Found the first separator after introduction
@@ -149,7 +158,7 @@ update_release_notes() {
             # Skip lines until we find the next separator (end of placeholder section)
             if (/^---$/) {
                 # End of placeholder section, replace with new section
-                print new_section
+                printf "%s", new_section
                 inserted=1
                 in_placeholder=0
             }
@@ -158,17 +167,19 @@ update_release_notes() {
         }
         found_separator && !inserted && /^## \[IP Name\] IP v/ {
             # Found the first existing version section (non-placeholder), insert new one before it
-            print new_section
+            printf "%s", new_section
             inserted=1
         }
         { print }
         END {
             # If we found the separator but didn't insert (no existing versions or placeholder), insert now
             if (found_separator && !inserted) {
-                print new_section
+                printf "%s", new_section
             }
         }
     ' "$release_notes_file" > "${release_notes_file}.tmp"
+
+    rm -f "$new_section_file"
 
     mv "${release_notes_file}.tmp" "$release_notes_file"
     success "Release notes updated with version $version"
