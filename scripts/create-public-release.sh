@@ -180,7 +180,6 @@ update_release_notes() {
     ' "$release_notes_file" > "${release_notes_file}.tmp"
 
     rm -f "$new_section_file"
-
     mv "${release_notes_file}.tmp" "$release_notes_file"
     success "Release notes updated with version $version"
 }
