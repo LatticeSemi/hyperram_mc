@@ -172,7 +172,7 @@ update_release_notes() {
         }
         { print }
         END {
-            # If we found the separator but didn't insert (no existing versions or placeholder), insert now
+            # If we found the separator but did not insert (no existing versions or placeholder), insert now
             if (found_separator && !inserted) {
                 printf "%s", new_section
             }
