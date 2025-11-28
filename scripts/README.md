@@ -116,7 +116,8 @@ release/vX.Y.Z branch contains:
 ├── memory_map.xml       # Memory map definitions
 ├── README.md            # Project README
 ├── QUICKSTART.md        # Quick start guide (when created)
-└── LICENSE              # License file
+├── IP Release Notes.md  # IP Release Notes, containing revision histories
+└── license.txt          # License Agreement
 ```
 
 **Excluded (stays private):**
