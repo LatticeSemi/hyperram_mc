@@ -258,9 +258,9 @@ fi
 # -----------------------------------------------------------------------------
 info "Running pre-flight checks..."
 
-# Check we're in the right directory
-if [ ! -d "hyperram_mc" ]; then
-    error "Must run from repository root (hyperram/ directory)"
+# Check we're in the right directory (should be in the repository root)
+if [ ! -f "$METADATA_FILE" ] || [ ! -d ".git" ]; then
+    error "Must run from repository root (where metadata.xml and .git directory exist)"
     exit 1
 fi
 
