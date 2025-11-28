@@ -336,7 +336,7 @@ fi
 success "Pre-flight checks passed"
 
 # -----------------------------------------------------------------------------
-# Read current version from release branch (if exists) or use 0.0.0 for first release
+# Read current version from release branch (if exists) or use 1.0.0 for first release
 # -----------------------------------------------------------------------------
 RELEASE_BRANCH="release"
 
@@ -375,19 +375,19 @@ if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
             tr -d '[:space:]')
     else
         warning "Could not read metadata.xml from release branch"
-        warning "Assuming first release (0.0.0)"
-        CURRENT_VERSION="0.0.0"
+        warning "Assuming first release (1.0.0)"
+        CURRENT_VERSION="1.0.0"
     fi
 
     if [ -z "$CURRENT_VERSION" ]; then
         warning "Could not extract version from release branch"
-        warning "Assuming first release (0.0.0)"
-        CURRENT_VERSION="0.0.0"
+        warning "Assuming first release (1.0.0)"
+        CURRENT_VERSION="1.0.0"
     fi
 else
     # No release branch exists - this is the first release
     info "No existing release branch found - this is the first release"
-    CURRENT_VERSION="0.0.0"
+    CURRENT_VERSION="1.0.0"
 fi
 
 info "Current release version: $CURRENT_VERSION"
@@ -407,9 +407,9 @@ fi
 # -----------------------------------------------------------------------------
 # Calculate new version
 # -----------------------------------------------------------------------------
-# For first release (0.0.0), always start at 1.0.0
-if [ "$CURRENT_VERSION" = "0.0.0" ]; then
-    info "First release - starting at version 1.0.0"
+# For first release (1.0.0), use it as-is
+if [ "$CURRENT_VERSION" = "1.0.0" ] && [ "$RELEASE_BRANCH_EXISTS" = false ]; then
+    info "First release - using version 1.0.0"
     MAJOR=1
     MINOR=0
     BUGFIX=0
