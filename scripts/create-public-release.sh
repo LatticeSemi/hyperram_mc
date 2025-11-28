@@ -54,6 +54,7 @@ PUBLIC_FILES=(
     "bus_interface.xml"
     "memory_map.xml"
     "license.txt"
+    ".gitignore"
 )
 
 # Patterns to exclude (even if inside public directories)
@@ -99,6 +100,16 @@ update_release_notes() {
 
     info "Updating release notes in $release_notes_file..."
 
+    # Extract IP name from metadata.xml
+    local ip_name="HyperRAM Memory Controller IP"
+    if [ -f "$METADATA_FILE" ]; then
+        local display_name=$(grep -oP '<lsccip:display_name>\K[^<]+' "$METADATA_FILE" 2>/dev/null | head -1)
+        if [ -n "$display_name" ]; then
+            # Convert to proper format: "Hyperram Memory Controller" -> "HyperRAM Memory Controller IP"
+            ip_name="${display_name} IP"
+        fi
+    fi
+
     # Convert description to bullet points
     # Handle multiple formats: semicolon-separated, newline-separated, or single line
     # Split by semicolons or newlines, then format as bullet points
@@ -113,10 +124,8 @@ update_release_notes() {
         sed 's/\001/<br>/g' | \
         sed 's/  */ /g')
 
-    # Create new version section with table
-    # Note: The IP name placeholder [IP Name] will need to be replaced manually
-    # or can be extracted from metadata.xml if needed
-    local new_section="## [IP Name] IP v${version}
+    # Create new version section with table using actual IP name
+    local new_section="## ${ip_name} v${version}
 
 | Software | Software Version | Summary of Changes |
 |----------|------------------|-------------------|
@@ -128,7 +137,8 @@ update_release_notes() {
     # If there's a placeholder table (with [Version] or [IP Name] placeholders), replace it
     # Otherwise, insert before the first existing version section
     # Use a temporary file to pass new_section to awk to avoid issues with newlines and special characters
-    local new_section_file=$(mktemp)
+    # Use mktemp with explicit template for Windows compatibility
+    local new_section_file=$(mktemp 2>/dev/null || mktemp -t 'release-notes-XXXXXX' 2>/dev/null || echo "/tmp/release-notes-$$")
     printf '%s' "$new_section" > "$new_section_file"
 
     awk -v new_section_file="$new_section_file" '
@@ -149,8 +159,8 @@ update_release_notes() {
             found_separator=1
             next
         }
-        found_separator && !inserted && /^## \[IP Name\] IP v\[Version\]/ {
-            # Found placeholder version section - mark it for replacement
+        found_separator && !inserted && /^## .* IP v\[Version\]/ {
+            # Found placeholder version section (with [Version] placeholder) - mark it for replacement
             in_placeholder=1
             next
         }
@@ -165,8 +175,8 @@ update_release_notes() {
             # Skip all lines within placeholder section (do not print them)
             next
         }
-        found_separator && !inserted && /^## \[IP Name\] IP v/ {
-            # Found the first existing version section (non-placeholder), insert new one before it
+        found_separator && !inserted && /^## .* IP v[0-9]/ {
+            # Found the first existing version section (non-placeholder, has version number), insert new one before it
             printf "%s", new_section
             inserted=1
         }
@@ -600,7 +610,7 @@ if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
 
     # Save IP Release Notes.md from release branch before removing files
     if git show "${RELEASE_BRANCH_REF}:IP Release Notes.md" >/dev/null 2>&1; then
-        RELEASE_NOTES_TEMP=$(mktemp)
+        RELEASE_NOTES_TEMP=$(mktemp 2>/dev/null || mktemp -t 'release-notes-XXXXXX' 2>/dev/null || echo "/tmp/release-notes-$$")
         git show "${RELEASE_BRANCH_REF}:IP Release Notes.md" > "$RELEASE_NOTES_TEMP" 2>/dev/null
         info "  Saved IP Release Notes.md from release branch"
     fi
@@ -653,12 +663,17 @@ done
 success "Files copied"
 
 # -----------------------------------------------------------------------------
-# Clean up excluded patterns
+# Clean up excluded patterns and Python cache files
 # -----------------------------------------------------------------------------
-info "Removing excluded patterns..."
+info "Removing excluded patterns and cache files..."
 for pattern in "${EXCLUDE_PATTERNS[@]}"; do
-    find . -name "$pattern" -type f -delete 2>/dev/null || true
+    # Use find with -exec for better cross-platform compatibility
+    find . -name "$pattern" -type f -exec rm -f {} \; 2>/dev/null || true
 done
+# Explicitly remove Python cache directories (even if tracked in git)
+find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+find . -name "*.pyc" -type f -delete 2>/dev/null || true
+find . -name "*.pyo" -type f -delete 2>/dev/null || true
 success "Cleanup complete"
 
 # -----------------------------------------------------------------------------
@@ -729,6 +744,11 @@ fi
 # Commit release
 # -----------------------------------------------------------------------------
 info "Committing release..."
+# Remove any __pycache__ directories that might have been copied from tag
+find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+find . -name "*.pyc" -type f -delete 2>/dev/null || true
+find . -name "*.pyo" -type f -delete 2>/dev/null || true
+# Add files (respecting .gitignore if it exists)
 git add -A
 
 COMMIT_MSG="Release ${RELEASE_TAG}
