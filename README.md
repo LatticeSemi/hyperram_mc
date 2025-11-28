@@ -95,6 +95,9 @@ hyperram_mc/
 ├── metadata.xml           # IP metadata (includes version)
 ├── bus_interface.xml      # Bus interface definitions
 ├── memory_map.xml         # Memory map definitions
+├── IP Release Notes.md    # IP Release Notes, containing revision histories
+├── QUICKSTART.md          # Getting started guide
+├── license.txt            # License Agreement
 └── README.md              # This file
 ```
 
