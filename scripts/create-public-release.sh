@@ -162,7 +162,7 @@ update_release_notes() {
                 inserted=1
                 in_placeholder=0
             }
-            # Skip all lines within placeholder section (don't print them)
+            # Skip all lines within placeholder section (do not print them)
             next
         }
         found_separator && !inserted && /^## \[IP Name\] IP v/ {
