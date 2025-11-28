@@ -53,6 +53,7 @@ PUBLIC_FILES=(
     "metadata.xml"
     "bus_interface.xml"
     "memory_map.xml"
+    "license.txt"
 )
 
 # Patterns to exclude (even if inside public directories)
@@ -670,11 +671,11 @@ if [ -n "$REVISION_DESCRIPTION" ] && [ -n "$SOFTWARE_VERSION" ]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Create LICENSE file if not present
+# Create license.txt file if not present
 # -----------------------------------------------------------------------------
-if [ ! -f "LICENSE" ]; then
-    info "Creating LICENSE file..."
-    cat > LICENSE << 'EOF'
+if [ ! -f "license.txt" ]; then
+    info "Creating license.txt file..."
+    cat > license.txt << 'EOF'
 Copyright (c) 2024 Lattice Semiconductor Corporation
 
 This HyperRAM Memory Controller IP is provided under the Lattice Reference
@@ -683,8 +684,8 @@ Design License Agreement.
 For license terms, please refer to the Lattice Semiconductor website or
 contact Lattice Semiconductor directly.
 EOF
-    git add LICENSE
-    success "LICENSE file created"
+    git add license.txt
+    success "license.txt file created"
 fi
 
 # -----------------------------------------------------------------------------
