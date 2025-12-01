@@ -30,6 +30,9 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
+REM Store the absolute path of repo root for later use
+for %%I in ("%CD%") do set "REPO_ROOT_ABS=%%~fI"
+
 REM Try to find bash.exe in common Git installation locations
 set "BASH_PATH="
 
@@ -81,14 +84,16 @@ REM Run the bash script with all arguments passed through
 REM Capture exit code immediately (ERRORLEVEL can be changed by any command)
 set "EXIT_CODE=%ERRORLEVEL%"
 
-REM Ensure we're back in a valid directory (bash script may have changed directories)
-cd /d "%REPO_ROOT%" >nul 2>&1
-
 if %EXIT_CODE% NEQ 0 (
     echo.
     echo Script exited with error code: %EXIT_CODE%
     pause
 )
+
+REM Change to user's home directory before exit to prevent "path not found" errors
+REM This ensures Windows has a valid directory when the batch file ends
+REM (The bash script may have changed to a directory that's no longer accessible)
+cd /d "%USERPROFILE%" >nul 2>&1
 
 REM Exit with the captured error code
 exit /b %EXIT_CODE%
