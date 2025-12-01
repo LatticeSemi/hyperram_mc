@@ -14,7 +14,8 @@ REM   create-public-release.bat minor "Added dual-rank support" "Added support f
 REM   create-public-release.bat bugfix "Fixed timing issue" "Fixed read timing violation" "2025.1.1"
 REM =============================================================================
 
-setlocal enabledelayedexpansion
+REM Note: We don't use setlocal to avoid directory restoration issues
+REM when the bash script changes to an invalid directory
 
 REM Get the directory where this batch file is located
 set "SCRIPT_DIR=%~dp0"
@@ -30,7 +31,7 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-REM Store the absolute path of repo root for later use
+REM Store the absolute path of repo root for later use (needed when in release branch)
 for %%I in ("%CD%") do set "REPO_ROOT_ABS=%%~fI"
 
 REM Try to find bash.exe in common Git installation locations
@@ -90,10 +91,14 @@ if %EXIT_CODE% NEQ 0 (
     pause
 )
 
-REM Change to user's home directory before exit to prevent "path not found" errors
-REM This ensures Windows has a valid directory when the batch file ends
-REM (The bash script may have changed to a directory that's no longer accessible)
-cd /d "%USERPROFILE%" >nul 2>&1
+REM Change back to repo root before exit to prevent "path not found" errors
+REM The release branch doesn't have the scripts folder, so we need to be in repo root
+REM Use absolute path to ensure it works even if we're in release branch
+if defined REPO_ROOT_ABS (
+    cd /d "%REPO_ROOT_ABS%" >nul 2>&1
+) else (
+    cd /d "%REPO_ROOT%" >nul 2>&1
+)
 
 REM Exit with the captured error code
 exit /b %EXIT_CODE%
