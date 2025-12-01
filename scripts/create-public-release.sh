@@ -833,5 +833,11 @@ echo "   git checkout main"
 echo ""
 echo "========================================="
 
+# Return to main branch before exiting to prevent "path not found" errors
+# This ensures the batch file wrapper can continue properly
+info "Returning to main branch..."
+git checkout main >/dev/null 2>&1 || warning "Failed to checkout main (you may need to do this manually)"
+success "Back on main branch"
+
 exit 0
 

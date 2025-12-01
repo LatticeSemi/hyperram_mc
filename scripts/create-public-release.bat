@@ -30,6 +30,9 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
+REM Store the absolute path of repo root for later use (needed when in release branch)
+for %%I in ("%CD%") do set "REPO_ROOT_ABS=%%~fI"
+
 REM Try to find bash.exe in common Git installation locations
 set "BASH_PATH="
 
@@ -81,15 +84,33 @@ REM Run the bash script with all arguments passed through
 REM Capture exit code immediately (ERRORLEVEL can be changed by any command)
 set "EXIT_CODE=%ERRORLEVEL%"
 
-REM Ensure we're back in a valid directory (bash script may have changed directories)
-cd /d "%REPO_ROOT%" >nul 2>&1
-
-if %EXIT_CODE% NEQ 0 (
+if !EXIT_CODE! NEQ 0 (
     echo.
-    echo Script exited with error code: %EXIT_CODE%
+    echo Script exited with error code: !EXIT_CODE!
     pause
 )
 
+REM Change back to repo root before exit to prevent "path not found" errors
+REM The release branch doesn't have the scripts folder, so we need to be in repo root
+REM Use absolute path to ensure it works even if we're in release branch
+REM Verify the path exists before trying to cd to it
+if defined REPO_ROOT_ABS (
+    if exist "%REPO_ROOT_ABS%" (
+        cd /d "%REPO_ROOT_ABS%" >nul 2>&1
+    ) else (
+        REM If absolute path doesn't exist, try user profile as fallback
+        cd /d "%USERPROFILE%" >nul 2>&1
+    )
+) else (
+    REM Try relative path, but fallback to user profile if it fails
+    cd /d "%REPO_ROOT%" >nul 2>&1
+    if %ERRORLEVEL% NEQ 0 (
+        cd /d "%USERPROFILE%" >nul 2>&1
+    )
+)
+
 REM Exit with the captured error code
-exit /b %EXIT_CODE%
+REM Note: We don't use endlocal here because we're exiting anyway
+REM and ERRORLEVEL persists, but we captured it in EXIT_CODE for the if statement above
+exit /b !EXIT_CODE!
 
