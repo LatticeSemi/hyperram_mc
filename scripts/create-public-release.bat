@@ -80,13 +80,10 @@ if not exist "%SCRIPT_DIR%create-public-release.sh" (
 )
 
 REM Run the bash script with all arguments passed through
-echo [DEBUG] About to run bash script...
 "%BASH_PATH%" "%SCRIPT_DIR%create-public-release.sh" %*
 
 REM Capture exit code immediately (ERRORLEVEL can be changed by any command)
-echo [DEBUG] Bash script finished, capturing exit code...
 set "EXIT_CODE=%ERRORLEVEL%"
-echo [DEBUG] Exit code captured: %EXIT_CODE%
 
 if %EXIT_CODE% NEQ 0 (
     echo.
@@ -98,39 +95,21 @@ REM Change back to repo root before exit to prevent "path not found" errors
 REM The release branch doesn't have the scripts folder, so we need to be in repo root
 REM Use absolute path to ensure it works even if we're in release branch
 REM Verify the path exists before trying to cd to it
-echo [DEBUG] About to change directory back to repo root...
-echo [DEBUG] REPO_ROOT_ABS is: %REPO_ROOT_ABS%
-echo [DEBUG] REPO_ROOT is: %REPO_ROOT%
-echo [DEBUG] Current directory before cd: %CD%
-
 if defined REPO_ROOT_ABS (
-    echo [DEBUG] REPO_ROOT_ABS is defined, checking if path exists...
     if exist "%REPO_ROOT_ABS%" (
-        echo [DEBUG] Path exists, attempting cd to: %REPO_ROOT_ABS%
         cd /d "%REPO_ROOT_ABS%" >nul 2>&1
-        echo [DEBUG] After cd, ERRORLEVEL: %ERRORLEVEL%
-        echo [DEBUG] Current directory after cd: %CD%
     ) else (
-        echo [DEBUG] REPO_ROOT_ABS path does not exist, using USERPROFILE fallback
         REM If absolute path doesn't exist, try user profile as fallback
         cd /d "%USERPROFILE%" >nul 2>&1
-        echo [DEBUG] After cd to USERPROFILE, ERRORLEVEL: %ERRORLEVEL%
     )
 ) else (
-    echo [DEBUG] REPO_ROOT_ABS is NOT defined, using REPO_ROOT
     REM Try relative path, but fallback to user profile if it fails
-    echo [DEBUG] Attempting cd to: %REPO_ROOT%
     cd /d "%REPO_ROOT%" >nul 2>&1
-    echo [DEBUG] After cd, ERRORLEVEL: %ERRORLEVEL%
     if %ERRORLEVEL% NEQ 0 (
-        echo [DEBUG] cd failed, using USERPROFILE fallback
         cd /d "%USERPROFILE%" >nul 2>&1
-        echo [DEBUG] After cd to USERPROFILE, ERRORLEVEL: %ERRORLEVEL%
     )
 )
 
-echo [DEBUG] About to exit with code: %EXIT_CODE%
-echo [DEBUG] Final current directory: %CD%
 REM Exit with the captured error code
 exit /b %EXIT_CODE%
 
