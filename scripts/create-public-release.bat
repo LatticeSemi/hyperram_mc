@@ -14,8 +14,7 @@ REM   create-public-release.bat minor "Added dual-rank support" "Added support f
 REM   create-public-release.bat bugfix "Fixed timing issue" "Fixed read timing violation" "2025.1.1"
 REM =============================================================================
 
-REM Note: We don't use setlocal to avoid directory restoration issues
-REM when the bash script changes to an invalid directory
+setlocal enabledelayedexpansion
 
 REM Get the directory where this batch file is located
 set "SCRIPT_DIR=%~dp0"
@@ -85,9 +84,9 @@ REM Run the bash script with all arguments passed through
 REM Capture exit code immediately (ERRORLEVEL can be changed by any command)
 set "EXIT_CODE=%ERRORLEVEL%"
 
-if %EXIT_CODE% NEQ 0 (
+if !EXIT_CODE! NEQ 0 (
     echo.
-    echo Script exited with error code: %EXIT_CODE%
+    echo Script exited with error code: !EXIT_CODE!
     pause
 )
 
@@ -111,5 +110,7 @@ if defined REPO_ROOT_ABS (
 )
 
 REM Exit with the captured error code
-exit /b %EXIT_CODE%
+REM Note: We don't use endlocal here because we're exiting anyway
+REM and ERRORLEVEL persists, but we captured it in EXIT_CODE for the if statement above
+exit /b !EXIT_CODE!
 
