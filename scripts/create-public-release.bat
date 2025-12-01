@@ -18,10 +18,17 @@ setlocal enabledelayedexpansion
 
 REM Get the directory where this batch file is located
 set "SCRIPT_DIR=%~dp0"
+REM Go up one level to get repo root (%~dp0 always ends with backslash)
 set "REPO_ROOT=%SCRIPT_DIR%.."
 
-REM Change to repository root directory
+REM Change to repository root directory (resolve the .. path)
 cd /d "%REPO_ROOT%"
+if %ERRORLEVEL% NEQ 0 (
+    echo ERROR: Failed to change to repository root directory
+    echo Attempted path: %REPO_ROOT%
+    pause
+    exit /b 1
+)
 
 REM Try to find bash.exe in common Git installation locations
 set "BASH_PATH="
