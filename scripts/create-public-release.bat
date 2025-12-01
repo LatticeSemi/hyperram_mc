@@ -78,13 +78,18 @@ if not exist "%SCRIPT_DIR%create-public-release.sh" (
 REM Run the bash script with all arguments passed through
 "%BASH_PATH%" "%SCRIPT_DIR%create-public-release.sh" %*
 
-REM Preserve the exit code from the bash script
+REM Capture exit code immediately (ERRORLEVEL can be changed by any command)
 set "EXIT_CODE=%ERRORLEVEL%"
+
+REM Ensure we're back in a valid directory (bash script may have changed directories)
+cd /d "%REPO_ROOT%" >nul 2>&1
+
 if %EXIT_CODE% NEQ 0 (
     echo.
     echo Script exited with error code: %EXIT_CODE%
     pause
 )
 
+REM Exit with the captured error code
 exit /b %EXIT_CODE%
 
