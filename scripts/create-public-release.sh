@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# HyperRAM IP Release Script (Two Remote Strategy with Tagging)
+# IP Release Script (Two Remote Strategy with Tagging)
 # =============================================================================
 # This script creates release branches with only selected files/directories
 # and automatically manages version numbering using Git tags.
@@ -24,7 +24,7 @@
 #
 # Examples:
 #   ./create-public-release.sh major "Complete redesign of controller FSM" "Major redesign for improved performance" "2025.2"
-#   ./create-public-release.sh minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices" "2025.2"
+#   ./create-public-release.sh minor "Added new feature" "Added support for new feature" "2025.2"
 #   ./create-public-release.sh bugfix "Fixed timing issue in read path" "Fixed read timing violation" "2025.1.1"
 #
 # =============================================================================
@@ -101,12 +101,18 @@ update_release_notes() {
     info "Updating release notes in $release_notes_file..."
 
     # Extract IP name from metadata.xml
-    local ip_name="HyperRAM Memory Controller IP"
+    local ip_name="IP"
     if [ -f "$METADATA_FILE" ]; then
         local display_name=$(grep -oP '<lsccip:display_name>\K[^<]+' "$METADATA_FILE" 2>/dev/null | head -1)
         if [ -n "$display_name" ]; then
-            # Convert to proper format: "Hyperram Memory Controller" -> "HyperRAM Memory Controller IP"
+            # Format: "Display Name" -> "Display Name IP"
             ip_name="${display_name} IP"
+        else
+            # Fallback: try to get IP name from metadata.xml name field
+            local ip_name_field=$(grep -oP '<lsccip:name>\K[^<]+' "$METADATA_FILE" 2>/dev/null | head -1)
+            if [ -n "$ip_name_field" ]; then
+                ip_name="${ip_name_field} IP"
+            fi
         fi
     fi
 
@@ -114,7 +120,7 @@ update_release_notes() {
     # Handle multiple formats: semicolon-separated, newline-separated, or single line
     # Split by semicolons or newlines, then format as bullet points
     # Use <br> tags for line breaks in markdown table cells
-    local formatted_changes=$(echo "$description" | \
+    local formatted_changes=$(echo -n "$description" | \
         sed 's/; */\n/g' | \
         sed 's/^[[:space:]]*//' | \
         sed 's/[[:space:]]*$//' | \
@@ -122,7 +128,9 @@ update_release_notes() {
         sed 's/^/• /' | \
         tr '\n' '\001' | \
         sed 's/\001/<br>/g' | \
-        sed 's/  */ /g')
+        sed 's/\001//g' | \
+        sed 's/  */ /g' | \
+        sed 's/[[:space:]]*$//')
 
     # Create new version section with table using actual IP name
     local new_section="## ${ip_name} v${version}
@@ -214,7 +222,7 @@ Arguments:
 
 Examples:
     $0 major "Complete redesign of controller FSM" "Major redesign for improved performance" "2025.2"
-    $0 minor "Added dual-rank support" "Added support for dual-rank HyperRAM devices" "2025.2"
+    $0 minor "Added new feature" "Added support for new feature" "2025.2"
     $0 bugfix "Fixed timing issue in read path" "Fixed read timing violation" "2025.1.1"
 
 Version Format: X.Y.Z
@@ -671,7 +679,8 @@ for pattern in "${EXCLUDE_PATTERNS[@]}"; do
     find . -name "$pattern" -type f -exec rm -f {} \; 2>/dev/null || true
 done
 # Explicitly remove Python cache directories (even if tracked in git)
-find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+# Use \; instead of + to process one at a time and avoid path errors
+find . -type d -name "__pycache__" -exec rm -rf {} \; 2>/dev/null || true
 find . -name "*.pyc" -type f -delete 2>/dev/null || true
 find . -name "*.pyo" -type f -delete 2>/dev/null || true
 success "Cleanup complete"
@@ -700,10 +709,25 @@ fi
 # -----------------------------------------------------------------------------
 if [ ! -f "license.txt" ]; then
     info "Creating license.txt file..."
-    cat > license.txt << 'EOF'
+
+    # Extract IP name from metadata.xml for license text
+    license_ip_name="IP"
+    if [ -f "$METADATA_FILE" ]; then
+        display_name=$(grep -oP '<lsccip:display_name>\K[^<]+' "$METADATA_FILE" 2>/dev/null | head -1)
+        if [ -n "$display_name" ]; then
+            license_ip_name="${display_name} IP"
+        else
+            ip_name_field=$(grep -oP '<lsccip:name>\K[^<]+' "$METADATA_FILE" 2>/dev/null | head -1)
+            if [ -n "$ip_name_field" ]; then
+                license_ip_name="${ip_name_field} IP"
+            fi
+        fi
+    fi
+
+    cat > license.txt << EOF
 Copyright (c) 2024 Lattice Semiconductor Corporation
 
-This HyperRAM Memory Controller IP is provided under the Lattice Reference
+This ${license_ip_name} is provided under the Lattice Reference
 Design License Agreement.
 
 For license terms, please refer to the Lattice Semiconductor website or
@@ -745,7 +769,8 @@ fi
 # -----------------------------------------------------------------------------
 info "Committing release..."
 # Remove any __pycache__ directories that might have been copied from tag
-find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+# Use \; instead of + to process one at a time and avoid path errors
+find . -type d -name "__pycache__" -exec rm -rf {} \; 2>/dev/null || true
 find . -name "*.pyc" -type f -delete 2>/dev/null || true
 find . -name "*.pyo" -type f -delete 2>/dev/null || true
 # Add files (respecting .gitignore if it exists)
