@@ -120,17 +120,20 @@ update_release_notes() {
     # Handle multiple formats: semicolon-separated, newline-separated, or single line
     # Split by semicolons or newlines, then format as bullet points
     # Use <br> tags for line breaks in markdown table cells
-    local formatted_changes=$(echo -n "$description" | \
+    # Use a temporary file to avoid control character issues with tr/sed
+    local temp_file=$(mktemp)
+    echo -n "$description" | \
         sed 's/; */\n/g' | \
         sed 's/^[[:space:]]*//' | \
         sed 's/[[:space:]]*$//' | \
         grep -v '^$' | \
-        sed 's/^/• /' | \
-        tr '\n' '\001' | \
-        sed 's/\001/<br>/g' | \
-        sed 's/\001//g' | \
+        sed 's/^/• /' > "$temp_file"
+
+    # Join lines with <br> using awk (more reliable than tr + sed with control characters)
+    local formatted_changes=$(awk '{if (NR > 1) printf "<br>"; printf "%s", $0}' "$temp_file" | \
         sed 's/  */ /g' | \
         sed 's/[[:space:]]*$//')
+    rm -f "$temp_file"
 
     # Create new version section with table using actual IP name
     local new_section="## ${ip_name} v${version}
