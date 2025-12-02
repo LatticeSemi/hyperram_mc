@@ -1,1603 +1,1187 @@
-///////////////////////////////////////////////////////////////////////////////
-//  File name : s27ks0641.v
-///////////////////////////////////////////////////////////////////////////////
-//  Copyright (C) 2015 Spansion, LLC.
-//
-//  MODIFICATION HISTORY :
-//
-//  version:  | author:        |   date:    | changes made:
-//    V1.0     M.Stojanovic     15 June 24    Initial release
-//    V1.1     M.Stojanovic     15 Nov 09     Changed name from "BUFFER" to "BUFFERs27ks0641"
-//                                            (bug #492 fixed)
-//    V1.2     M.Stojanovic     16 Mar 01     Changed tDSV time (bug #500 fixed)
-//    V1.3     M.Stojanovic     16 June 22    RWDS active high/low for 3 cycles (bug #511 fixed)
-//    V1.4     S.Stevanovic     16 Oct  21    Added self-refresh feature and
-//             M.Stojanovic     16 Oct  21    Added new registers
-//    V1.5     M.Stojanovic     16 Nov  15    Corrected burst length behavior
-//    V1.6     S.Stevanovic     16 Nov  25    Fixing issue for BurstDelay = 3
-//    V1.7     M.Stojanovic     18 Feb  14    Update to datasheet 001-97964 Rev.*K
-//    V1.8     M.Stojanovic     18 Mar  12    Corrected wrapped burst (bug #14 fixed)
-//    V1.9     M.Dinic          18 Jul  04    Fixed DPD enter when write in CR1 (bug #20 fixed)
-//
-///////////////////////////////////////////////////////////////////////////////
-///  PART DESCRIPTION:
-//
-//  Library:        Spansion
-//  Technology:     RAM
-//  Part:           S27KS0641
-//
-//  Description:   Reduced Pin Count Pseudo Static RAM,
-//                 64Mb high-speed CMOS 1.8 Volt Core, x8 data bus
-//
-//
-//////////////////////////////////////////////////////////////////////////////
-//  Comments :
-//      For correct simulation, simulator resolution should be set to 1 ps
-//
-//////////////////////////////////////////////////////////////////////////////
-//  Known Bugs:
-//
-//////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////////
-// MODULE DECLARATION                                                       //
-//////////////////////////////////////////////////////////////////////////////
-`timescale 1 ps/1 ps
-
-module s27ks0641
-    (
-    DQ7      ,
-    DQ6      ,
-    DQ5      ,
-    DQ4      ,
-    DQ3      ,
-    DQ2      ,
-    DQ1      ,
-    DQ0      ,
-    RWDS     ,
-
-    CSNeg    ,
-    CK       ,
-    CKNeg    ,
-    RESETNeg
-    );
-
-////////////////////////////////////////////////////////////////////////
-// Port / Part Pin Declarations
-////////////////////////////////////////////////////////////////////////
-    inout  DQ7;
-    inout  DQ6;
-    inout  DQ5;
-    inout  DQ4;
-    inout  DQ3;
-    inout  DQ2;
-    inout  DQ1;
-    inout  DQ0;
-    inout  RWDS;
-
-    input  CSNeg;
-    input  CK;
-    input  CKNeg;
-    input  RESETNeg;
-
-	parameter chip_name = "chip1";
-    // interconnect path delay signals
-    wire CSNeg_ipd;
-    wire CK_ipd;
-    wire CKNeg_ipd;
-    wire RESETNeg_ipd;
-    wire DQ7_ipd;
-    wire DQ6_ipd;
-    wire DQ5_ipd;
-    wire DQ4_ipd;
-    wire DQ3_ipd;
-    wire DQ2_ipd;
-    wire DQ1_ipd;
-    wire DQ0_ipd;
-    wire RWDS_ipd;
-
-    wire [7:0] Din;
-    assign Din = { DQ7_ipd,
-                   DQ6_ipd,
-                   DQ5_ipd,
-                   DQ4_ipd,
-                   DQ3_ipd,
-                   DQ2_ipd,
-                   DQ1_ipd,
-                   DQ0_ipd};
-
-    wire [7:0] Dout;
-    assign Dout = { DQ7,
-                    DQ6,
-                    DQ5,
-                    DQ4,
-                    DQ3,
-                    DQ2,
-                    DQ1,
-                    DQ0 };
-    wire RWDSin;
-    assign RWDSin = RWDS_ipd;
-
-    //  internal delays
-    reg DPD_in          = 0;
-    reg DPD_out         = 0;
-    reg RPH_in          = 0;
-    reg RPH_out         = 0;
-    reg REF_in          = 0;
-    reg REF_out         = 0;
-    reg PO_in           = 0;
-    reg PO_out          = 0;
-
-    reg    DPDExt_in   = 0; // DPD Exit event
-    reg    DPDExt_out  = 0; // DPD Exit event confirmed
-    reg    DPDExt      = 0; // DPD Exit event detected
-
-    // event control registers
-    reg rising_edge_PoweredUp  = 0;
-    reg rising_edge_CKDiff     = 0;
-    reg falling_edge_CKDiff    = 0;
-    reg rising_edge_CSNeg      = 0;
-    reg falling_edge_CSNeg     = 0;
-    reg rising_edge_REF_out    = 0;
-    reg rising_edge_PO_out     = 0;
-    reg rising_edge_RPH_out    = 0;
-    reg rising_edge_DPD_in     = 0;
-    reg rising_edge_DPD_out    = 0;
-    reg rising_edge_RESETNeg   = 0;
-    reg falling_edge_RESETNeg  = 0;
-    reg rising_edge_glitch_rwds= 0;
-
-    integer DQt_01;
-    integer RWDSt_01;
-    integer RWDSRt_01;
-    time CK_cycle = 0;
-    time prev_CK;
-    reg glitch_dq = 1'b0;
-    reg glitch_rwds = 1'b0;
-    reg glitch_rwdsR = 1'b0;
-    reg Viol = 1'b0;
-
-    reg [7:0] Dout_zd = 8'bzzzzzzzz;
-    reg RWDSout_zd = 1'bz;
-
-    wire  DQ7_zd   ;
-    wire  DQ6_zd   ;
-    wire  DQ5_zd   ;
-    wire  DQ4_zd   ;
-    wire  DQ3_zd   ;
-    wire  DQ2_zd   ;
-    wire  DQ1_zd   ;
-    wire  DQ0_zd   ;
-
-    assign {DQ7_zd,
-            DQ6_zd,
-            DQ5_zd,
-            DQ4_zd,
-            DQ3_zd,
-            DQ2_zd,
-            DQ1_zd,
-            DQ0_zd  } = Dout_zd;
-
-    wire RWDS_zd;
-    assign RWDS_zd = RWDSout_zd;
-
-    reg [7:0] Dout_zd_tmp = 8'bzzzzzzzz;
-    reg RWDSout_zd_tmp = 1'bz;
-
-    reg [7:0] Dout_zd_latchH ;
-    reg [7:0] Dout_zd_latchL ;
-    reg RWDS_zd_latchH ;
-    reg RWDS_zd_latchL ;
-
-    wire RESETNeg_pullup;
-    assign RESETNeg_pullup = (RESETNeg === 1'bZ) ? 1 : RESETNeg;
-
-    reg CKDiff = 1'bz ;
-    reg RW     = 0;
-
-    reg REFCOLL = 0;
-    reg REFCOLL_ACTIV = 0; // = 1 : refresh collision occured
-
-    reg t_RWR_CHK = 1'b0;
-
-    parameter UserPreload       = 1;
-    parameter mem_file_name     = "none";//"s27ks0641.mem";
-
-    parameter TimingModel       = "DefaultTimingModel";
-    parameter SRManualOverride  = 1;
-    parameter RefreshPeriod     = 2;
-
-    parameter PartID            = "S27KS0641";
-    parameter MaxData           = 16'hFFFF;
-    parameter MemSize           = 25'h3FFFFF;
-    parameter HiAddrBit         = 34;
-    parameter AddrRANGE         = 25'h3FFFFF;
-
-///////////////////////////////////////////////////////////////////////////////
-//Interconnect Path Delay Section
-///////////////////////////////////////////////////////////////////////////////
-    buf   (DQ7_ipd , DQ7 );
-    buf   (DQ6_ipd , DQ6 );
-    buf   (DQ5_ipd , DQ5 );
-    buf   (DQ4_ipd , DQ4 );
-    buf   (DQ3_ipd , DQ3 );
-    buf   (DQ2_ipd , DQ2 );
-    buf   (DQ1_ipd , DQ1 );
-    buf   (DQ0_ipd , DQ0 );
-    buf   (RWDS_ipd , RWDS );
-
-    buf   (CK_ipd       , CK      );
-    buf   (CKNeg_ipd    , CKNeg   );
-    buf   (RESETNeg_ipd , RESETNeg);
-    buf   (CSNeg_ipd    , CSNeg   );
-
-
-///////////////////////////////////////////////////////////////////////////////
-// Propagation  delay Section
-///////////////////////////////////////////////////////////////////////////////
-    nmos   (DQ7 ,   DQ7_zd  , 1);
-    nmos   (DQ6 ,   DQ6_zd  , 1);
-    nmos   (DQ5 ,   DQ5_zd  , 1);
-    nmos   (DQ4 ,   DQ4_zd  , 1);
-    nmos   (DQ3 ,   DQ3_zd  , 1);
-    nmos   (DQ2 ,   DQ2_zd  , 1);
-    nmos   (DQ1 ,   DQ1_zd  , 1);
-    nmos   (DQ0 ,   DQ0_zd  , 1);
-    nmos   (RWDS ,  RWDS_zd , 1);
-
-    wire Dout_Z;
-    assign Dout_Z = Dout_zd==8'bzzzzzzzz;
-
-    wire RWDSout_Z;
-    assign RWDSout_Z = RWDSout_zd==1'bz & RW == 0;
-
-    wire tRWR_CHK;
-    assign tRWR_CHK = t_RWR_CHK;
-    
-    time csneglow;
-    time csnegchange;
-
-    specify
-    // tipd delays: interconnect path delays , mapped to input port delays.
-    // In Verilog is not necessary to declare any tipd_ delay variables,
-    // they can be taken from SDF file
-    // With all the other delays real delays would be taken from SDF file
-
-        // tpd delays
-    specparam  tpd_CSNeg_RWDS           = 1; //tDSZ
-    specparam  tpd_CK_RWDS              = 1; //tCKDS
-    specparam  tpd_CSNeg_DQ0            = 1; //tDSZ
-    specparam  tpd_CK_DQ0               = 4500; //tCKD
-
-        //tsetup values
-    specparam  tsetup_CSNeg_CK          = 1;  //tCSS  edge /
-    specparam  tsetup_DQ0_CK            = 1;  //tIS
-
-        //thold values
-    specparam  thold_CSNeg_CK           = 1;  //tCSH  edge \
-    specparam  thold_DQ0_CK             = 1;  //tIH
-    specparam  thold_CSNeg_RESETNeg     = 1;  //tRH
-
-    specparam  trecovery_CSNeg_CK       = 1;  //tRWR
-    specparam  tskew_CSNeg_CSNeg        = 1;  //tCSM
-
-        //tpw values: pulse width
-    specparam  tpw_CK_negedge           = 1; //tCL
-    specparam  tpw_CK_posedge           = 1; //tCH
-    specparam  tpw_CSNeg_posedge        = 1; //tCSHI
-    specparam  tpw_RESETNeg_negedge     = 1; //tRP
-
-        //tperiod values
-    specparam  tperiod_CK               = 1; //tCK
-
-     //tdevice values: values for internal delays
-     // power-on reset
-	`ifdef SPEED_UP
-      specparam tdevice_VCS    = 150;
-	`else
-      specparam tdevice_VCS    = 150e6;
-	`endif
-    // Deep Power Down to Idle wake up time
-    specparam tdevice_DPD    = 150e6;
-    // Exit Event from Deep Power Down
-    specparam tdevice_DPDCSL = 105e3;
-    // Warm HW reset
-    specparam tdevice_RPH    = 400e3;
-    // Refresh time
-    specparam tdevice_REF166 = 36e3;
-    // Page Open Time
-    specparam tdevice_PO166  = 36e3;
-
-//     specparam tdevice_REFINTV = 64e9;
-//     specparam tdevice_REFINTV = 1e6;
-//     specparam tdevice_REFINTV = 10e9;
-//     specparam tdevice_REFINTV = 16384e5;
-// // // // //     specparam tdevice_ROWREF = tdevice_REFINTV / 8192;
-// // // // // // // // // //     specparam tdevice_ROWREF = 72e3;
-
-///////////////////////////////////////////////////////////////////////////////
-// Input Port  Delays  don't require Verilog description
-///////////////////////////////////////////////////////////////////////////////
-// Path delays                                                               //
-///////////////////////////////////////////////////////////////////////////////
-
-    // Data output paths
-    (CSNeg => DQ0) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ1) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ2) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ3) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ4) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ5) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ6) = tpd_CSNeg_DQ0;
-    (CSNeg => DQ7) = tpd_CSNeg_DQ0;
-
-    if (~glitch_rwds) (CSNeg => RWDS) = tpd_CSNeg_RWDS;
-
-    if (~glitch_dq) (CK => DQ0) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ1) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ2) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ3) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ4) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ5) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ6) = tpd_CK_DQ0;
-    if (~glitch_dq) (CK => DQ7) = tpd_CK_DQ0;
-
-    if (rising_edge_glitch_rwds) (CK => RWDS) = tpd_CK_RWDS;
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Timing Violation                                                      //
-    ///////////////////////////////////////////////////////////////////////////
-    $setup (CSNeg, posedge CK,   tsetup_CSNeg_CK);
-
-    $setup (DQ0 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ1 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ2 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ3 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ4 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ5 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ6 &&& Dout_Z, CK, tsetup_DQ0_CK);
-    $setup (DQ7 &&& Dout_Z, CK, tsetup_DQ0_CK);
-
-    $setup (RWDS &&& RWDSout_Z, CK, tsetup_DQ0_CK);
-
-    $hold (negedge CK, CSNeg, thold_CSNeg_CK);
-
-    $hold (CK, DQ0 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ1 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ2 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ3 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ4 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ5 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ6 &&& Dout_Z, thold_DQ0_CK, Viol);
-    $hold (CK, DQ7 &&& Dout_Z, thold_DQ0_CK, Viol);
-
-    $hold (CK, RWDS &&& RWDSout_Z, thold_DQ0_CK, Viol);
-
-    //$hold (posedge RESETNeg, CSNeg, thold_CSNeg_RESETNeg);
-
-    $recovery (posedge CSNeg, negedge CK &&& tRWR_CHK, trecovery_CSNeg_CK, Viol);
-
-    //$skew (negedge CSNeg, posedge CSNeg, tskew_CSNeg_CSNeg, Viol);
-
-    $width (posedge CK                 , tpw_CK_posedge);
-    $width (negedge CK                 , tpw_CK_negedge);
-    $width (posedge CSNeg              , tpw_CSNeg_posedge);
-    $width (negedge RESETNeg           , tpw_RESETNeg_negedge);
-
-    $period(posedge CK  ,tperiod_CK);
-
-    endspecify
-
-///////////////////////////////////////////////////////////////////////////////
-// Main Behavior Block                                                       //
-///////////////////////////////////////////////////////////////////////////////
-
-    // FSM states
-    parameter POWER_ON     = 3'd0;
-    parameter ACT          = 3'd1;
-    parameter RESET_STATE  = 3'd2;
-    parameter DPD_STATE    = 3'd3;
-    reg [2:0] current_state = POWER_ON;
-    reg [2:0] next_state    = POWER_ON;
-
-    //Bus cycle state
-    parameter STAND_BY        = 2'd0;
-    parameter CA_BITS         = 2'd1;
-    parameter DATA_BITS       = 2'd2;
-    reg [1:0] bus_cycle_state;
-
-    // Parameters that define read mode, burst or continuous
-    parameter LINEAR     = 4'd0;
-    parameter CONTINUOUS = 4'd1;
-    reg [1:0] RD_MODE = CONTINUOUS;
-
-    // Parameter for self-refresh FSM
-    parameter SF_POWER_OFF  = 3'd0;
-    parameter SF_POWER_ON   = 3'd1;
-    parameter SF_ACC_DLY    = 3'd2;
-    parameter SF_RFRSH_DLY  = 3'd3;
-    parameter SF_RFRSH_DLY_1= 3'd4;
-    parameter SF_RESET      = 3'd5;
-    reg   [2:0]  sf_nxt_state   = SF_POWER_OFF;
-    reg   [2:0]  sf_curr_state  = SF_POWER_OFF;
-
-    integer Mem [0:MemSize];
-
-    reg PoweredUp = 0;
-
-    reg DPD_ACT        = 0;
-    integer Address; // entire address
-
-    parameter [15:0] ID_Register_0 = 16'h1FF1;
-    parameter [15:0] ID_Register_1 = 16'h0000;
-    reg [15:0] Config_reg_0 = 16'h8F1F;
-    reg [15:0] Config_reg_1 = 16'h0002;
-    reg UByteMask             = 0;
-    reg LByteMask             = 0;
-    reg Target                = 0;
-    reg WR_CFReg1             = 0;
-    integer BurstDelay;
-    integer RefreshDelay = 4;
-    integer BurstLength;
-
-    //varaibles to resolve architecture used
-    reg [24*8-1:0] tmp_timing;//stores copy of TimingModel
-    reg [7:0] tmp_char1; //Identify Speed option
-    reg [7:0] tmp_char2; //Identify Speed option
-    integer found = 1'b0;
-
-    reg   SPEED166            = 0;
-    reg   RFH_in              = 0;
-    reg   RFH_out             = 0;
-    reg   RFH_dly             = 0;
-    reg   RowRefreshing       = 0;
-    reg   self_refresh_en     = 0;
-    reg   rising_edge_self_refresh_en = 0;
-    time  tdevice_ROWREF      = 72e3;
-    time  tdevice_REFINTV     = 64e9;
-    time  ttdevice_DPD_CSL    = 200e3;
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Refresh control logic could be implemented in several ways as swown
-    // below. This family's Refresh control logic is implemented as evenly
-    // spread row refresh throughout whole Array refresh interval period (3):
-    //-------------------------------------------------------------------------
-    // 1) All 8192 rows refreshed as one group:
-    //________________________________________________________________________
-    //__//////////////|_______________________________________________________|
-    // 8192 * tRFH                                                        64 ms
-    //-------------------------------------------------------------------------
-    // 2) Rows are refreshed in groups (burst refresh) of several rows at a time
-    //    spread throughout each interval:
-    //________________________________________________________________________
-    //____________|////|_____________|////|______________|////|_______________|
-    //           64 rows            64 rows             64 rows           64 ms
-    //-------------------------------------------------------------------------
-    // 3) Rows are refreshed evenly throughout the whole refresh interval.
-    //    Depending on interval time 64ms or 16ms each row has time window
-    //    during which it will be refreshed (7.8us or 1.95us).
-    //    row_refresh_window = refresh_interval/8192rows:
-    //________________________________________________________________________
-    //__________|////|_____________|////|______________|////|_________________|
-    //      1 row/time window   1 row/time window  1 row/time window      64 ms
-    //
-    //-------------------------------------------------------------------------
-    initial
-    begin: RowRfrsh_parametrized
-        if (SRManualOverride)
-            tdevice_ROWREF = RefreshPeriod*tdevice_REF166;
-        else
-            tdevice_ROWREF = tdevice_REFINTV / 8192;
-    end
-
-    ///////////////////////////////////////////////////////////////////////////
-    // In real device self-refresh process is independent on whether we are
-    // using fixed latency or not. However if we leave the process to loop
-    // indefinitely in cases of "plane" TB, no specific methodology, simulator
-    // never ends the simulation. And it could be a bit tricky for a user to
-    // stop the simulation especially if it uses VHDL TB older then 2008 release
-    // or wants to use the same TB env to multiple simulators. So proper code
-    // would be that self-refresh is active regardless of the status of
-    // Config_reg(3):
-    //    always @(rising_edge_PoweredUp or PoweredUp or posedge RFH_out)
-    //    begin: RefreshTime
-    //        if (rising_edge_PoweredUp == 1'b1)
-    //            RFH_in = 1'b1;
-    //        else if (PoweredUp == 1'b1)
-    //        begin
-    //            if (RFH_out == 1'b1)
-    //            begin
-    //                RFH_in = 1'b0;
-    //                # (tdevice_ROWREF - tdevice_REF166) RFH_in = 1'b1;
-    //            end
-    //        end
-    //    end
-    ///////////////////////////////////////////////////////////////////////////
-    // So for the sake of simulations and back compatibility the self-refresh
-    // mechanism will depend on Config_reg(3) bit, and we are generating
-    // enable of self-refresh
-    ///////////////////////////////////////////////////////////////////////////
-    always @(CSNeg or Config_reg_0)
-    begin
-        if ((CSNeg == 1'b1) && (Config_reg_0[3] == 1'b0))
-        begin
-            self_refresh_en = 1'b1;
-        end
-        else if ((CSNeg == 1'b1) && (Config_reg_0[3] == 1'b1))
-        begin
-            self_refresh_en = 1'b0;
-            disable RefreshTime;
-        end
-    end
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Row Refresh inteval timer. Generate refresh start event periodically at
-    // Arrea refresh interval / 8192
-    always @(self_refresh_en or rising_edge_self_refresh_en or posedge RFH_out)
-    begin: RefreshTime
-        if (rising_edge_self_refresh_en == 1'b1)
-            RFH_in = 1'b1;
-        else if (self_refresh_en == 1'b1)
-        begin
-            if (RFH_out == 1'b1)
-            begin
-                RFH_in = 1'b0;
-                # (tdevice_ROWREF - tdevice_REF166) RFH_in = 1'b1;
-            end
-        end
-        else
-        begin
-            RFH_in = 1'b0;
-        end
-    end
-
-    // Do not refresh during memory access. Thus we need to delay refreshing.
-    always @(rising_edge_CSNeg)
-    begin: RowRefreshTimeDly
-        if (rising_edge_CSNeg == 1'b1)
-        begin
-            RFH_dly <= 1'b1;
-            #tdevice_REF166 RFH_dly <= 1'b0;
-        end
-    end
-
-    // Timing control
-    // Refresh out after tRFH
-    always @(posedge RFH_in)
-    begin:tRFHstart
-        #tdevice_REF166 RFH_out = RFH_in;
-    end
-
-    always @(negedge RFH_in)
-    begin:tRFHfinish
-        #1 RFH_out = RFH_in;
-    end
-
-    always @(sf_nxt_state)
-    begin: SFStateGen
-        sf_curr_state = sf_nxt_state;
-    end
-
-    // Self-refresh state machine
-    always @( PoweredUp or RFH_in or RFH_out or falling_edge_CSNeg or 
-              current_state or RFH_dly or sf_curr_state)
-    begin: SelfRefresh
-
-        case (sf_curr_state)
-        SF_POWER_OFF:
-        begin
-            if (PoweredUp == 1'b1)
-            begin
-                sf_nxt_state = SF_POWER_ON;
-            end
-        end
-
-        SF_POWER_ON:
-        begin
-            if ((RFH_in == 1'b1) && (falling_edge_CSNeg == 1'b1))
-            begin
-                sf_nxt_state      = SF_ACC_DLY;
-            end
-            else if ((RFH_in == 1'b1) && (CSNeg == 1'b0))
-            begin
-                sf_nxt_state      = SF_RFRSH_DLY;
-            end
-            else if ((current_state == RESET_STATE) || (current_state == DPD_STATE))
-            begin
-                sf_nxt_state      = SF_RESET;
-            end
-            else
-            begin
-                sf_nxt_state      = SF_POWER_ON;
-            end
-        end
-
-        // If there was an access atempt during the refresh process then insert
-        // additional delay (RWDS = 1)
-        SF_ACC_DLY:
-        begin
-            if (RFH_out == 1'b1)
-                sf_nxt_state  = SF_POWER_ON;
-        end
-
-        SF_RFRSH_DLY:
-        begin
-            if (RFH_dly == 1'b1)
-                sf_nxt_state = SF_RFRSH_DLY_1;
-        end
-
-        SF_RFRSH_DLY_1:
-        begin
-            if (RFH_dly == 1'b0)
-                sf_nxt_state = SF_POWER_ON;
-        end
-
-        SF_RESET:
-        begin
-            if (current_state == ACT)
-                sf_nxt_state = SF_POWER_ON;
-        end
-        endcase
-    end
-
-    // Self-refresh state machine
-    always @( RFH_in or falling_edge_CSNeg or rising_edge_CSNeg or
-              current_state or RFH_dly or sf_curr_state)
-    begin: SelfRefreshFunctional
-
-        RowRefreshing = 1'b0;
-
-        case (sf_curr_state)
-        SF_POWER_OFF:
-        begin
-            RowRefreshing = 1'b0;
-        end
-
-        SF_POWER_ON:
-        begin
-            if ((RFH_in == 1'b1) && (falling_edge_CSNeg == 1'b1))
-            begin
-                RowRefreshing = RFH_in;
-            end
-            else if ((RFH_in == 1'b1) && (CSNeg == 1'b0))
-            begin
-                RowRefreshing = 1'b0;
-            end
-            else if ((current_state == RESET_STATE) || (current_state == DPD_STATE))
-            begin
-                RowRefreshing = 1'b0;
-            end
-            else
-            begin
-                RowRefreshing = RFH_in;
-            end
-        end
-
-        // If there was an access atempt during the refresh process then insert
-        // additional delay (RWDS = 1)
-        SF_ACC_DLY:
-        begin
-            RowRefreshing = 1'b1;
-        end
-
-        SF_RFRSH_DLY:
-        begin
-            if (RFH_dly == 1'b1)
-                RowRefreshing = 1'b1;
-            else
-                RowRefreshing = 1'b0;
-        end
-
-        SF_RFRSH_DLY_1:
-        begin
-            RowRefreshing = 1'b1;
-        end
-
-        SF_RESET:
-        begin
-            RowRefreshing = 1'b0;
-        end
-        endcase
-    end
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    //Power Up time;
-    initial
-    begin
-        # tdevice_VCS PoweredUp = 1'b1;
-    end
-
-    initial
-    begin: InitTimingModel
-    integer i;
-    integer j;
-        //assumptions:
-        //1. TimingModel has format as S27KS0641XXXXXXXX
-        //it is important that 11-th character from first one is "P"
-        //2. TimingModel does not have more then 24 characters
-        tmp_timing = TimingModel;//copy of TimingModel
-
-        i = 23;
-        while ((i >= 0) && (found != 1'b1))//search for first non null character
-        begin        //i keeps position of first non null character
-            j = 7;
-            while ((j >= 0) && (found != 1'b1))
-            begin
-                if (tmp_timing[i*8+j] != 1'd0)
-                    found = 1'b1;
-                else
-                    j = j-1;
-            end
-            i = i - 1;
-        end
-        i = i +1;
-        if (found)//if non null character is found
-        begin
-            for (j=0;j<=7;j=j+1)
-            begin
-            //Speed is 11.
-                tmp_char1[j] = TimingModel[(i-10)*8+j];
-            end
-        end
-        if (tmp_char1 == "P")
-            SPEED166 = 1;
-
-        if (found)//if non null character is found
-        begin
-            for (j=0;j<=7;j=j+1)
-            begin
-            //Speed is 11.
-                tmp_char2[j] = TimingModel[(i-13)*8+j];
-            end
-        end
-        if ((tmp_char2 == "V") || (tmp_char2 == "v"))
-        begin
-            tdevice_REFINTV = 16e9;
-        end
-        else
-        begin
-            tdevice_REFINTV = 64e9;
-        end
-    end
-
-    // ------------------------------------------------------------------------
-    // Deep Power Down time
-    // ------------------------------------------------------------------------
-    // DPDExit_in is any write or read access for which CSNeg_ipd is asserted
-    // more than tDPDCSL time
-    always @(negedge CSNeg)
-    begin : NegCSNegEvent
-      if (DPD_in == 1'b1)
-          csneglow <= $time;
-    end
-    
-    always @(posedge CSNeg)
-    begin : PosCSNegEvent
-      if (DPD_in == 1'b1)
-         csnegchange <= $time;
-    end
-    
-    always @(csnegchange)
-    begin : DPDExtCSNegEvent
-      if ((tdevice_DPDCSL <= (csnegchange - csneglow)) && DPD_in == 1'b1)
-      begin
-          DPDExt_in = 1'b1;
-          #10 DPDExt_in = 1'b0;
-      end
-      else
-          DPDExt_in = 1'b0;
-    end
-
-    always @(posedge DPDExt_in)
-    begin : DPDExtEvent
-      #1 DPDExt_out = 1'b1;
-      #1 DPDExt_out = 1'b0;
-    end
-    // Generate event to trigger exiting from DPD mode
-    always @(posedge DPDExt_out or CSNeg_ipd or RESETNeg or falling_edge_RESETNeg or
-             DPD_in)
-    begin : DPDExtDetected
-      if ((DPDExt_out == 1'b1) ||
-          (!RESETNeg && falling_edge_RESETNeg && DPD_in))
-      begin
-        DPDExt = 1'b1;
-        #1 DPDExt = 1'b0;
-      end
-    end
-    // DPD exit event, generated after tDPDOUT time (maximal: 150 us)
-    always @(posedge DPDExt)
-    begin : DPDTime
-        DPD_out = 1'b0;
-        #(tdevice_DPD - 1) DPD_out = 1'b1;
-    end
-
-    // Warm HW reset
-    always @(posedge RPH_in)
-    begin:RPHr
-        #tdevice_RPH RPH_out = RPH_in;
-    end
-    always @(negedge RPH_in)
-    begin:RPHf
-        #1 RPH_out = RPH_in;
-    end
-
-    //  Refresh Collision Time
-    always @(posedge REF_in)
-    begin:REFr
-        if (SPEED166)
-            #tdevice_REF166 REF_out = REF_in;
-    end
-    always @(negedge REF_in)
-    begin:REFf
-        #1 REF_out = REF_in;
-    end
-
-    //  Page Open Time
-    always @(posedge PO_in)
-    begin:POr
-        if (SPEED166)
-            #tdevice_PO166 PO_out = PO_in;
-    end
-    always @(negedge PO_in)
-    begin:POf
-        #1 PO_out = PO_in;
-    end
-
-    // initialize memory and load preoload files if any
-    initial
-    begin: InitMemory
-    integer i;
-        for (i=0;i<=MemSize;i=i+1)
-           Mem[i]=MaxData;
-
-        if (UserPreload && !(mem_file_name == "none"))
-            $readmemh(mem_file_name,Mem);
-    end
-    ///////////////////////////////////////////////////////////////////////////
-    // Process for generating differential clock from CK and CKNeg
-    ///////////////////////////////////////////////////////////////////////////
-    always @(CK, CKNeg)
-    begin : DiffCK
-        if (CK && ~CKNeg)
-            CKDiff = 1'b1;
-        if (~CK && CKNeg)
-            CKDiff = 1'b0;
-    end
-    ///////////////////////////////////////////////////////////////////////////
-    // Process for clock frequency determination
-    ///////////////////////////////////////////////////////////////////////////
-    always @(posedge CK)
-    begin : clk_period
-        CK_cycle = $time - prev_CK;
-        prev_CK = $time;
-    end
-    ///////////////////////////////////////////////////////////////////////////
-    // Check if device is selected during power up
-    ///////////////////////////////////////////////////////////////////////////
-    always @(negedge CSNeg_ipd)
-    begin:CheckCSOnPowerUP
-        if (~PoweredUp)
-            $display ("Device is selected during Power Up");
-    end
-
-    always @(rising_edge_CKDiff or falling_edge_CKDiff)
-    begin : clock_period
-        if (CSNeg_ipd == 1'b0)
-        begin
-            if (DQt_01 > CK_cycle/2)
-                glitch_dq = 1'b1;
-        end
-    end
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Bus Cycle Decode
-    ///////////////////////////////////////////////////////////////////////////
-    integer data_cycle  =  0;
-    integer ca_cnt      = 48;
-    reg [47:0] ca_in        ;
-    reg [15:0] Data_in      ;
-    reg RD_WRAP;
-    integer Start_BurstAddr;
-    reg RdWrStart        = 1'b0;
-    reg HYBRID           = 1'b0;
-
-    always @(rising_edge_CSNeg or falling_edge_CSNeg or
-           rising_edge_CKDiff or falling_edge_CKDiff or falling_edge_RESETNeg
-            or rising_edge_REF_out or rising_edge_PO_out)
-    begin: BusCycle
-    integer i;
-
-    if (current_state == ACT)
-    begin
-        case (bus_cycle_state)
-
-        STAND_BY:
-        begin
-            if (falling_edge_CSNeg)
-            begin
-                ca_cnt        = 48;
-                data_cycle    = 0;
-                RW            = 1'b0;
-                RD_WRAP       = 1'b0;
-                RdWrStart     = 1'b0;
-                REFCOLL       = 1'b0;
-                REFCOLL_ACTIV = 1'b0;
-                HYBRID        = 1'b0;
-                bus_cycle_state = CA_BITS;
-            end
-        end
-
-        CA_BITS:
-        begin
-            if (!CSNeg &&
-            (rising_edge_CKDiff || falling_edge_CKDiff))
-            begin
-                for(i=1;i<=8;i=i+1)
-                    ca_in[ca_cnt-i] = Din[8-i];
-                ca_cnt = ca_cnt - 8;
-
-                if (ca_cnt == 40)
-                begin
-                    REFCOLL = 1'b1;
-                    if (Config_reg_0[3] == 1'b1)// fixed latency
-                    begin
-                        REFCOLL_ACTIV = 1'b1;
-                        RWDSout_zd_tmp = 1'b1;
-                    end
-                    else if (Config_reg_0[3] == 1'b0)// variable latency
-                    begin
-                        if (REFCOLL_ACTIV == 1'b1)
-                        begin
-                            RWDSout_zd_tmp = 1'b1;
-                        end
-                        else
-                        begin
-                            RWDSout_zd_tmp = 1'b0;
-                        end
-                    end
-                end
-
-                else if (ca_cnt == 24)
-                    t_RWR_CHK = 1'b1;
-
-                else if (ca_cnt == 16)
-                begin
-                    RW = ca_in[47];
-                    Target = ca_in[46];
-                    if (Target==1'b0 || (Target==1'b1 && RW==1'b1))
-                    begin
-                        if (REFCOLL_ACTIV)
-                            REF_in = 1'b1;
-                        else
-                            PO_in = 1'b1;
-                    end
-
-                    if (Config_reg_0[2] == 1'b0)
-                        HYBRID = 1'b1;
-
-                    if (Config_reg_0[1:0] == 2'b00)
-                        BurstLength = 128;
-                    else if (Config_reg_0[1:0] == 2'b01)
-                        BurstLength = 64;
-                    else if (Config_reg_0[1:0] == 2'b10)
-                        BurstLength = 16;
-                    else if (Config_reg_0[1:0] == 2'b11)
-                        BurstLength = 32;
-
-                    if (Config_reg_0[7:4] == 4'b0000)
-                        BurstDelay = 5;
-                    else if (Config_reg_0[7:4] == 4'b0001)
-                        BurstDelay = 6;
-                    else if (Config_reg_0[7:4] == 4'b0010)
-                        BurstDelay = 7;
-                    else if (Config_reg_0[7:4] == 4'b1111)
-                        BurstDelay = 4;
-                    else if (Config_reg_0[7:4] == 4'b1110)
-                        BurstDelay = 3;
-
-                    RefreshDelay = BurstDelay;
-                end
-
-                else if (ca_cnt == 8)
-                begin
-                    t_RWR_CHK = 1'b0;
-                end
-
-                else if (ca_cnt == 0)
-                begin
-
-                    if (RW == 1'b1) // read
-                        RWDSout_zd_tmp = 1'b0;
-                    else  // write
-                    begin
-                        RWDSout_zd_tmp = 1'bz;
-                        WR_CFReg1 = ca_in[0];
-                    end
-
-                    REFCOLL = 1'b0;
-                    if (ca_in[45])
-                        RD_MODE = CONTINUOUS;
-                    else
-                        RD_MODE = LINEAR;
-
-                    Address   = {ca_in[HiAddrBit:16], ca_in[2:0]};
-                    Start_BurstAddr = Address;
-
-                    if (REFCOLL_ACTIV)
-                        RefreshDelay = RefreshDelay - 1;
-                    else
-                        BurstDelay = BurstDelay - 1;
-                    bus_cycle_state = DATA_BITS;
-                end
-            end
-        end
-
-        DATA_BITS:
-        begin
-            if (rising_edge_CKDiff && !CSNeg)
-            begin
-                if (Target==1'b1 && RW==1'b0)
-                begin
-                    Data_in[15:8] = Din;
-                    data_cycle = data_cycle + 1;
-                end
-                else
-                if (BurstDelay==0)
-                begin
-                    RdWrStart = 1'b0;
-                    if (RW == 1) // read
-                    begin
-                        glitch_rwds = 1'b1;
-                        glitch_rwdsR = 1'b1;
-                        RWDSout_zd_tmp = 1'b1;
-                        if (Target == 0) // mem
-                        begin
-                            if (Mem[Address][15:8]==-1)
-                                Dout_zd_tmp = 8'bxxxxxxxx;
-                            else
-                                Dout_zd_tmp=Mem[Address][15:8];
-                        end
-                        else // reg
-                        begin
-                            if (ca_in[31:24] == 8'b00000001)
-                            begin
-                                if (ca_in[0] == 1'b0)
-                                    Dout_zd_tmp = Config_reg_0[15:8];
-                                else // if ca_in[0] == 1'b1
-                                    Dout_zd_tmp = Config_reg_1[15:8];
-                            end
-                            else
-                            begin
-                                if (ca_in[31:24] == 8'b00000000)
-                                begin
-                                    if (ca_in[0] == 1'b0)
-                                        Dout_zd_tmp = ID_Register_0[15:8];
-                                    else // if ca_in[0] == 1'b1
-                                        Dout_zd_tmp = ID_Register_1[15:8];
-                                end
-                            end
-                        end
-                    end
-                    else // (RW == 0) write
-                    begin
-                        Data_in[15:8] = Din;
-                        data_cycle = data_cycle + 1;
-                        UByteMask = RWDS;
-                    end
-                end
-            end
-
-            else if (falling_edge_CKDiff && !CSNeg)
-            begin
-                if (Target==1'b1 && RW==1'b0)
-                begin
-
-                    Data_in[7:0] = Din;
-                    data_cycle = data_cycle + 1;
-                    if (data_cycle == 2)
-                    begin
-                        if ((!Data_in[15] && Config_reg_0[15]) && (WR_CFReg1 == 1'b0))
-                        begin
-                            DPD_ACT = 1'b1;
-                            DPD_ACT <= #5 1'b0;
-                        end
-                        if (WR_CFReg1 == 1'b0)
-                        Config_reg_0 = Data_in;
-                        else
-                        Config_reg_1 = Data_in;
-                    end
-                end
-                else
-                if (REFCOLL_ACTIV)
-                begin
-                    if (RefreshDelay > 0)
-                        RefreshDelay = RefreshDelay - 1;
-                    if (RefreshDelay == 0)
-                    begin
-                        PO_in = 1'b1;
-                        REFCOLL_ACTIV = 1'b0;
-                    end
-                end
-                else
-                begin
-                    if (BurstDelay>0)
-                        BurstDelay = BurstDelay - 1;
-                    else
-                    begin
-                        if (RdWrStart == 1'b1)
-                            RdWrStart =1'b0;
-                        else
-                        begin
-                            if (RW == 1) // read
-                            begin
-                                RWDSout_zd_tmp = 1'b0;
-                                if (Target == 0) // mem
-                                begin
-                                    if (Mem[Address][7:0]==-1)
-                                        Dout_zd_tmp = 8'bxxxxxxxx;
-                                    else
-                                        Dout_zd_tmp = Mem[Address][7:0];
-                                end
-                                else // reg
-                                begin
-                                    if (ca_in[31:24] == 8'b00000001)
-                                    begin
-                                        if (ca_in[0] == 1'b0)
-                                            Dout_zd_tmp = Config_reg_0[7:0];
-                                        else // if ca_in[0] == 1'b1
-                                            Dout_zd_tmp = Config_reg_1[7:0];
-                                    end
-                                    else
-                                    begin
-                                        if (ca_in[31:24] == 8'b00000000)
-                                        begin
-                                            if (ca_in[0] == 1'b0)
-                                                Dout_zd_tmp = ID_Register_0[7:0];
-                                            else // if ca_in[0] == 1'b1
-                                                Dout_zd_tmp = ID_Register_1[7:0];
-                                        end
-                                    end
-                                end
-                            end
-                            else // write
-                            begin
-                                if (Target == 0)  // mem
-                                begin
-                                    if (data_cycle >= 1)
-                                    begin
-                                        Data_in[7:0] = Din;
-                                        data_cycle = data_cycle + 1;
-  	  			                        //$display ("[%0t] G, data_cycle: 0x%0h", $time, data_cycle);
-                                        LByteMask = RWDS;
-                                        if (data_cycle % 2 == 0)
-                                        begin
-                                            if (!LByteMask) begin
-											    $display ("%s - [%0t] Valid Write to Lower - Address=0x%0h, Data=0x%0h", chip_name, $time, Address, Data_in[7:0]);
-                                                Mem[Address][7:0]=Data_in[7:0];
-											end
-                                            if (!UByteMask) begin
-                                                Mem[Address][15:8]=Data_in[15:8];
-												$display ("%s - [%0t] Valid Write to Higher - Address=0x%0h, Data=0x%0h", chip_name, $time, Address, Data_in[15:8]);
-											end
-                                        end
-                                    end
-                                end
-                            end
-
-                            if (RD_MODE == CONTINUOUS)
-                            begin
-                                if (Address == AddrRANGE)
-                                    Address = 0;
-                                else
-                                    Address = Address + 1;
-                            end
-                            else // wrapped burst
-                            begin
-                                if (!HYBRID)//legacy wrapped burst
-                                begin
-                                    if ((BurstLength==16) || (BurstLength==32) ||
-                                    (BurstLength==64) || (BurstLength==128))
-                                    begin
-                                        Address = Address + 1;
-                                        if (Address % (BurstLength/2) == 0)
-                                            Address= Address - BurstLength/2;
-                                    end
-                                end
-                                else // Hybrid burst sequencing
-                                begin
-                                    if ((BurstLength==16) || (BurstLength==32) ||
-                                    (BurstLength==64) || (BurstLength==128))
-                                    begin
-                                        Address = Address + 1;
-                                        if (Address % (BurstLength/2) == 0)
-                                            Address= Address - BurstLength/2;
-                                        if (Address == Start_BurstAddr)
-                                        begin
-                                            Address=
-                                    (Start_BurstAddr/(BurstLength/2))*BurstLength/2
-                                            + BurstLength/2;
-                                            if (Address==AddrRANGE + 1)
-                                                Address = 0;
-                                            RD_MODE = CONTINUOUS;
-                                        end
-                                    end
-
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-        endcase
-
-        if (falling_edge_CSNeg)
-        begin
-            if (Config_reg_0[3] == 1'b1)// fixed latency
-                RWDSout_zd = 1'b1;
-            else
-            begin
-                if (RowRefreshing == 1'b1)
-                begin
-                    RWDSout_zd    = 1'b1;
-                    REFCOLL_ACTIV = 1'b1;
-                end
-                else
-                begin
-                    RWDSout_zd    = 1'b0;
-                    REFCOLL_ACTIV = 1'b0;
-                end
-            end
-        end
-
-        if (rising_edge_CSNeg || falling_edge_RESETNeg)
-        begin
-            bus_cycle_state = STAND_BY;
-            Dout_zd_tmp = 8'bzzzzzzzz;
-            RWDSout_zd_tmp = 1'bz;
-            Dout_zd = 8'bzzzzzzzz;
-            RWDSout_zd = 1'bz;
-            glitch_rwds = 1'b0;
-            glitch_rwdsR = 1'b0;
-            REFCOLL_ACTIV = 1'b0;
-            if (falling_edge_RESETNeg)
-            begin
-                Config_reg_0 = 16'h8F1F;// default value
-                Config_reg_1 = 16'h0002;// default value
-            end
-        end
-        if (BurstDelay == 0)
-            RdWrStart = 1'b0;
-        else if (rising_edge_PO_out)
-        begin
-            PO_in = 1'b0;
-            RdWrStart = 1'b1;
-        end
-        if (rising_edge_REF_out)
-            REF_in = 1'b0;
-    end
-
-    else
-      begin
-        bus_cycle_state = STAND_BY;
-        if (falling_edge_RESETNeg)
-        begin
-            Config_reg_0 = 16'h8F1F;// default value
-            Config_reg_1 = 16'h0002;// default value
-        end
-      end
-    end
-
-    always @(next_state)
-    begin:CurrentStatGen
-        current_state = next_state;
-    end
-
-    always @(rising_edge_PoweredUp or
-            rising_edge_DPD_in or rising_edge_RPH_out or
-            rising_edge_RESETNeg or rising_edge_DPD_out or
-            falling_edge_RESETNeg)
-    begin: StateGen
-        case (current_state)
-
-            POWER_ON:
-            begin
-                if (rising_edge_PoweredUp)
-                    next_state <= ACT;
-            end
-
-            ACT:
-            begin
-                if (falling_edge_RESETNeg)
-                    next_state <= RESET_STATE;
-                else if (rising_edge_DPD_in)
-                    next_state <= DPD_STATE;
-            end
-
-            RESET_STATE:
-            begin
-                if ((rising_edge_RPH_out && RESETNeg_pullup) ||
-                (rising_edge_RESETNeg && !RPH_in))
-                    next_state <= ACT;
-            end
-
-            DPD_STATE:
-            begin
-                if (falling_edge_RESETNeg)
-                    next_state <= RESET_STATE;
-                else if (rising_edge_DPD_out)
-                    next_state <= ACT;
-            end
-
-        endcase
-    end
-
-    always @(falling_edge_RESETNeg or
-            DPD_ACT or rising_edge_RPH_out or
-            rising_edge_DPD_out)
-    begin:Functional
-        case (current_state)
-
-            POWER_ON:
-            begin
-            end
-
-            ACT:
-            begin
-                if (falling_edge_RESETNeg)
-                    RPH_in = 1'b1;
-                if (DPD_ACT)
-                    DPD_in = 1'b1;
-            end
-
-            RESET_STATE:
-            begin
-                if (rising_edge_RPH_out)
-                    RPH_in = 1'b0;
-            end
-
-            DPD_STATE:
-            begin
-                if (rising_edge_DPD_out)
-                    DPD_in = 1'b0;
-                if (falling_edge_RESETNeg)
-                begin
-                    RPH_in = 1'b1;
-                    DPD_in = 1'b0;
-                end
-            end
-        endcase
-    end
-
- always @(posedge PoweredUp)
-    begin
-        rising_edge_PoweredUp = 1;
-        #1 rising_edge_PoweredUp = 0;
-    end
-
-    always @(negedge CKDiff)
-    begin
-        falling_edge_CKDiff = 1;
-        #1 falling_edge_CKDiff = 0;
-    end
-
-    always @(posedge CKDiff)
-    begin
-        rising_edge_CKDiff = 1;
-        #1 rising_edge_CKDiff = 0;
-    end
-
- always @(posedge CSNeg)
-    begin
-        rising_edge_CSNeg = 1;
-        #1 rising_edge_CSNeg = 0;
-    end
- always @(negedge CSNeg)
-    begin
-        falling_edge_CSNeg = 1;
-        #1 falling_edge_CSNeg = 0;
-    end
-
- always @(posedge REF_out)
-    begin
-        rising_edge_REF_out = 1;
-        #1 rising_edge_REF_out = 0;
-    end
-
- always @(posedge PO_out)
-    begin
-        rising_edge_PO_out = 1;
-        #1 rising_edge_PO_out = 0;
-    end
-
- always @(posedge RPH_out)
-    begin
-        rising_edge_RPH_out = 1;
-        #1 rising_edge_RPH_out = 0;
-    end
-
- always @(posedge DPD_in)
-    begin
-        rising_edge_DPD_in = 1;
-        #1 rising_edge_DPD_in = 0;
-    end
-
- always @(posedge DPD_out)
-    begin
-        rising_edge_DPD_out = 1;
-        #1 rising_edge_DPD_out = 0;
-    end
-
- always @(posedge RESETNeg)
-    begin
-        rising_edge_RESETNeg = 1;
-        #1 rising_edge_RESETNeg = 0;
-    end
-
- always @(negedge RESETNeg)
-    begin
-        falling_edge_RESETNeg = 1;
-        #1 falling_edge_RESETNeg = 0;
-    end
-
- always @(posedge glitch_rwds)
-    begin
-        rising_edge_glitch_rwds = 1;
-        #1 rising_edge_glitch_rwds = 0;
-    end
-
- always @(posedge self_refresh_en)
-    begin
-        rising_edge_self_refresh_en = 1;
-        #1 rising_edge_self_refresh_en = 0;
-    end
-
-    always @(rising_edge_CSNeg)
-    begin
-        disable read_process_dq1;
-        disable read_process_dq2;
-        disable read_process_rwds1;
-        disable read_process_rwds2;
-        disable read_process_rwdsR1;
-        disable read_process_rwdsR2;
-    end
-
- always @(rising_edge_CKDiff)
-    begin: read_process_dq1
-        if (~CSNeg_ipd)
-        begin
-            if (glitch_dq)
-            begin
-                #1 Dout_zd_latchH = Dout_zd_tmp;
-                #DQt_01 Dout_zd = Dout_zd_latchH;
-            end
-            else
-            begin
-                Dout_zd = Dout_zd_tmp;
-            end
-        end
-    end
-
- always @(falling_edge_CKDiff)
-    begin: read_process_dq2
-        if (~CSNeg_ipd)
-        begin
-            if (glitch_dq)
-            begin
-                #1 Dout_zd_latchL = Dout_zd_tmp;
-                #DQt_01 Dout_zd = Dout_zd_latchL;
-            end
-            else
-            begin
-                Dout_zd = Dout_zd_tmp;
-            end
-        end
-    end
-
-    always @(rising_edge_CKDiff)
-    begin: read_process_rwds1
-        if (~CSNeg_ipd)
-        begin
-            if (glitch_rwds && !REFCOLL)
-            begin
-                #1 RWDS_zd_latchH = RWDSout_zd_tmp;
-                #RWDSt_01 RWDSout_zd = RWDS_zd_latchH;
-            end
-            else if (!REFCOLL)
-            begin
-                RWDSout_zd = RWDSout_zd_tmp;
-            end
-        end
-    end
-
-    always @(falling_edge_CKDiff)
-    begin: read_process_rwds2
-        if (~CSNeg_ipd)
-        begin
-            if (glitch_rwds && !REFCOLL)
-            begin
-                #1 RWDS_zd_latchL = RWDSout_zd_tmp;
-                #RWDSt_01 RWDSout_zd = RWDS_zd_latchL;
-            end
-            else if (!REFCOLL)
-            begin
-                RWDSout_zd = RWDSout_zd_tmp;
-            end
-        end
-    end
-
-    always @(rising_edge_CKDiff)
-    begin: read_process_rwdsR1
-        if (~CSNeg_ipd)
-        begin
-            if (glitch_rwdsR && REFCOLL)
-            begin
-                #1 RWDS_zd_latchH = RWDSout_zd_tmp;
-                #RWDSRt_01 RWDSout_zd = RWDS_zd_latchH;
-            end
-            else if (REFCOLL)
-            begin
-                RWDSout_zd = RWDSout_zd_tmp;
-            end
-        end
-    end
-
-    always @(falling_edge_CKDiff)
-    begin: read_process_rwdsR2
-        if (~CSNeg_ipd)
-        begin
-            if (glitch_rwdsR && REFCOLL)
-            begin
-                #1 RWDS_zd_latchL = RWDSout_zd_tmp;
-                #RWDSRt_01 RWDSout_zd = RWDS_zd_latchL;
-            end
-            else if (REFCOLL)
-            begin
-                RWDSout_zd = RWDSout_zd_tmp;
-            end
-        end
-    end
-
-    reg  BuffInDQ;
-    wire BuffOutDQ;
-
-    reg  BuffInRWDS;
-    wire BuffOutRWDS;
-
-    reg  BuffInRWDSR;
-    wire BuffOutRWDSR;
-
-    BUFFERs27ks0641    BUF_DOut    (BuffOutDQ, BuffInDQ);
-    BUFFERs27ks0641    BUF_RWDS    (BuffOutRWDS, BuffInRWDS);
-    BUFFERs27ks0641    BUF_RWDSR   (BuffOutRWDSR, BuffInRWDSR);
-
-    initial
-    begin
-        BuffInDQ    = 1'b1;
-        BuffInRWDS  = 1'b1;
-        BuffInRWDSR = 1'b1;
-    end
-
-    always @(posedge BuffOutDQ)
-    begin
-        DQt_01 = $time;
-    end
-
-    always @(posedge BuffOutRWDS)
-    begin
-        RWDSt_01 = $time;
-    end
-
-    always @(posedge BuffOutRWDSR)
-    begin
-        RWDSRt_01 = $time;
-    end
-
-endmodule
-
-module BUFFERs27ks0641 (OUT,IN);
-    input IN;
-    output OUT;
-    buf   ( OUT, IN);
-endmodule
+`pragma protect begin_protected
+`pragma protect version=1
+`pragma protect author="Lattice Semiconductor Corporation"
+`pragma protect author_info="Lattice Semiconductor Corporation"
+`pragma protect encrypt_agent="Radiant encrypt_hdl"
+`pragma protect encrypt_agent_info="Radiant encrypt_hdl Version 1.0"
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=256)
+`pragma protect key_keyowner="Synplicity"
+`pragma protect key_keyname="SYNP15_1"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+wLEBrPDjXeGS5g0VLnoPQ/juu+zG2xRg9IEF7bg5ogthAfS4M0reXs2IKGMANbpt
+l5FEtp3DVnVFTXAJNJGXdcSE3+wyQfAoeJzVovplvxtsj6Ic4xehgiBNU9wRzKq5
+DoCjgdl5lXgZP2nIHe7WHwnbkX7qr8JZTJA0BWL6bB7Ryi49pG0Ja77QUCX1HOky
+2Q97+udyAuYwzCs2MhVnriFUqNPSBc6aBt74czgNiu2r10wq+cukNGQcGwzgxagE
+290F2cMVHOgsktczZtlhARKnV58DAKBCvxewSZiz6dzX4Rs92K8EKjOzpeiR6ZOp
+sKld+p3LW1K35NKDBO8reA==
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=256)
+`pragma protect key_keyowner="Synplicity"
+`pragma protect key_keyname="SYNP05_001"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+q71MC9kJ0ePrD9v8vLCDEn/tvbmHXfG6yPlp2+HUpwS8K3G5EjrwgLAE5X75kvAw
+51GWJR/Q3KejjhG6afVRrRYBi9R87+i2/H27C5qMDF7cWWmZ38CvcCLYlAB8psvi
+isKw61CizSSkW9xUSgCy6np01EXbif8L56IqqluJiweC47ahu5oB0JvymHxgE0w7
+eAawSZtNsMBp0uaq6Xk9ty4SPFQiouv4qTte4EKkcC1OELH36FKpv4aAuOQWjGvc
+wSa0mcZ6YB5IehbcRylwFmXQyT+W5PnG3p7cpnLAyj9vSdjWgXmyn5M7PM2q+xZe
+Dsu/85r+Zm4lGu1jiY5d6Q==
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=256)
+`pragma protect key_keyowner="Mentor Graphics Corporation"
+`pragma protect key_keyname="MGC-VERIF-SIM-RSA-2"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+oMe+Hh/hLaoDywZ753YOMqzUkGe7BdSk2kNFEP9tvjL9drdjCJRU2k67TfzmXQIg
+yX8465v+BTFkPVYL7qsPerwMJHkBLuJRGGXdz546Ne8f09mjVKCOM/YF89NfrxHl
+LGWNWNgaL007NC9PVjVp9c4Bbi8vVaH2IO9Lvo8nfBnTZ43lFPRYPsdWQMQDoud/
+gfr8n6UqKambrYxs6Unu/P53qvkSooSfWeQ8DhgnzgHee+q4EE00AtEaKSgVAGjN
+iBPHRE5uy7R+ofwJC22vMX61dZ+j+2OUaWT1CEGC821UbBdsjsnl//RwpT0SYyYF
++K0wKOoyaTLlHwC/YrOV+Q==
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=128)
+`pragma protect key_keyowner="Synopsys"
+`pragma protect key_keyname="SNPS-VCS-RSA-1"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+1dAtqDiOD3eL9RfL5wPQnIKJTp16h9e6MTI8GnxV8tZdthGOyHw4xxCURc2E8N8O
+ZRMzkSDZ59RPq5rohCm2hWA36t+hIeR//zkRvHf234sUn0ZTC2o7+86sBhsp1+wx
+8PYfDkxyV2VoY4498rJhOWoRU4NcV6ZRq1Wp8eFKUmc=
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=256)
+`pragma protect key_keyowner="Aldec"
+`pragma protect key_keyname="ALDEC15_001"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+OEQK3D0R0ePu6jn5L6Cy43z8XuxjVBA8fgY8LdShb6AUGbR4WUOMujRQreov/Qra
+XwdbY5V0Cs0Kzh5VebQqct8sGcxi+VrtbLzL2jEFFqWpbjDKzHqzjeqhAhIFoovG
+mg+SKZryIHdRqKGIKrV39l6JwliQ+ASYYkYHtoCXvyex4lVmkWhEF11S3pUPazP6
+ttqG2IqdMh1gh2qMuqeDwnLCvoKnJADbWnCIV4FNryzyO/6W8ogKDRNyQ4YdfFLQ
+hRQPbqIUi0uoQ34N+gyk30My8njbNbSWcR9n49bY+W/pSQ3Z2HLe+Jt0YrX97Jk0
+IRMjRgpVEFp22QV1U/GRKQ==
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=256)
+`pragma protect key_keyowner="Cadence Design Systems."
+`pragma protect key_keyname="CDS_RSA_KEY_VER_1"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+OuzeXBUO03UzSVV+UAh6GlMW0BCciwkGj/3r1oX3AGbbmjcCJ+6wEiIYX7Le1pR5
+YfvZ5bYzAeY7bv4dGTlwrbjQ2M6NZesT5SOY+JVPyt0Z9PpYJQHiNuQYNpZ/ZSFa
+Vf7unO6yioBFHRmifFkkuVJgXHKeCPaiI8LN0jjphE7Uy1Z9MLTL4qFXPmd35GCZ
+BvIIpnlrOTgBC9TZBqylBFfi99Q7cymDcH2jHAIeljGOdQzI4WB7mU0CBeNheDEw
+lLIpHzPDhe4VPPQbDoAxmQocnEEuVnWtNtwxUT7Jgz0mXpgVqjkGQHHXxiELZTtY
+YaId9ofvqmDDAHh8mkPSuA==
+
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=384)
+`pragma protect key_keyowner="Lattice Semiconductor"
+`pragma protect key_keyname="LSCC_RADIANT_3"
+`pragma protect key_method="rsa"
+`pragma protect key_block
+bMaT83Odu5W+IC7WR8wm9wOXBHc9VaC1FCtmpzyRLWiL8Dn4dnfdYmkIv7zYTQyw
+8aRoDkmUg2n7TjhOBzE69wx+/7ROQUt/+gP++gyI2qwI855ppBkwoqyMZQByO8zS
+6Fh+FLgtdgDUnF6iOFOMvvMeujOAhf0Bp9K/CGWzYf0JYBdQgpocP+xA1dCPpsdV
+W7/mlgvHe3QK9TEEItNd58sGZd4wO9jFWHbH6NVKOyJrESe0HFutHXMn/4EQK0kW
+Pev8/ruYPwL+T4xGnj6GjFHQunERIeVxGgbA631XmqYFp12tNeNB/rRJxqKhFz5h
+NpVe7YeORpJLgZoLyJQfCK43rcTIgUr/bkypXvq7nfBb7JVotlcMa1iaHu9fxNZe
+Jt6V4282y8VaxbeZu80lattkZ7jwQtx1Hu3FWinT3rUjHd4O83B/MMI+weezk8eQ
+EkIFY44V4UYXVDgi2NDOnbn+9OnQe5pUhiPo6RgQNhigQl5N/4W3LBFfPDW9jDTS
+
+`pragma protect data_method="aes256-cbc"
+`pragma protect encoding=(enctype="base64", line_length=64, bytes=52384)
+`pragma protect data_block
+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
+1FFFB41wQuSNQ1NIkWfjYg==
+
+`pragma protect end_protected
