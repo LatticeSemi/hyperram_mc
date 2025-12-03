@@ -627,6 +627,14 @@ if [ "$RELEASE_BRANCH_EXISTS" = true ]; then
 
     # Remove all files to start fresh from tag
     git rm -rf . > /dev/null 2>&1 || true
+
+    # Explicitly remove excluded directories that may exist on disk but aren't tracked
+    EXCLUDED_DIRS=("testbench" "sim" "example_design")
+    for dir in "${EXCLUDED_DIRS[@]}"; do
+        if [ -d "$dir" ]; then
+            rm -rf "$dir" 2>/dev/null || true
+        fi
+    done
 else
     # No release branch exists - create new orphan branch
     info "Creating new release branch: $RELEASE_BRANCH from tag $SOURCE_TAG"
@@ -634,6 +642,14 @@ else
 
     # Remove everything
     git rm -rf . > /dev/null 2>&1 || true
+
+    # Explicitly remove excluded directories that may exist on disk but aren't tracked
+    EXCLUDED_DIRS=("testbench" "sim" "example_design")
+    for dir in "${EXCLUDED_DIRS[@]}"; do
+        if [ -d "$dir" ]; then
+            rm -rf "$dir" 2>/dev/null || true
+        fi
+    done
 fi
 
 # -----------------------------------------------------------------------------
@@ -685,6 +701,17 @@ done
 find . -type d -name "__pycache__" -exec rm -rf {} \; 2>/dev/null || true
 find . -name "*.pyc" -type f -delete 2>/dev/null || true
 find . -name "*.pyo" -type f -delete 2>/dev/null || true
+
+# Explicitly remove excluded directories (even if not tracked by git)
+# These directories are excluded from public release due to licensing issues
+EXCLUDED_DIRS=("testbench" "sim" "example_design")
+for dir in "${EXCLUDED_DIRS[@]}"; do
+    if [ -d "$dir" ]; then
+        info "  Removing excluded directory: $dir"
+        rm -rf "$dir" 2>/dev/null || true
+    fi
+done
+
 success "Cleanup complete"
 
 # -----------------------------------------------------------------------------
