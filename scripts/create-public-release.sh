@@ -41,9 +41,8 @@ PUBLIC_DIRS=(
     "rtl/"
     "doc/"
     "plugin/"
-    "testbench/"
-    "sim/"
-    "example_design/"
+    # Note: testbench/, sim/, and example_design/ are excluded from public release
+    # due to unavailable copyright license agreement
 )
 
 PUBLIC_FILES=(
