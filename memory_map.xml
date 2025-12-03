@@ -1,0 +1,25 @@
+
+<lsccip:memoryMaps xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip">
+    <lsccip:memoryMap>
+        <lsccip:name>hyperram_mc_control_mem_map</lsccip:name>
+        <lsccip:displayName>hyperram_mc_control_mem_map</lsccip:displayName>
+        <lsccip:description>Hyperram Controller control path memory map</lsccip:description>
+        <lsccip:addressBlock>
+            <lsccip:name>FC_Registers</lsccip:name>
+            <lsccip:baseAddress>0</lsccip:baseAddress>
+            <lsccip:range>4096</lsccip:range>
+            <lsccip:width>32</lsccip:width>
+        </lsccip:addressBlock>
+    </lsccip:memoryMap>
+    <lsccip:memoryMap>
+        <lsccip:name>hyperram_mc_data_mem_map</lsccip:name>
+        <lsccip:displayName>hyperram_mc_data_mem_map</lsccip:displayName>
+        <lsccip:description>Hyperram Controller control path memory map</lsccip:description>
+        <lsccip:addressBlock>
+            <lsccip:name>FC_Registers</lsccip:name>
+            <lsccip:baseAddress>0</lsccip:baseAddress>
+            <lsccip:range>16777216</lsccip:range>
+            <lsccip:width>32</lsccip:width>
+        </lsccip:addressBlock>
+    </lsccip:memoryMap>
+</lsccip:memoryMaps>

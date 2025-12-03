@@ -1,0 +1,92 @@
+# Simulation outputs
+*.vcd
+*.out
+*.log
+*.wlf
+transcript
+
+# Waveform database files
+*.dump
+*.fst
+*.vcd
+*.ghw
+
+# Simulation working directories
+**/sim/work/
+**/sim/*.vcd
+**/sim/*.log
+work/
+
+# Keep prebuilt libraries in sim/ (required for simulation)
+# These should NOT be ignored:
+# !sim/pmi/**
+# !sim/lfmxo5/**
+# !sim/uaplatform/**
+# !sim/bht_ini.bin
+
+# Synthesis and implementation outputs
+**/syn/output/
+**/syn/reports/
+*.rpt
+*.dcp
+
+# Vendor tool files (Xilinx, Intel/Altera, Lattice)
+.Xil/
+.cache/
+vivado*.jou
+vivado*.log
+*.xpr
+*.qpf
+*.qsf
+*.rdf
+*.ldf
+*.sty
+
+# Lattice Radiant output artifacts in example_design/
+example_design/**/*.html
+example_design/**/*.sty
+example_design/**/*.tcl
+example_design/**/*.ini
+example_design/**/*.rdf
+example_design/**/*.xml
+example_design/**/*.bin
+example_design/**/impl_1/
+!example_design/**/impl_1/*.pdc
+
+# Verilator artifacts
+verilated*
+*.d
+obj_dir/
+
+# Editor and IDE files
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+build/
+output/
+
+# Python cache (for scripts)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Compressed files (usually generated)
+*.tar
+*.tar.gz
+*.zip
+
