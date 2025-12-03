@@ -29,7 +29,7 @@ Before you begin, ensure you have the following tools installed:
 
 1. **Clone the repository to your local machine:**
    ```bash
-   git clone <TODO: Repository URL will be provided upon release>
+   git clone https://github.com/LatticeSemi/hyperram_mc.git
    cd hyperram_mc
    ```
 
