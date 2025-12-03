@@ -89,9 +89,6 @@ hyperram_mc/
 ├── rtl/                   # RTL source files
 ├── doc/                   # Documentation (introduction.html)
 ├── plugin/                # Tool plugins
-├── testbench/             # Testbench files
-├── sim/                   # Simulation scripts, memory init files, prebuilt libraries
-├── example_design/        # Example Radiant/Propel projects
 ├── metadata.xml           # IP metadata (includes version)
 ├── bus_interface.xml      # Bus interface definitions
 ├── memory_map.xml         # Memory map definitions
