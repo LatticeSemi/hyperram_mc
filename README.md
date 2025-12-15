@@ -98,51 +98,57 @@ The PHY uses a 270° phase-shifted clock for DDR data capture, ensuring proper s
 
 
   RX Timing - Data from HyperRAM to FPGA (DDR @ 200 MHz)
-  ========================================================
+  ════════════════════════════════════════════════════════
 
-  HyperRAM outputs data aligned to hyperbus_clk_o. FPGA samples at 270 deg.
+  HyperRAM outputs data aligned to hyperbus_clk_o. FPGA samples at 270°.
 
-                    |<--- 1 cycle --->|<--- 1 cycle --->|
-                    0    90   180   270   0    90   180   270
-                    |     |     |     |     |     |     |     |
-  clk270_i (270)    +     |     |     +-----+     |     +-----+
-                    |     |     |     |     |     |     |     |
-                    +-----+-----+-----+     +-----+-----+     +--
-                    |     |     |     |     |     |     |     |
-  hyperbus_clk_o    +-----+     |     +-----+     |     +-----+
-                    |     |     |     |     |     |     |     |
-                    |     +-----+-----+     +-----+-----+     +--
-                    |     |     |     |     |     |     |     |
-  DQ (from RAM)     X  D0 |     X  D1 |     X  D2 |     X  D3 |
-                    |     |     |     |     |     |     |     |
-                    |     |     |     ^     |     |     |     ^
-                    |     |     |  Sample   |     |     |  Sample
-                    |     |     | (clk270   |     |     | (clk270
-                    |     |     |  rising)  |     |     |  rising)
+                    |<─ 1UI ─>|<─ 1UI ─>|<─ 1UI ─>|<─ 1UI ─>|<─ 1UI ─>|
+                    0°       180°       0°       180°       0°       180°
+                    |         |         |         |         |         |
+  clk_i (0°)        ┌─────────┐         ┌─────────┐         ┌─────────┐
+                    │         │         │         │         │         │
+                    │         └─────────┘         └─────────┘         └─────────
+                    |         |         |         |         |         |
+  clk270_i (270°)        ┌─────────┐         ┌─────────┐         ┌─────────┐
+                         │         │         │         │         │         │
+                    ─────┘         └─────────┘         └─────────┘         └─────
+                    |         |         |         |         |         |
+  hyperbus_clk_o    ┌─────────┐         ┌─────────┐         ┌─────────┐
+                    │         │         │         │         │         │
+                    │         └─────────┘         └─────────┘         └─────────
+                    |         |         |         |         |         |
+  DQ (from RAM)     X    D0   X    D1   X    D2   X    D3   X    D4   X    D5
+                    |         |         |         |         |         |
+                    |    ▲    |    ▲    |    ▲    |    ▲    |    ▲    |    ▲
+                    | Sample  | Sample  | Sample  | Sample  | Sample  | Sample
+                    |(clk270) |(clk270) |(clk270) |(clk270) |(clk270) |(clk270)
 
 
   TX Timing - Data from FPGA to HyperRAM (DDR @ 200 MHz)
-  ========================================================
+  ════════════════════════════════════════════════════════
 
-  FPGA launches data at 270 deg. HyperRAM captures at next clock edge.
+  FPGA launches data at 270°. HyperRAM captures at next clock edge.
 
-                    |<--- 1 cycle --->|<--- 1 cycle --->|
-                    0    90   180   270   0    90   180   270
-                    |     |     |     |     |     |     |     |
-  clk270_i (270)    +     |     |     +-----+     |     +-----+
-                    |     |     |     |     |     |     |     |
-                    +-----+-----+-----+     +-----+-----+     +--
-                    |     |     |     |     |     |     |     |
-  hyperbus_clk_o    +-----+     |     +-----+     |     +-----+
-                    |     |     |     |     |     |     |     |
-                    |     +-----+-----+     +-----+-----+     +--
-                    |     |     |     |     |     |     |     |
-  DQ (to RAM)       |     |     |     X  D0 |     X  D1 |     X
-                    |     |     |     |     |     |     |     |
-                    |     |     |     |     ^     |     ^     |
-                    |     |     |     |  Capture  |  Capture  |
-                    |     |     |     | (RAM sees |           |
-                    |     |     |     | clk edge) |           |
+                    |<─ 1UI ─>|<─ 1UI ─>|<─ 1UI ─>|<─ 1UI ─>|<─ 1UI ─>|
+                    0°       180°       0°       180°       0°       180°
+                    |         |         |         |         |         |
+  clk_i (0°)        ┌─────────┐         ┌─────────┐         ┌─────────┐
+                    │         │         │         │         │         │
+                    │         └─────────┘         └─────────┘         └─────────
+                    |         |         |         |         |         |
+  clk270_i (270°)        ┌─────────┐         ┌─────────┐         ┌─────────┐
+                         │         │         │         │         │         │
+                    ─────┘         └─────────┘         └─────────┘         └─────
+                    |         |         |         |         |         |
+  hyperbus_clk_o    ┌─────────┐         ┌─────────┐         ┌─────────┐
+                    │         │         │         │         │         │
+                    │         └─────────┘         └─────────┘         └─────────
+                    |         |         |         |         |         |
+  DQ (to RAM)            X    D0   X    D1   X    D2   X    D3   X    D4
+                    |         |         |         |         |         |
+                    |         ▲         ▲         ▲         ▲         ▲
+                    |      Capture   Capture   Capture   Capture   Capture
+                    |     (RAM sees clk edge)
 ```
 
 **Key Points:**
