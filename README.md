@@ -6,6 +6,152 @@ FPGA IP core for HyperRAM memory controller implementation.
 
 This repository contains a memory controller IP for HyperRAM devices with AXI4 interface support.
 
+## Block Diagram
+
+```
+                              ┌───────────────────────────────────────────────────────┐
+                              │                      hyperram_mc                      │
+                              │                                                       │
+  ┌───────────┐               │  ┌──────────┐     ┌──────────────────┐                │
+  │           │  AXI4-Lite    │  │          │     │                  │                │
+  │           │  (Control)    │  │ axil_if  │────▶│                  │                │
+  │    AXI    │──────────────▶│  │          │     │                  │                │
+  │   Master  │               │  └──────────┘     │                  │                │
+  │           │               │                   │    hyperbus_     │  ┌─────────┐   │   ┌──────────┐
+  │           │  AXI4         │  ┌──────────┐     │    controller    │─▶│phy_jedi │───┼──▶│ HyperRAM │
+  │           │  (Data)       │  │          │     │                  │  │   [0]   │   │   │   [0]    │
+  │           │──────────────▶│  │ axi2local│────▶│                  │  └─────────┘   │   └──────────┘
+  │           │               │  │          │     │                  │                │
+  └───────────┘               │  └──────────┘     │                  │  ┌─────────┐   │   ┌──────────┐
+                              │                   │                  │─▶│phy_jedi │───┼──▶│ HyperRAM │
+                              │                   │                  │  │   [1]   │   │   │   [1]    │
+                              │                   └──────────────────┘  └─────────┘   │   └──────────┘
+                              │                                                       │
+                              └───────────────────────────────────────────────────────┘
+
+  Clock Structure
+  ═══════════════
+
+  ┌─────────┐
+  │   PLL   │
+  └────┬────┘
+       │
+       ├─────────────▶ clk_i (System Clock)
+       │                └─▶ axil_if, axi2local, hyperbus_controller
+       │
+       ├─────────────▶ hyperbus_clk_i (HyperBus Clock, 0°)
+       │                └─▶ hyperbus_controller, phy_jedi
+       │
+       └─────────────▶ hyperbus_clk270_i (HyperBus Clock, 270°)
+                        └─▶ phy_jedi (TX launch, RX capture)
+```
+
+### Module Descriptions
+
+| Module | Description |
+|--------|-------------|
+| **axil_if** | AXI4-Lite slave interface for control/status registers |
+| **axi2local** | AXI4 slave to internal local bus bridge for data transfers |
+| **hyperbus_controller** | HyperBus protocol state machine and timing control |
+| **phy_jedi** | Physical layer interface with DDR I/O primitives (one per channel) |
+
+### PHY Clocking and Data Capture
+
+The PHY uses a 270° phase-shifted clock for DDR data capture, ensuring proper setup/hold timing at the HyperRAM interface.
+
+```
+  Clock Generation (from PLL)
+  ═══════════════════════════
+
+       ┌─────────┐
+       │   PLL   │
+       └────┬────┘
+            │
+            ├───────────────────────────────▶ clk_i (0°)
+            │                                     │
+            │                                     ▼
+            │                              ┌─────────────┐
+            │                              │   ODDRX1    │──▶ hyperbus_clk_o
+            │                              │  (CK Gen)   │──▶ hyperbus_clkn_o
+            │                              └─────────────┘
+            │
+            └───────────────────────────────▶ clk270_i (270°)
+                                                  │
+                        ┌─────────────────────────┼─────────────────────────┐
+                        │                         │                         │
+                        ▼                         ▼                         ▼
+                 ┌─────────────┐           ┌─────────────┐           ┌─────────────┐
+                 │   ODDRX1    │           │   IDDRX1    │           │   ODDRX1    │
+                 │  (DQ Out)   │           │  (DQ In)    │           │ (RWDS Out)  │
+                 └──────┬──────┘           └──────┬──────┘           └─────────────┘
+                        │                         ▲
+                        ▼                         │
+                 ┌─────────────┐           ┌─────────────┐
+                 │     BB      │◀─────────▶│   DELAYB    │
+                 │ (Tristate)  │           │ (Input Dly) │
+                 └──────┬──────┘           └─────────────┘
+                        │
+                        ▼
+                   ┌─────────┐
+                   │ DQ[7:0] │ ◀────────────────────────────▶ HyperRAM
+                   └─────────┘
+
+
+  RX Timing - Data from HyperRAM to FPGA (DDR @ 200 MHz)
+  ════════════════════════════════════════════════════════
+
+  HyperRAM outputs data aligned to hyperbus_clk_o. FPGA samples at 270°.
+
+                    |<─── 1 cycle ───>|<─── 1 cycle ───>|
+                    0°   90°  180°  270°   0°   90°  180°  270°
+                    |     |     |     |     |     |     |     |
+  clk270_i (270°)   ┘     |     |     ┌───────────┐     |     ┌─
+                          |     |     │     |     │     |     │
+                    ──────┴─────┴─────┘     |     └───────────┘
+                    |     |     |     |     |     |     |     |
+  hyperbus_clk_o    ┌───────────┐           ┌───────────┐
+                    │     |     │           │     |     │
+                    │     |     └───────────┘     |     └───────
+                    |     |     |     |     |     |     |     |
+  DQ (from RAM)     X  D0 |     X  D1 |     X  D2 |     X  D3 |
+                    |     |     |     |     |     |     |     |
+                    |     |     |     ▲     |     |     |     ▲
+                    |     |     |  Sample   |     |     |  Sample
+                    |     |     | (clk270   |     |     | (clk270
+                    |     |     |  rising)  |     |     |  rising)
+
+
+  TX Timing - Data from FPGA to HyperRAM (DDR @ 200 MHz)
+  ════════════════════════════════════════════════════════
+
+  FPGA launches data at 270°. HyperRAM captures at next clock edge.
+
+                    |<─── 1 cycle ───>|<─── 1 cycle ───>|
+                    0°   90°  180°  270°   0°   90°  180°  270°
+                    |     |     |     |     |     |     |     |
+  clk270_i (270°)   ┘     |     |     ┌───────────┐     |     ┌─
+                          |     |     │     |     │     |     │
+                    ──────┴─────┴─────┘     |     └───────────┘
+                    |     |     |     |     |     |     |     |
+  hyperbus_clk_o    ┌───────────┐           ┌───────────┐
+                    │     |     │           │     |     │
+                    │     |     └───────────┘     |     └───────
+                    |     |     |     |     |     |     |     |
+  DQ (to RAM)       |     |     |     X  D0 |     X  D1 |     X
+                    |     |     |     |     |     |     |     |
+                    |     |     |     |     ▲     |     ▲     |
+                    |     |     |     |  Capture  |  Capture  |
+                    |     |     |     | (RAM sees |           |
+                    |     |     |     | clk edge) |           |
+```
+
+**Key Points:**
+- **RX Path**: HyperRAM outputs data on `hyperbus_clk_o` edges; FPGA samples at 270° (center of data eye)
+- **TX Path**: FPGA launches data at 270°; HyperRAM captures on next clock edge (90° setup margin)
+- **ODDRX1**: Outputs DDR data on `clk270_i` edges for TX
+- **IDDRX1**: Captures DDR data on `clk270_i` edges for RX
+- **DELAYB**: Programmable input delay for RX timing calibration
+
 ## Features
 
 - AXI4 interface support (32-bit data)
@@ -15,7 +161,7 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
 - Configurable address space
 - Dual channel support (2x8 or 1x16 configuration)
 - 2:1 gearing ratio
-- Maximum frequency: 225.5 MHz
+- Maximum frequency: 200 MHz
 
 ## Target Device Specifications
 
@@ -29,13 +175,15 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
 
 ## HyperRAM Specifications
 
-### Supported Standards
+### Performance
 
-| Standard | Speed | Data Width | Status |
-|----------|-------|------------|--------|
-| HyperRAM 1.0 | 333 Mbps | x8 | ✓ Supported |
-| HyperRAM 2.0 | 400 Mbps | x8 | ✓ Supported |
-| HyperRAM 3.0 | 800 Mbps | x16 (max clk 400MHz) | ✗ Not supported |
+The HyperRAM Memory Controller achieves up to **400 MB/s per HyperRAM channel**, operating at **200 MHz** (DDR).
+
+| Metric | Value |
+|--------|-------|
+| **HyperBus Clock** | 200 MHz (DDR) |
+| **Channel Configuration** | 2 × x8 (dual channel) |
+| **Bandwidth per Channel** | 400 MB/s |
 
 ### Memory Configuration
 
@@ -89,6 +237,9 @@ hyperram_mc/
 ├── rtl/                   # RTL source files
 ├── doc/                   # Documentation (introduction.html)
 ├── plugin/                # Tool plugins
+├── testbench/             # Testbench files (includes HyperRAM model placeholder)
+├── sim/                   # Simulation scripts and file lists
+├── example_design/        # Example design for reference
 ├── metadata.xml           # IP metadata (includes version)
 ├── bus_interface.xml      # Bus interface definitions
 ├── memory_map.xml         # Memory map definitions

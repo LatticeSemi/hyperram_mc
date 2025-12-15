@@ -48,9 +48,10 @@ example_design/**/*.sty
 example_design/**/*.tcl
 example_design/**/*.ini
 example_design/**/*.rdf
-example_design/**/*.xml
 example_design/**/*.bin
-example_design/**/impl_1/
+
+# Ignore all impl_1/ contents (including XML, logs, etc.) except PDC constraint files
+example_design/**/impl_1/**
 !example_design/**/impl_1/*.pdc
 
 # Verilator artifacts
