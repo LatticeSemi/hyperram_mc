@@ -14,7 +14,7 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
                               │                                                       │
   ┌───────────┐               │  ┌──────────┐     ┌──────────────────┐                │
   │           │  AXI4-Lite    │  │          │     │                  │                │
-  │           │  (Control)    │  │ axil_if  │──▶│                  │                │
+  │           │  (Control)    │  │ axil_if  │───▶│                  │                │
   │    AXI    │────────────▶│  │          │     │                  │                │
   │   Master  │               │  └──────────┘     │                  │                │
   │           │               │                   │    hyperbus_     │  ┌─────────┐   │   ┌──────────┐
