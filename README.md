@@ -20,7 +20,7 @@ This repository contains a memory controller IP for HyperRAM devices with AXI4 i
   │           │               │                   │    hyperbus_     │  ┌─────────┐   │   ┌──────────┐
   │           │  AXI4         │  ┌──────────┐     │    controller    │─▶│phy_jedi │───┼──▶│ HyperRAM │
   │           │  (Data)       │  │          │     │                  │  │   [0]   │   │   │   [0]    │
-  │           │────────────▶ │  │ axi2local│────▶│                  │  └─────────┘   │   └──────────┘
+  │           │────────────▶ │  │ axi2local│───▶│                  │  └─────────┘   │   └──────────┘
   │           │               │  │          │     │                  │                │
   └───────────┘               │  └──────────┘     │                  │  ┌─────────┐   │   ┌──────────┐
                               │                   │                  │─▶│phy_jedi │───┼──▶│ HyperRAM │
