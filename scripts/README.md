@@ -108,30 +108,26 @@ release/vX.Y.Z branch contains:
 ├── rtl/                 # All RTL files
 ├── doc/                 # Documentation
 ├── plugin/              # Plugin scripts
+├── testbench/           # Testbench files (includes HyperRAM model placeholder)
+├── sim/                 # Simulation scripts and file lists
+├── example_design/      # Example design for reference
 ├── metadata.xml         # IP metadata (includes version)
 ├── bus_interface.xml    # Bus interface definitions
 ├── memory_map.xml       # Memory map definitions
 ├── README.md            # Project README
-├── QUICKSTART.md        # Quick start guide (when created)
+├── QUICKSTART.md        # Quick start guide
 ├── IP Release Notes.md  # IP Release Notes, containing revision histories
 └── license.txt          # License Agreement
 ```
-
-**Excluded from public release:**
-- `testbench/` - Excluded due to unavailable copyright license agreement
-- `sim/` - Excluded due to unavailable copyright license agreement
-- `example_design/` - Excluded due to unavailable copyright license agreement
 
 **Excluded (stays private):**
 - `IP_RELEASE_CHECKLIST.md`
 - `.editorconfig`
 - `.cursor/`
 - `hooks/`
+- `scripts/`
 - Any `INTERNAL_*` files
 - Backup files (`*.bak`, `*~`)
-- `testbench/` - Excluded due to unavailable copyright license agreement
-- `sim/` - Excluded due to unavailable copyright license agreement
-- `example_design/` - Excluded due to unavailable copyright license agreement
 
 **Excluded from git (via .gitignore):**
 - Simulation artifacts (`*.wlf`, `*.log`, `transcript`)

@@ -44,60 +44,6 @@
                 .lmmi_resetn_o()) ;
 endmodule
 
-
-
-// =============================================================================
-// >>>>>>>>>>>>>>>>>>>>>>>>> COPYRIGHT NOTICE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-// -----------------------------------------------------------------------------
-//   Copyright (c) 2023 by Lattice Semiconductor Corporation
-//   ALL RIGHTS RESERVED
-// -----------------------------------------------------------------------------
-//
-//   Permission:
-//
-//      Lattice SG Pte. Ltd. grants permission to use this code
-//      pursuant to the terms of the Lattice Reference Design License Agreement.
-//
-//
-//   Disclaimer:
-//
-//      This VHDL or Verilog source code is intended as a design reference
-//      which illustrates how these types of functions can be implemented.
-//      It is the user's responsibility to verify their design for
-//      consistency and functionality through the use of formal
-//      verification methods.  Lattice provides no warranty
-//      regarding the use or functionality of this code.
-//
-// -----------------------------------------------------------------------------
-//
-//                  Lattice SG Pte. Ltd.
-//                  101 Thomson Road, United Square #07-02
-//                  Singapore 307591
-//
-//
-//                  TEL: 1-800-Lattice (USA and Canada)
-//                       +65-6631-2000 (Singapore)
-//                       +1-503-268-8001 (other locations)
-//
-//                  web: http://www.latticesemi.com/
-//                  email: techsupport@latticesemi.com
-//
-// -----------------------------------------------------------------------------
-//
-// =============================================================================
-//                         FILE DETAILS
-// Project               :
-// File                  : lscc_osc.v
-// Title                 :
-// Dependencies          : OSC module
-// Description           :
-// =============================================================================
-//                        REVISION HISTORY
-// Version               : 1.0.0.
-// Author(s)             :
-// Mod. Date             :
-// Changes Made          : Initial release.
-// =============================================================================
 module osc0_ipgen_lscc_osc #(parameter LF_OUTPUT_EN = "DISABLED",
         parameter HF_CLK_DIV_DEC = 2,
         parameter HF_CLK_DIV = "1",
