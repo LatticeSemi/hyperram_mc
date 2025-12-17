@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<propelProject>
+    <builder-resource>
+        <socProject sbxfile="./D6_HaperRam/D6_HaperRam.sbx" />
+        <verifyProject sbxfile="./verification/D6_HaperRam_v.sbx" />
+    </builder-resource>
+    <builderInfo version="2024.1.2406150513_p" />
+</propelProject>

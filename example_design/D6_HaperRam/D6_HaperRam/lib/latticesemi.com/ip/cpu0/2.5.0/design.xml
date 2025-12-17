@@ -1,0 +1,3091 @@
+<?xml version="1.0" ?>
+<ipxact:design xmlns:ipxact="http://www.accellera.org/XMLSchema/IPXACT/1685-2014" xmlns:lattice="http://www.latticesemi.com/lattice" xmlns:lsccip="http://www.latticesemi.com/XMLSchema/Radiant/ip">
+    <ipxact:vendor>latticesemi.com</ipxact:vendor>
+    <ipxact:library>ip</ipxact:library>
+    <ipxact:name>cpu0</ipxact:name>
+    <ipxact:version>2.5.0</ipxact:version>
+    <ipxact:componentInstances>
+        <ipxact:componentInstance>
+            <ipxact:instanceName>riscvrtos_inst</ipxact:instanceName>
+            <ipxact:componentRef library="ip" name="riscv_rtos" vendor="latticesemi.com" version="2.5.0">
+                <ipxact:configurableElementValues>
+                    <ipxact:configurableElementValue referenceId="DEVICE">LIFCL</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="MODE">Balanced</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="C_EXT">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="M_EXT">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="F_EXT">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="A_EXT">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="RESET_VECTOR_INPUT">10000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="RESET_VECTOR">32'h10000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CACHE_ENABLE">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CACHE_ENV">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="ICACHE_ENABLE">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="DCACHE_ENABLE">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CACHE_RANGE_HIGH">40000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="ICACHE_RANGE_LOW">32'h00000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="ICACHE_RANGE_HIGH">32'h40000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="DCACHE_RANGE_LOW">32'h00000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="DCACHE_RANGE_HIGH">32'h40000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="DEBUG_ENABLE">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="RUN_TIME_DEBUG">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="HW_WATCHPOINT">0</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="JTAG_TYPE">Hard</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="SOFT_JTAG">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="JTAG_CHANNEL_EXTEND">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="JTAG_CHANNEL">14</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="TCM_ENABLE">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="SYS_CACHE">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="IBUS_WRAPPER">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="DBUS_WRAPPER">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="LOCAL_BUS_BASE_ADDR_INPUT">00000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="LOCAL_BUS_BASE_ADDR">32'h00000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="SYS_CACHE_BASE_ADDR_INPUT">FFFFFFFF</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="SC_BASE_ADDR">32'hFFFFFFFF</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="INSTR_PORT_ENABLE">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="AXI_BASE_ADDR_INPUT">00200000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="AXI_BASE_ADDR">32'h00200000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="AXI_REG_TYPE">0</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="AXI_ID_WIDTH">4</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="AXI_ID_NUM_DATA">0</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="AXI_ID_NUM_INSTR">0</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CFU_EN">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CFU_N_CFUS">1</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="RVFI_EN">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CLINT_EN">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="PLIC_EN">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="IRQ_NMI_EN">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="IRQ_SUPERVISOR_EN">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="IRQ_PRIORITY_WIDTH">2</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="IRQ_NUM">2</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S2">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S3">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S4">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S5">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S6">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S7">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S8">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S9">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S10">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S11">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S12">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S13">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S14">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S15">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S16">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S17">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S18">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S19">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S20">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S21">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S22">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S23">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S24">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S25">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S26">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S27">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S28">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S29">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S30">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_S31">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CDC_Sync2">32'b000000000000000000000000000000</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="UART_EN">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="SYS_CLOCK_FREQ">50.0</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="LCR_DATA_BITS">8</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="LCR_STOP_BITS">1</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="LCR_PARITY_ENABLE">False</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="BAUD_RATE_TYPE">0</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="STANDARD_BAUD_RATE">115200</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="BAUD_RATE">115200</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="CLK_DIVISOR">434</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="STDOUT_SIM">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="STDOUT_SIMFAST">True</ipxact:configurableElementValue>
+                    <ipxact:configurableElementValue referenceId="UART_SIM_EN">True</ipxact:configurableElementValue>
+                </ipxact:configurableElementValues>
+            </ipxact:componentRef>
+        </ipxact:componentInstance>
+    </ipxact:componentInstances>
+    <ipxact:adHocConnections>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.clk_system_i</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="clk_system_i"/>
+                <ipxact:externalPortReference portRef="clk_system_i"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.clk_realtime_i</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="clk_realtime_i"/>
+                <ipxact:externalPortReference portRef="clk_realtime_i"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rstn_i</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rstn_i"/>
+                <ipxact:externalPortReference portRef="rstn_i"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.system_resetn_o</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="system_resetn_o"/>
+                <ipxact:externalPortReference portRef="system_resetn_o"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.tracy_enable</ipxact:name>
+            <ipxact:tiedValue>1'b1</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="tracy_enable"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.uart_rxd_i</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="uart_rxd_i"/>
+                <ipxact:externalPortReference portRef="uart_rxd_i"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.uart_txd_o</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="uart_txd_o"/>
+                <ipxact:externalPortReference portRef="uart_txd_o"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_valid</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_order</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_order"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_insn</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_insn"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_trap</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_trap"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_halt</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_halt"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_intr</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_intr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_mode</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_mode"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_ixl</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_ixl"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_rs1_addr</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_rs1_addr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_rs2_addr</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_rs2_addr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_rs1_rdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_rs1_rdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_rs2_rdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_rs2_rdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_rd_addr</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_rd_addr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_rd_wdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_rd_wdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_pc_rdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_pc_rdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_pc_wdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_pc_wdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_mem_addr</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_mem_addr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_mem_rmask</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_mem_rmask"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_mem_wmask</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_mem_wmask"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_mem_rdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_mem_rdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.rvfi_mem_wdata</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="rvfi_mem_wdata"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.7:7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>7</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.7:7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>7</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.7:7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>7</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.7:7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>7</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_7"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.6:6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>6</ipxact:left>
+                            <ipxact:right>6</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.6:6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>6</ipxact:left>
+                            <ipxact:right>6</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.6:6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>6</ipxact:left>
+                            <ipxact:right>6</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.6:6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>6</ipxact:left>
+                            <ipxact:right>6</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_6"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.5:5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>5</ipxact:left>
+                            <ipxact:right>5</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.5:5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>5</ipxact:left>
+                            <ipxact:right>5</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.5:5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>5</ipxact:left>
+                            <ipxact:right>5</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.5:5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>5</ipxact:left>
+                            <ipxact:right>5</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_5"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.4:4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>4</ipxact:left>
+                            <ipxact:right>4</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.4:4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>4</ipxact:left>
+                            <ipxact:right>4</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.4:4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>4</ipxact:left>
+                            <ipxact:right>4</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.4:4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>4</ipxact:left>
+                            <ipxact:right>4</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_4"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.3:3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>3</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.3:3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>3</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.3:3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>3</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.3:3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>3</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_3"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.2:2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>2</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.2:2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>2</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.2:2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>2</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.2:2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>2</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_2"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.1:1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>1</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.1:1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>1</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.1:1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>1</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.1:1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>1</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_1</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_1"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_valid.0:0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_ready.0:0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_func_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_func_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data0_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data0_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_data1_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_data1_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_state_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_state_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_cfu_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_cfu_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.req_insn_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="req_insn_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_valid.0:0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_valid">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_ready.0:0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_ready">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_data_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_data_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.resp_status_0</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="resp_status_0"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.TIMER_IRQ</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="TIMER_IRQ"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.SOFTWARE_IRQ</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="SOFTWARE_IRQ"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.EXTERNAL_IRQ</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="EXTERNAL_IRQ"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.EXTERNAL_ISRQ</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="EXTERNAL_ISRQ"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_nmi_i</ipxact:name>
+            <ipxact:tiedValue>1'b0</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_nmi_i"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.29:29</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>29</ipxact:left>
+                            <ipxact:right>29</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.28:28</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>28</ipxact:left>
+                            <ipxact:right>28</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.27:27</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>27</ipxact:left>
+                            <ipxact:right>27</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.26:26</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>26</ipxact:left>
+                            <ipxact:right>26</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.25:25</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>25</ipxact:left>
+                            <ipxact:right>25</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.24:24</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>24</ipxact:left>
+                            <ipxact:right>24</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.23:23</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>23</ipxact:left>
+                            <ipxact:right>23</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.22:22</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>22</ipxact:left>
+                            <ipxact:right>22</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.21:21</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>21</ipxact:left>
+                            <ipxact:right>21</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.20:20</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>20</ipxact:left>
+                            <ipxact:right>20</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.19:19</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>19</ipxact:left>
+                            <ipxact:right>19</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.18:18</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>18</ipxact:left>
+                            <ipxact:right>18</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.17:17</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>17</ipxact:left>
+                            <ipxact:right>17</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.16:16</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>16</ipxact:left>
+                            <ipxact:right>16</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.15:15</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>15</ipxact:left>
+                            <ipxact:right>15</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.14:14</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>14</ipxact:left>
+                            <ipxact:right>14</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.13:13</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>13</ipxact:left>
+                            <ipxact:right>13</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.12:12</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>12</ipxact:left>
+                            <ipxact:right>12</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.11:11</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>11</ipxact:left>
+                            <ipxact:right>11</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.10:10</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>10</ipxact:left>
+                            <ipxact:right>10</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.9:9</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>9</ipxact:left>
+                            <ipxact:right>9</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.8:8</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>8</ipxact:left>
+                            <ipxact:right>8</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.7:7</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>7</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.6:6</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>6</ipxact:left>
+                            <ipxact:right>6</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.5:5</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>5</ipxact:left>
+                            <ipxact:right>5</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.4:4</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>4</ipxact:left>
+                            <ipxact:right>4</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.3:3</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>3</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.2:2</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>2</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.1:1</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>1</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+                <ipxact:externalPortReference portRef="irq3_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.irq_i.0:0</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="irq_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:internalPortReference>
+                <ipxact:externalPortReference portRef="irq2_i">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>0</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_id"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_addr</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_addr"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_addr">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_len</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_len"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_len">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_size</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_size"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_size">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_burst</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_burst"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_burst">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_lock</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_lock"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_lock"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_cache</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_cache"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_cache">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_prot</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_prot"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_prot">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_qos</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_qos"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_qos">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_payload_region</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_payload_region"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_payload_region">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_awuser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_awuser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_valid"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_aw_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_aw_ready"/>
+                <ipxact:externalPortReference portRef="dBusAxi_aw_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_w_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_w_payload_data"/>
+                <ipxact:externalPortReference portRef="dBusAxi_w_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_w_payload_strb</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_w_payload_strb"/>
+                <ipxact:externalPortReference portRef="dBusAxi_w_payload_strb">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_w_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_w_payload_last"/>
+                <ipxact:externalPortReference portRef="dBusAxi_w_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_w_wuser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_w_wuser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_w_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_w_valid"/>
+                <ipxact:externalPortReference portRef="dBusAxi_w_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_w_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_w_ready"/>
+                <ipxact:externalPortReference portRef="dBusAxi_w_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_b_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_b_payload_id"/>
+                <ipxact:externalPortReference portRef="dBusAxi_b_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_b_payload_resp</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_b_payload_resp"/>
+                <ipxact:externalPortReference portRef="dBusAxi_b_payload_resp">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_b_buser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_b_buser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_b_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_b_valid"/>
+                <ipxact:externalPortReference portRef="dBusAxi_b_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_b_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_b_ready"/>
+                <ipxact:externalPortReference portRef="dBusAxi_b_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_id"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_addr</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_addr"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_addr">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_len</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_len"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_len">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_size</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_size"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_size">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_burst</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_burst"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_burst">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_lock</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_lock"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_lock"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_cache</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_cache"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_cache">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_prot</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_prot"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_prot">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_qos</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_qos"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_qos">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_payload_region</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_payload_region"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_payload_region">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_aruser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_aruser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_valid"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_ar_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_ar_ready"/>
+                <ipxact:externalPortReference portRef="dBusAxi_ar_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_payload_id"/>
+                <ipxact:externalPortReference portRef="dBusAxi_r_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_payload_data"/>
+                <ipxact:externalPortReference portRef="dBusAxi_r_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_payload_resp</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_payload_resp"/>
+                <ipxact:externalPortReference portRef="dBusAxi_r_payload_resp">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_payload_last"/>
+                <ipxact:externalPortReference portRef="dBusAxi_r_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_ruser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_ruser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_valid"/>
+                <ipxact:externalPortReference portRef="dBusAxi_r_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dBusAxi_r_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dBusAxi_r_ready"/>
+                <ipxact:externalPortReference portRef="dBusAxi_r_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_id"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_addr</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_addr"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_addr">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_len</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_len"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_len">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_size</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_size"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_size">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_burst</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_burst"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_burst">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_lock</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_lock"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_lock"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_cache</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_cache"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_cache">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_prot</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_prot"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_prot">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_qos</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_qos"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_qos">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_payload_region</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_payload_region"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_payload_region">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_awuser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_awuser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_valid"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_aw_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_aw_ready"/>
+                <ipxact:externalPortReference portRef="iBusAxi_aw_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_w_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_w_payload_data"/>
+                <ipxact:externalPortReference portRef="iBusAxi_w_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_w_payload_strb</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_w_payload_strb"/>
+                <ipxact:externalPortReference portRef="iBusAxi_w_payload_strb">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_w_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_w_payload_last"/>
+                <ipxact:externalPortReference portRef="iBusAxi_w_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_w_wuser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_w_wuser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_w_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_w_valid"/>
+                <ipxact:externalPortReference portRef="iBusAxi_w_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_w_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_w_ready"/>
+                <ipxact:externalPortReference portRef="iBusAxi_w_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_b_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_b_payload_id"/>
+                <ipxact:externalPortReference portRef="iBusAxi_b_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_b_payload_resp</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_b_payload_resp"/>
+                <ipxact:externalPortReference portRef="iBusAxi_b_payload_resp">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_b_buser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_b_buser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_b_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_b_valid"/>
+                <ipxact:externalPortReference portRef="iBusAxi_b_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_b_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_b_ready"/>
+                <ipxact:externalPortReference portRef="iBusAxi_b_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_id"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_addr</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_addr"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_addr">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_len</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_len"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_len">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>7</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_size</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_size"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_size">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_burst</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_burst"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_burst">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_lock</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_lock"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_lock"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_cache</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_cache"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_cache">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_prot</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_prot"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_prot">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_qos</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_qos"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_qos">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_payload_region</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_payload_region"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_payload_region">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_aruser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_aruser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_valid"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_ar_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_ar_ready"/>
+                <ipxact:externalPortReference portRef="iBusAxi_ar_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_payload_id</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_payload_id"/>
+                <ipxact:externalPortReference portRef="iBusAxi_r_payload_id">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_payload_data"/>
+                <ipxact:externalPortReference portRef="iBusAxi_r_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_payload_resp</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_payload_resp"/>
+                <ipxact:externalPortReference portRef="iBusAxi_r_payload_resp">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>1</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_payload_last"/>
+                <ipxact:externalPortReference portRef="iBusAxi_r_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_ruser</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_ruser"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_valid"/>
+                <ipxact:externalPortReference portRef="iBusAxi_r_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.iBusAxi_r_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="iBusAxi_r_ready"/>
+                <ipxact:externalPortReference portRef="iBusAxi_r_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_valid"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_ready"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_wr</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_wr"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_wr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_uncached</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_uncached"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_uncached"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_address</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_address"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_address">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_data"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_mask</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_mask"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_mask">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_size</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_size"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_size">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_cmd_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_cmd_payload_last"/>
+                <ipxact:externalPortReference portRef="ibus_cmd_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_rsp_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_rsp_valid"/>
+                <ipxact:externalPortReference portRef="ibus_rsp_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_rsp_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_rsp_payload_last"/>
+                <ipxact:externalPortReference portRef="ibus_rsp_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_rsp_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_rsp_payload_data"/>
+                <ipxact:externalPortReference portRef="ibus_rsp_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus_rsp_payload_error</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus_rsp_payload_error"/>
+                <ipxact:externalPortReference portRef="ibus_rsp_payload_error"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_valid</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_ready</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_wr</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_wr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_uncached</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_uncached"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_address</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_address"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_data</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_data"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_mask</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_mask"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_size</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_size"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_cmd_payload_last</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_cmd_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_rsp_valid</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_rsp_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_rsp_payload_last</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_rsp_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_rsp_payload_data</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_rsp_payload_data"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.ibus1_rsp_payload_error</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="ibus1_rsp_payload_error"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_valid"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_ready"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_wr</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_wr"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_wr"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_uncached</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_uncached"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_uncached"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_address</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_address"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_address">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_data"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_mask</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_mask"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_mask">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>3</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_size</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_size"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_size">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>2</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_last"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_cmd_payload_exclusive</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_cmd_payload_exclusive"/>
+                <ipxact:externalPortReference portRef="dbus_cmd_payload_exclusive"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_rsp_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_rsp_valid"/>
+                <ipxact:externalPortReference portRef="dbus_rsp_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_rsp_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_rsp_payload_last"/>
+                <ipxact:externalPortReference portRef="dbus_rsp_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_rsp_payload_data</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_rsp_payload_data"/>
+                <ipxact:externalPortReference portRef="dbus_rsp_payload_data">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_rsp_payload_error</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_rsp_payload_error"/>
+                <ipxact:externalPortReference portRef="dbus_rsp_payload_error"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_rsp_payload_exclusive</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_rsp_payload_exclusive"/>
+                <ipxact:externalPortReference portRef="dbus_rsp_payload_exclusive"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_inv_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_inv_valid"/>
+                <ipxact:externalPortReference portRef="dbus_inv_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_inv_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_inv_ready"/>
+                <ipxact:externalPortReference portRef="dbus_inv_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_inv_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_inv_payload_last"/>
+                <ipxact:externalPortReference portRef="dbus_inv_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_inv_payload_fragment_enable</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_inv_payload_fragment_enable"/>
+                <ipxact:externalPortReference portRef="dbus_inv_payload_fragment_enable"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_inv_payload_fragment_address</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_inv_payload_fragment_address"/>
+                <ipxact:externalPortReference portRef="dbus_inv_payload_fragment_address">
+                    <ipxact:partSelect>
+                        <ipxact:range>
+                            <ipxact:left>31</ipxact:left>
+                            <ipxact:right>0</ipxact:right>
+                        </ipxact:range>
+                    </ipxact:partSelect>
+                </ipxact:externalPortReference>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_ack_valid</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_ack_valid"/>
+                <ipxact:externalPortReference portRef="dbus_ack_valid"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_ack_ready</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_ack_ready"/>
+                <ipxact:externalPortReference portRef="dbus_ack_ready"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_ack_payload_last</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_ack_payload_last"/>
+                <ipxact:externalPortReference portRef="dbus_ack_payload_last"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.dbus_ack_payload_fragment_hit</ipxact:name>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="dbus_ack_payload_fragment_hit"/>
+                <ipxact:externalPortReference portRef="dbus_ack_payload_fragment_hit"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.TDI</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="TDI"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.TDO</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="TDO"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.TCK</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="TCK"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+        <ipxact:adHocConnection>
+            <ipxact:name>cpu0.TMS</ipxact:name>
+            <ipxact:tiedValue>open</ipxact:tiedValue>
+            <ipxact:portReferences>
+                <ipxact:internalPortReference componentRef="cpu0" portRef="TMS"/>
+            </ipxact:portReferences>
+        </ipxact:adHocConnection>
+    </ipxact:adHocConnections>
+</ipxact:design>

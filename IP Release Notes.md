@@ -8,7 +8,13 @@ This document contains the Release Notes for the HyperRAM Memory Controller IP. 
 
 ---
 
-## HyperRAM Memory Controller IP v1.0.0
+## HyperRAM Memory Controller IP v1.0.1
+
+| Software | Software Version | Summary of Changes |
+|----------|------------------|-------------------|
+| Lattice Radiant | 2025.2 | • Add simulation support<br>• Add example design for simulation<br>• Update documentation |
+
+---## HyperRAM Memory Controller IP v1.0.0
 
 | Software | Software Version | Summary of Changes |
 |----------|------------------|-------------------|

@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5f00" date="2025 06 11 11:00:06" device="LFMXO5-25" device_int="jd5f25" display_module="PLL" display_vendor="latticesemi.com" family="LFMXO5" gen_platform="Propel" gen_platform_version="2025.2.0.2505160256" generator="ipgen" library="module" module="pll" name="pll0" operation="Commercial" package="BBG400" package_int="BBG400" partnumber="LFMXO5-25-8BBG400C" source_format="Verilog" speed="8_High-Performance_1.0V" speed_int="11" vendor="latticesemi.com" version="1.9.1">
+ <Package>
+  <File modified="2025 06 11 11:00:06" name="rtl/pll0_bb.v" type="black_box_verilog"/>
+  <File modified="2025 06 11 11:00:06" name="pll0.cfg" type="cfg"/>
+  <File modified="2025 06 11 11:00:06" name="misc/pll0_tmpl.v" type="template_verilog"/>
+  <File modified="2025 06 11 11:00:06" name="misc/pll0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 06 11 11:00:06" name="rtl/pll0.v" type="top_level_verilog"/>
+  <File modified="2025 06 11 11:00:06" name="constraints/pll0.ldc" type="timing_constraints"/>
+  <File modified="2025 06 11 11:00:06" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2025 06 11 11:00:06" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2025 06 11 11:00:06" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 06 11 11:00:06" name="design.xml" type="IP-XACT_design"/>
+  <File modified="2024 04 16 04:53:01" name="testbench/tb_top.v" type="testbench_verilog"/>
+ </Package>
+</RadiantModule>

@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<RadiantModule architecture="jd5f00" date="2025 10 21 16:39:31" device="LFMXO5-25" device_int="jd5f25" display_module="System Memory" display_vendor="latticesemi.com" family="LFMXO5" gen_platform="Propel" gen_platform_version="2025.2.0.2505160256" generator="ipgen" library="ip" module="system_memory" name="sysmem0" operation="Commercial" package="BBG400" package_int="BBG400" partnumber="LFMXO5-25-8BBG400C" source_format="Verilog" speed="8_High-Performance_1.0V" speed_int="11" vendor="latticesemi.com" version="2.4.0">
+ <Package>
+  <File modified="2025 10 21 16:39:31" name="rtl/sysmem0_bb.v" type="black_box_verilog"/>
+  <File modified="2025 10 21 16:39:31" name="sysmem0.cfg" type="cfg"/>
+  <File modified="2025 10 21 16:39:31" name="misc/sysmem0_tmpl.v" type="template_verilog"/>
+  <File modified="2025 10 21 16:39:31" name="misc/sysmem0_tmpl.vhd" type="template_vhdl"/>
+  <File modified="2025 10 21 16:39:31" name="rtl/sysmem0.v" type="top_level_verilog"/>
+  <File modified="2025 10 21 16:39:31" name="testbench/dut_params.v" type="dependency_file"/>
+  <File modified="2025 10 21 16:39:31" name="testbench/dut_inst.v" type="dependency_file"/>
+  <File modified="2025 10 21 16:39:31" name="component.xml" type="IP-XACT_component"/>
+  <File modified="2025 10 21 16:39:31" name="design.xml" type="IP-XACT_design"/>
+  <File modified="2025 04 28 03:02:01" name="testbench/lscc_ahblmem_manager.v" type="testbench_verilog"/>
+  <File modified="2025 04 28 03:02:01" name="testbench/lscc_aximem_manager.v" type="testbench_verilog"/>
+  <File modified="2023 03 16 02:51:14" name="testbench/lscc_data_checker.v" type="testbench_verilog"/>
+  <File modified="2020 08 19 08:03:38" name="testbench/lscc_fifo_master.v" type="testbench_verilog"/>
+  <File modified="2025 04 28 03:02:01" name="testbench/tb_top.v" type="testbench_verilog"/>
+ </Package>
+</RadiantModule>
