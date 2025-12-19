@@ -46,13 +46,27 @@ Use this flow if you're working with the repository as-is without regenerating t
      2. Log in or create a free myInfineon account
      3. Download the Verilog model package
      4. Extract and replace `testbench/s27ks0641.v` with the downloaded model
-   - **Important:** After replacing the file, edit `testbench/s27ks0641.v` and modify the timing parameter:
+   - **Important:** After replacing the file, edit `testbench/s27ks0641.v` and make the following modifications:
+
+     **Edit 1:** Modify the timing parameter in the specify block:
      ```verilog
-     // Find this line in the specify block:
+     // Find this line:
      specparam  tpd_CK_DQ0               = 1; //tCKD
 
      // Change it to:
      specparam  tpd_CK_DQ0               = 4500; //tCKD
+     ```
+
+     **Edit 2:** Comment out or remove the `$hold` timing check:
+     ```verilog
+     // Find and comment out this line:
+     // $hold (posedge RESETNeg, CSNeg, thold_CSNeg_RESETNeg);
+     ```
+
+     **Edit 3:** Comment out or remove the `$skew` timing check:
+     ```verilog
+     // Find and comment out this line:
+     // $skew (negedge CSNeg, posedge CSNeg, tskew_CSNeg_CSNeg, Viol);
      ```
 
 3. **Launch QuestaSim and navigate to the simulation directory:**
@@ -87,7 +101,10 @@ If you have regenerated the HyperRAM IP using Propel, follow these additional st
    ```
 
 2. **Download and configure the HyperRAM model** (if not already done):
-   - Follow Step 2 from the [Standard Simulation Flow](#standard-simulation-flow) to download and configure the `s27ks0641.v` model with the required `tpd_CK_DQ0 = 4500` timing parameter.
+   - Follow Step 2 from the [Standard Simulation Flow](#standard-simulation-flow) to download and configure the `s27ks0641.v` model with the following required modifications:
+     - Set `tpd_CK_DQ0 = 4500` timing parameter
+     - Comment out the `$hold` timing check for RESETNeg/CSNeg
+     - Comment out the `$skew` timing check for CSNeg
 
 3. **Open the Propel project:**
    - Navigate to `example_design/D6_HaperRam/`
@@ -201,27 +218,29 @@ Follow these steps to synthesize the design and generate a bitstream for FPGA pr
 - Double-check that you've updated the `DELAY_VALUE` parameter from `"0"` to `"100"` in `hram_controller0.v`
 - Verify the module name is `hram_controller0_ipgen_phy_jedi`
 
-### Known Simulation Errors (Can Be Ignored)
+**Problem:** Simulation behavior is incorrect after downloading the HyperRAM model from Infineon
 
-During simulation, you may encounter the following timing check errors from the HyperRAM model. **These errors are expected and can be safely ignored:**
+**Solution:**
+- Ensure that the `tpd_CK_DQ0` timing parameter in `testbench/s27ks0641.v` is set to `4500` instead of the default value of `1`
+- This parameter controls the clock-to-data output delay and must be adjusted for correct simulation behavior
 
-**Error 1: `$hold` Error at Reset**
+**Problem:** Simulation reports `$hold` timing violation errors on RESETNeg/CSNeg
 
-```
-Error: $hold( posedge RESETNeg:25 ns, CSNeg:25 ns, 1 ps )
-```
+**Solution:**
+- Comment out or remove the following line in `testbench/s27ks0641.v`:
+  ```verilog
+  $hold (posedge RESETNeg, CSNeg, thold_CSNeg_RESETNeg);
+  ```
+- This timing check triggers during simulation initialization when reset and chip select transition simultaneously, which is expected behavior
 
-This error occurs when reset is asserted at the start of simulation. The timing check is triggered because the reset and chip select signals transition simultaneously during initialization. This is normal behavior during simulation startup and does not affect functional correctness.
+**Problem:** Simulation reports `$skew` timing violation errors on CSNeg
 
-**Error 2: `$skew` Error on Chip Select**
-
-```
-Error: $skew( negedge CSNeg:406092390100 fs, posedge CSNeg:406152330100 fs, 1 ps )
-```
-
-This error occurs each time the chip select (CS) signal is asserted. The HyperRAM model includes a `$skew` timing check that may trigger during normal operation in simulation. This is a model limitation and does not indicate a design problem.
-
-**Note:** Both errors are artifacts of the simulation model's timing checks and do not represent actual hardware issues. Your design will function correctly on real hardware.
+**Solution:**
+- Comment out or remove the following line in `testbench/s27ks0641.v`:
+  ```verilog
+  $skew (negedge CSNeg, posedge CSNeg, tskew_CSNeg_CSNeg, Viol);
+  ```
+- This timing check triggers during normal chip select operation and is a model limitation that does not indicate a design problem
 
 ---
 
@@ -261,7 +280,6 @@ This error occurs each time the chip select (CS) signal is asserted. The HyperRA
 For issues, questions, or feature requests, please:
 - Check the [README.md](README.md) for detailed documentation
 - Review the [doc/introduction.html](doc/introduction.html) for IP-specific details
-- Contact Lattice Semiconductor support
 
 ---
 
